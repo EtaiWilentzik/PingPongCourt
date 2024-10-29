@@ -1,0 +1,96 @@
+
+
+@host=http://localhost:3000
+@token1=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6IkV0YWkiLCJ1c2VySWQiOiI2NzFlMjk2NDY2NzdlYWY2ODRjNTM2ZjYiLCJpYXQiOjE3MzAwMjk5NDl9.6X1eJM7uSo2BNaIAljE70sDrv5GcUZ8Ed5O4MXUo2-E
+@token2=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Ikd1eSIsInVzZXJJZCI6IjY3MWUyOWI4NjY3N2VhZjY4NGM1MzZmYiIsImlhdCI6MTczMDAzMDAxMX0.YAJabkJAbEEDLBzbgt8PEeiWUSX_3JvEPXGYXITuIjc
+@player1="Etai"
+@player2="Guy"
+
+@user1id=671e29646677eaf684c536f6
+@gameid=6720a8e4f598e95b54f82913
+get http://localhost:3000/
+
+###
+POST {{host}}/users/register/
+Content-Type: application/json
+
+{
+    "userName":{{player1}},
+      "password":"abc"
+}
+###
+
+post {{host}}/users/login/
+Content-Type: application/json
+
+{
+    "userName":{{player1}},
+      "password":"abc"
+}
+
+
+###
+GET {{host}}/users/{{user1id}}/stats/
+Authorization: Bearer {{token1}}
+
+
+
+###
+// i'm making it as i need to verify the jwt of player 1. i,e player 1 want to crate the gmae
+#TODO: i dont think we need gamenumber in game table .
+post {{host}}/games/create
+Authorization: Bearer {{token1}}
+Content-Type: application/json
+
+{
+        "player1" : {{player1}},
+        "player2": {{player2}}
+}
+
+###
+//this route is to update the score a single game given by the game id param
+put {{host}}/games/{{gameid}}
+Authorization: Bearer {{token1}}
+Content-Type: application/json
+
+{
+        "player1" : {{player1}},
+        "player2": {{player2}}
+}
+
+###
+# {
+#     "scores": {
+#         "player1": {{player1}},
+#         "player1Score": 21,
+#         "player2": {{player2}},
+#         "player2Score": 15
+#     },
+#     "datePlayed": "2024-10-12T18:30:00Z",
+#     "video": {
+#         "title": "Game 1 - Summer Open Championship",
+#         "url": "https://example.com/videos/game1.mp4",
+#         "duration": 360
+#     }
+# }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

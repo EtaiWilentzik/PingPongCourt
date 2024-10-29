@@ -1,26 +1,15 @@
-import {Navigate, useNavigate} from "react-router-dom";
-import "./ErrorRoute.css"
-import {useEffect} from "react";
-const ErrorRoute=()=>{
+import { Navigate, useNavigate } from "react-router-dom";
 
+import { useEffect } from "react";
+const ErrorRoute = () => {
+  const navigate = useNavigate();
 
-const navigate= useNavigate()
-
-useEffect(() => {
+  useEffect(() => {
     setTimeout(() => {
-        navigate("/");
+      navigate("/");
     }, 3000);
-}, []);
+  }, []);
 
-    return (
-
-
-        <div id="notfound">
-
-            Not found
-        </div>
-    )
-
-
-}
-export {ErrorRoute}
+  return <div id="notfound">Not found</div>;
+};
+export { ErrorRoute };
