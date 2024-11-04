@@ -5,6 +5,7 @@
 @token2=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Ikd1eSIsInVzZXJJZCI6IjY3MWUyOWI4NjY3N2VhZjY4NGM1MzZmYiIsImlhdCI6MTczMDAzMDAxMX0.YAJabkJAbEEDLBzbgt8PEeiWUSX_3JvEPXGYXITuIjc
 @player1="Etai"
 @player2="Guy"
+@player2WithoutQuoutes=Guy
 
 @user1id=671e29646677eaf684c536f6
 @gameid=6720a8e4f598e95b54f82913
@@ -37,7 +38,7 @@ Authorization: Bearer {{token1}}
 
 ###
 // i'm making it as i need to verify the jwt of player 1. i,e player 1 want to crate the gmae
-#TODO: i dont think we need gamenumber in game table .
+#TODO: i dont think we need game number in game table .
 post {{host}}/games/create
 Authorization: Bearer {{token1}}
 Content-Type: application/json
@@ -54,9 +55,18 @@ Authorization: Bearer {{token1}}
 Content-Type: application/json
 
 {
-        "player1" : {{player1}},
-        "player2": {{player2}}
+        "player1Score" : 2,
+        "player2Score": 5
 }
+###
+get {{host}}/games/history
+Authorization: Bearer {{token1}}
+###
+get {{host}}/games//history/against-player?player_name={{player2WithoutQuoutes}}
+Authorization: Bearer {{token1}}
+####
+
+
 
 ###
 # {

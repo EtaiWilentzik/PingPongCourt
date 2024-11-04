@@ -60,36 +60,61 @@
 
 // module.exports = { authenticateToken };
 
+// const jwt = require("jsonwebtoken");
+
+// // Modify authenticateToken to accept an authorization function that can be async
+// const authenticateToken = (authorizeFunc) => {
+//   return (req, res, next) => {
+//     const authHeader = req.headers["authorization"];
+//     const token = authHeader?.split(" ")[1];
+
+//     if (token === undefined) {
+//       return res.status(401).json({ message: "Unauthorized" });
+//     }
+
+//     jwt.verify(token, process.env.KEY, async (err, user) => {
+//       if (err) {
+//         return res.status(403).json({ message: err.message });
+//       }
+//       const authenticatedUserId = user.userId; // userId is the string of the object. for example 671e29646677eaf684c536f6 and the type is string.
+//       // console.log(typeof authenticatedUserId);
+//       try {
+//         // Call the authorization function with req and authenticatedUserId
+//         const isAuthorized = await authorizeFunc(req, authenticatedUserId);
+//         if (!isAuthorized) {
+//           return res.status(403).json({ message: "Forbidden" });
+//         }
+//         next();
+//       } catch (error) {
+//         return res.status(500).json({ message: error.message });
+//       }
+//     });
+//   };
+// };
+
+// module.exports = { authenticateToken };
+
+//this is number 4
+// middleware/authenticateMiddleware.js
 const jwt = require("jsonwebtoken");
 
-// Modify authenticateToken to accept an authorization function that can be async
-const authenticateToken = (authorizeFunc) => {
-  return (req, res, next) => {
-    const authHeader = req.headers["authorization"];
-    const token = authHeader?.split(" ")[1];
+const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader?.split(" ")[1];
 
-    if (token === undefined) {
-      return res.status(401).json({ message: "Unauthorized" });
+  if (!token) {
+    return res.status(401).json({ message: "Unauthorized: No token provided." });
+  }
+
+  jwt.verify(token, process.env.KEY, (err, user) => {
+    if (err) {
+      return res.status(403).json({ message: "Forbidden: Invalid token." });
     }
 
-    jwt.verify(token, process.env.KEY, async (err, user) => {
-      if (err) {
-        return res.status(403).json({ message: err.message });
-      }
-      const authenticatedUserId = user.userId; // userId is the string of the object. for example 671e29646677eaf684c536f6 and the type is string.
-      // console.log(typeof authenticatedUserId);
-      try {
-        // Call the authorization function with req and authenticatedUserId
-        const isAuthorized = await authorizeFunc(req, authenticatedUserId);
-        if (!isAuthorized) {
-          return res.status(403).json({ message: "Forbidden" });
-        }
-        next();
-      } catch (error) {
-        return res.status(500).json({ message: error.message });
-      }
-    });
-  };
+    // Attach user information to the request object
+    req.user = user; // Assuming 'user' contains 'userId' and other relevant info
+    next();
+  });
 };
 
 module.exports = { authenticateToken };
