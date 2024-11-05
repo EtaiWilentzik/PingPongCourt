@@ -98,8 +98,9 @@ class Ball:
     #     if min_position and y_on_table and x_in_table:  # if the ball hits the table
     #         self.positions[-2].set_vertical()  # set the position to indicate vertical change
 
-
 # position of ball at each frame
+
+
 class Position:
     def __init__(self, x, y):
         self.x = int(x)

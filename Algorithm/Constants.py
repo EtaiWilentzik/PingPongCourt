@@ -28,6 +28,8 @@ class Constants:
     Ball_ID = 0
     NET_ID = 1
     TABLE_ID = 2
+    Hand_ID = 3
+
     L_RESULT = 5
     R_RESULT = 0
     THRESHOLD = 0.5  # threshold of accuracy of classification
@@ -39,7 +41,7 @@ class Constants:
 class Dimensions:
     TABLE_WIDTH = 152.5
     TABLE_HEIGHT = 76
-    TABLE_HALF_LENGTH = 137  # ALL THABLE LNETGH IS 137*2
+    TABLE_HALF_LENGTH = 137  # ALL TABLE LENGTH IS 137*2
 
 
 # colors defined in BGR format: this is how open cv work with colors

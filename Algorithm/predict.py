@@ -17,11 +17,13 @@ just for reading in correctly.
  """
 # * in the screen - (0, 0) is top left corner!
 #! remove everything that has the variable demo counter
+
+
 demo_counter = 0
 video_handler = VideoHandler()
 # create mini_court draw
 mini_court = MiniCourt(VideoHandler.frame)
-model_path = os.path.join('.', 'Algorithm', 'train9',
+model_path = os.path.join('.', 'Algorithm', 'train7',
                           'weights', 'best.pt')  # get the training set
 # use cuda if possible
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -68,12 +70,19 @@ while video_handler.get_ret():  # until no more frames
                 video_handler.paint_ball_movement(game)
 
                 # checks if there was a bounce and determine the rest of the
-                #! we dont need the line below i think.
+                #! this line testing the rules where we identify ball.
                 game.test_frame(video_handler.get_frame(),
                                 Constants.counterUntilFrame, )
-        # ? this draw every object that yolo detect
-        video_handler.paint_all(left_x, top_y, right_x,
-                                bottom_y, results.names[int(class_id)], score, demo_counter)
+
+            if class_id == Constants.Hand_ID:
+                game.test_right_hand(
+                    (left_x, top_y), (right_x, bottom_y), Constants.counterUntilFrame)
+                game.test_left_hand((left_x, top_y), (right_x, bottom_y),
+                                    Constants.counterUntilFrame)
+
+    # ? this draw every object that yolo detect
+    video_handler.paint_all(left_x, top_y, right_x,
+                            bottom_y, results.names[int(class_id)], score, demo_counter)
 
     # * setting the position of table after calculating avg of coordinates
     if Constants.counterUntilFrame == 2 * Constants.FPS:
@@ -83,10 +92,7 @@ while video_handler.get_ret():  # until no more frames
     # video_handler.draw_result()
 
     # * this need to be last because at the end there is self.out.write(self.frame)
-    video_handler.paint_two_sides(game)
-
-    #! we dont need this line here because its outside to the detection of the ball.
-    # video_handler.paint_ball_movement(game)
+    video_handler.paint_two_sides_and_zones(game)
 
     # * drawing the mini court inside the frame.
     mini_court.draw_mini_court(VideoHandler.frame, game)
@@ -102,4 +108,3 @@ while video_handler.get_ret():  # until no more frames
     video_handler.read_next_frame()
 
 video_handler.release()
-print("finished")

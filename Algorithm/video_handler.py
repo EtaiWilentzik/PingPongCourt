@@ -1,5 +1,6 @@
 import os
 import cv2
+
 from Constants import *
 
 
@@ -10,7 +11,7 @@ class VideoHandler:
     def __init__(self):
         self.VIDEOS_DIR = os.path.join('.', 'Algorithm', 'videos_new_new')
         # get the video from the folder
-        self.video_path = os.path.join(self.VIDEOS_DIR, 'v5_shortest.mp4')
+        self.video_path = os.path.join(self.VIDEOS_DIR, 'v3.mp4')
         self.video_path_out = '{}_out.mp4'.format(
             self.video_path)  # create ending name for output file
         # input source for cv2 library
@@ -29,7 +30,7 @@ class VideoHandler:
     def get_top_right_corner(self):
         return (self.W - 1, 0)
 
-    def paint_two_sides(self, game):
+    def paint_two_sides_and_zones(self, game):
         cv2.rectangle(VideoHandler.frame, (int(game.table.left_table[0]), int(game.table.left_table[1])),
                       (int(game.table.left_table[2]), int(game.table.left_table[3])), Color.BROWN, 4)
         cv2.rectangle(VideoHandler.frame, (int(game.table.right_table[0]), int(game.table.right_table[1])),
@@ -44,15 +45,8 @@ class VideoHandler:
                       (int(game.table.right_zone[2]), int(game.table.right_zone[3])), Color.GREEN, 4)
 
     def paint_frame_counter(self):
-        cv2.putText(
-            VideoHandler.frame,
-            f"Frame number: {Constants.counterUntilFrame}",
-            (10, 30),
-            cv2.FONT_HERSHEY_PLAIN,
-            2,
-            Color.BLUE,
-            2
-        )
+        cv2.putText(VideoHandler.frame, f"Frame number: {Constants.counterUntilFrame}",
+                    (10, 30), cv2.FONT_HERSHEY_PLAIN,  2, Color.BLUE, 2)
 
     def write_video(self):
         self.out.write(VideoHandler.frame)
