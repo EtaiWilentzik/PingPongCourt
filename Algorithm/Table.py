@@ -13,6 +13,8 @@ class Table:
         self.bottom_net = (0, 0)
         self.top_net = (0, 0)
         self.netlist = [0.0, 0.0, 0.0, 0.0]
+        self.left_zone = [0.0, 0.0, 0.0, 0.0]
+        self.right_zone = [0.0, 0.0, 0.0, 0.0]
 
     def get_top_left(self):
         return self.top_left
@@ -52,6 +54,22 @@ class Table:
             self.list[i] = int(self.list[i] / self.counter)
         self.set_top_left((self.list[0], self.list[1]))
         self.set_bottom_right((self.list[2], self.list[3]))
+
+    def set_touch_zones(self):
+        # adding margin  to both sides
+        x_align_increment = (self.left_table[2]-self.left_table[0])/6
+        small_epsilon = 20
+        # left touch zones
+        self.left_zone[0] = self.get_top_left()[0]
+        self.left_zone[1] = self.get_top_left()[1]
+        self.left_zone[2] = self.get_top_left()[0]+x_align_increment
+        self.left_zone[3] = self.get_bottom_net()[1]+small_epsilon
+
+        # right touch zones
+        self.right_zone[0] = self.get_bottom_right()[0]-x_align_increment
+        self.right_zone[1] = self.get_top_left()[1]
+        self.right_zone[2] = self.get_bottom_right()[0]
+        self.right_zone[3] = self.get_bottom_net()[1]+small_epsilon
 
     def set_coordinates_net(self):
         for i in range(len(self.netlist)):

@@ -10,7 +10,7 @@ class VideoHandler:
     def __init__(self):
         self.VIDEOS_DIR = os.path.join('.', 'Algorithm', 'videos_new_new')
         # get the video from the folder
-        self.video_path = os.path.join(self.VIDEOS_DIR, 'v3.mp4')
+        self.video_path = os.path.join(self.VIDEOS_DIR, 'v5_shortest.mp4')
         self.video_path_out = '{}_out.mp4'.format(
             self.video_path)  # create ending name for output file
         # input source for cv2 library
@@ -34,6 +34,14 @@ class VideoHandler:
                       (int(game.table.left_table[2]), int(game.table.left_table[3])), Color.BROWN, 4)
         cv2.rectangle(VideoHandler.frame, (int(game.table.right_table[0]), int(game.table.right_table[1])),
                       (int(game.table.right_table[2]), int(game.table.right_table[3])), Color.PINK, 4)
+
+        # painting the 2 touch zones.
+
+        cv2.rectangle(VideoHandler.frame, (int(game.table.left_zone[0]), int(game.table.left_zone[1])),
+                      (int(game.table.left_zone[2]), int(game.table.left_zone[3])), Color.GREEN, 4)
+
+        cv2.rectangle(VideoHandler.frame, (int(game.table.right_zone[0]), int(game.table.right_zone[1])),
+                      (int(game.table.right_zone[2]), int(game.table.right_zone[3])), Color.GREEN, 4)
 
     def paint_frame_counter(self):
         cv2.putText(

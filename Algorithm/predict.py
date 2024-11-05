@@ -8,7 +8,6 @@ from Constants import Constants
 from video_handler import VideoHandler
 from mini_court import MiniCourt
 
-
 """ 
 just for reading in correctly. 
 #* is important comment about the game 
@@ -16,24 +15,23 @@ just for reading in correctly.
 #? this is something that we need to check about it 
 #! this is something that we dont need at the end or something that need to changed. 
  """
-
-
 # * in the screen - (0, 0) is top left corner!
-
 #! remove everything that has the variable demo counter
 demo_counter = 0
 video_handler = VideoHandler()
 # create mini_court draw
 mini_court = MiniCourt(VideoHandler.frame)
-model_path = os.path.join('.', 'Algorithm', 'train7',
+model_path = os.path.join('.', 'Algorithm', 'train9',
                           'weights', 'best.pt')  # get the training set
 # use cuda if possible
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print(f'Using device: {device}')
 # do it only for etai
-torch.cuda.set_device(0)
+if torch.cuda.is_available():
+    torch.cuda.set_device(0)
 
 model = YOLO(model_path)  # load a custom model
+print("im here after the model")
 model.to(device=device)
 game = Game(Ball(), Table())
 while video_handler.get_ret():  # until no more frames
@@ -68,18 +66,6 @@ while video_handler.get_ret():  # until no more frames
                 # etai moved it here from the same indentation as the if classes conditions i.e. one after the if
                 # threshold.
                 video_handler.paint_ball_movement(game)
-
-                #################### CHECKING THE VIDEO ########################
-
-                # if ball.direction == Constants.LEFT:
-                #     cv2.putText(frame, " left", (int(x1), int(y1 - 10)),
-                #                 cv2.FONT_HERSHEY_SIMPLEX, 1.3, Constants.GREEN, 3, cv2.LINE_AA, )
-                # else:
-                #     cv2.putText(frame, " right", (int(x1), int(y1 - 10)),
-                #                 cv2.FONT_HERSHEY_SIMPLEX, 1.3, Constants.GREEN, 3, cv2.LINE_AA, )
-                # top left is first, bottom right is second, color is third, and thickness is the last
-
-                # moved it here under the if of the ball because  all the test in test_frame are only when i deteacte ball.
 
                 # checks if there was a bounce and determine the rest of the
                 #! we dont need the line below i think.

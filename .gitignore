@@ -1,15 +1,11 @@
-<<<<<<< HEAD
 /Algorithm/videos/
 /Algorithm/videos_new/
 /Algorithm/videos_new_new/
 /Algorithm/train_yolo/
+/.vscode/
+/__pycache__/
 
-=======
-/Algorithm/videos
-/Algorithm/videos_new
-/Algorithm/videos_new_new
-/Algorithm/train_yolo
->>>>>>> 1036c68 (add to git ignored)
+
 
 
 
