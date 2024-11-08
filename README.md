@@ -22,10 +22,11 @@ These statistics are overlaid on the video, making it easy to follow gameplay de
 To demonstrate the app's capabilities, you can upload short example videos showing the difference between the original and processed footage. Each example video can include:
 
 1. **Original Video**: Raw footage of a ping pong game, without any overlays or analysis.
-   
+   https://github.com/user-attachments/assets/281ac2b1-1842-4a94-a51d-0c7d9cc477fb
    
 
 2. **Processed Video**: The same footage after processing, enhanced with game details
+https://github.com/user-attachments/assets/d030d660-67de-45f3-ad42-b4d97490aed1
 
 You can upload and compare these videos to show how the app adds value by providing an in-depth view of the game. Compatible formats for upload include MP4 and AVI.
 
