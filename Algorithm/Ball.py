@@ -37,6 +37,7 @@ class Ball:
             #     (self.positions[-1].x - self.positions[-2].x) ** 2 + (self.positions[-1].y - self.positions[-2].y) ** 2)
             # speed = distance / time_interval
             self.speeds.append(int(speed))
+# this function determine in which side of the table the ball is
 
     def set_side_of_table(self):
         if len(self.positions) > 0:
@@ -49,6 +50,9 @@ class Ball:
 
     def get_positions(self):
         return self.positions
+
+    def get_hit_positions(self):
+        return self.hit_positions
 
     def get_x(self):
         return self.positions[-1].x

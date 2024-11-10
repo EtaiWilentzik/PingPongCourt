@@ -23,7 +23,7 @@ class Constants:
     LAST = -1
     IS_BOUNCE_VERTICAL = 2
     IS_BOUNCE_HORIZONTAL = 3
-    FPS = 30
+    FPS = 60
 
     Ball_ID = 0
     NET_ID = 1
@@ -34,8 +34,12 @@ class Constants:
     R_RESULT = 0
     THRESHOLD = 0.5  # threshold of accuracy of classification
     TABLE_SIZE = 1
-
+    LEFT_PLAYER = 0
+    RIGHT_PLAYER = 1
     NET_X = 0
+
+    ALLOWED_MISTAKES = 5
+    FRAMES_TO_COUNT = 30
 
 
 class Dimensions:

@@ -1,6 +1,5 @@
 import os
 import cv2
-
 from Constants import *
 
 
@@ -11,7 +10,7 @@ class VideoHandler:
     def __init__(self):
         self.VIDEOS_DIR = os.path.join('.', 'Algorithm', 'videos_new_new')
         # get the video from the folder
-        self.video_path = os.path.join(self.VIDEOS_DIR, 'v3.mp4')
+        self.video_path = os.path.join(self.VIDEOS_DIR, 'v4.mp4')
         self.video_path_out = '{}_out.mp4'.format(
             self.video_path)  # create ending name for output file
         # input source for cv2 library
@@ -48,6 +47,10 @@ class VideoHandler:
         cv2.putText(VideoHandler.frame, f"Frame number: {Constants.counterUntilFrame}",
                     (10, 30), cv2.FONT_HERSHEY_PLAIN,  2, Color.BLUE, 2)
 
+    def paint_score(self, track_score):
+        cv2.putText(VideoHandler.frame, f"Frame number: {track_score.get_score()}",
+                    (100, 30), cv2.FONT_HERSHEY_PLAIN,  2, Color.BLUE, 2)
+
     def write_video(self):
         self.out.write(VideoHandler.frame)
 
@@ -78,16 +81,16 @@ class VideoHandler:
             cv2.putText(self.frame, f"the speed is {game.ball.speeds[-1]}", (90, 90),
                         cv2.FONT_HERSHEY_SIMPLEX, 4, Color.CYAN, 3)
 
-    def paint_all(self, x1, y1, x2, y2, result, confidence, demo_counter):
+    def paint_all(self, x1, y1, x2, y2, result, confidence):
         # Shows confidence with 2 decimal places
         label = f"{result} ({confidence:.2f})"
         if result != "Hand_Racket" and result != "Net" and result != "Table":
-            if result == "Hand_Ball":
-                cv2.rectangle(self.frame, (int(x1), int(y1)),
-                              (int(x2), int(y2)), Color.ORANGE, 4)
-            else:
-                cv2.rectangle(self.frame, (int(x1), int(y1)),
-                              (int(x2), int(y2)), Color.GREEN, 4)
+            # if result == "Hand_Ball":
+            #     cv2.rectangle(self.frame, (int(x1), int(y1)),
+            #                   (int(x2), int(y2)), Color.ORANGE, 4)
+            # else:
+            #     cv2.rectangle(self.frame, (int(x1), int(y1)),
+            #                   (int(x2), int(y2)), Color.GREEN, 4)
             if result == "Hand":
 
                 cv2.circle(self.frame, (int((x1 + x2) / 2),
