@@ -1,0 +1,11 @@
+
+path: C:\Users\etaiw\PycharmProjects\TableTenis00\train_yolo
+train: images\train
+val: images\train
+
+names:
+  0: Ball
+  1: Net
+  2: Table
+
+#3: Hand
