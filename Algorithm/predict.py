@@ -38,6 +38,7 @@ def process_initial_frames():
 
 
 def process_game_frames():
+    right_side, left_side = False, False
     for left_x, top_y, right_x, bottom_y, score, class_id in results.boxes.data.tolist():
         x_center = (left_x + right_x) // 2
         y_center = (top_y + bottom_y) // 2
@@ -49,24 +50,26 @@ def process_game_frames():
                 game.ball.set_speed()
                 video_handler.paint_ball_movement(game)
                 # Test game rules and update scores
-                game.test_frame(video_handler.get_frame(),
-                                Constants.counterUntilFrame)
+                # game.test_frame(video_handler.get_frame(),
+                #                 Constants.counterUntilFrame)
             elif class_id == Constants.Hand_ID:
                 # Process hand detections
-                game.test_right_hand(
-                    (left_x, top_y), (right_x, bottom_y))
-                game.test_left_hand(
-                    (left_x, top_y), (right_x, bottom_y))
+                # if there were many hands if we saw one hand in left side it will be true.
+                left_side = game.test_left_hand(
+                    (left_x, top_y), (right_x, bottom_y)) or left_side
+                right_side = game.test_right_hand(
+                    (left_x, top_y), (right_x, bottom_y)) or right_side
 
         video_handler.paint_all(left_x, top_y, right_x,
                                 bottom_y, results.names[int(class_id)], score)
+    check_hands.update(left_side, right_side)
 
 
 video_handler = VideoHandler()
 # create mini_court draw
 mini_court = MiniCourt(VideoHandler.frame)
-model_path = os.path.join('.', 'Algorithm', 'train9',
-                          'weights', 'last.pt')  # get the training set
+model_path = os.path.join('.', 'Algorithm', 'train7',
+                          'weights', 'best.pt')  # get the training set
 # use cuda if possible
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print(f'Using device: {device}')
@@ -77,8 +80,8 @@ if torch.cuda.is_available():
 model = YOLO(model_path)  # load a custom model
 
 model.to(device=device)
-game = Game()
 check_hands = gestureFrameCounter()
+game = Game(check_hands)
 
 
 for i in range(2*Constants.FPS):
@@ -90,6 +93,9 @@ game.set_game_constants()
 while video_handler.get_ret() and game.is_alive():
     results = model.predict(video_handler.get_frame())[0]
     process_game_frames()
+    if (Constants.counterUntilFrame == 675):
+        print("hi")
+    game.judge(VideoHandler.frame, Constants.counterUntilFrame)
 
     # * this need to be last because at the end there is self.out.write(self.frame)
     video_handler.paint_two_sides_and_zones(game)
@@ -98,7 +104,7 @@ while video_handler.get_ret() and game.is_alive():
     mini_court.draw_mini_court(VideoHandler.frame, game)
     # * drawing the frame counter at the top left corner.
     video_handler.paint_frame_counter()
-    video_handler.paint_score(game.track_score)
+    video_handler.paint_score(game)
 
     video_handler.write_video()
 
