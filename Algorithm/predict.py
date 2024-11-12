@@ -38,6 +38,8 @@ def process_initial_frames():
 
 
 def process_game_frames():
+    # if there is more than one ball we set the coordinates more than one and its interrupt the calculation inside double bounce for example.
+    best_ball_x_center, best_ball_y_center, best_score_ball = 0, 0, 0
     right_side, left_side = False, False
     for left_x, top_y, right_x, bottom_y, score, class_id in results.boxes.data.tolist():
         x_center = (left_x + right_x) // 2
@@ -46,9 +48,14 @@ def process_game_frames():
         if score > Constants.THRESHOLD:
             if class_id == Constants.Ball_ID:
                 # Update ball position and speed
-                game.ball.set_coordinates(x_center, y_center)
-                game.ball.set_speed()
-                video_handler.paint_ball_movement(game)
+                if (best_score_ball < score):
+                    best_score_ball = score
+                    best_ball_y_center = y_center
+                    best_ball_x_center = x_center
+
+                # game.ball.set_coordinates(x_center, y_center)
+                # game.ball.set_speed()
+                # video_handler.paint_ball_movement(game)
                 # Test game rules and update scores
                 # game.test_frame(video_handler.get_frame(),
                 #                 Constants.counterUntilFrame)
@@ -59,17 +66,19 @@ def process_game_frames():
                     (left_x, top_y), (right_x, bottom_y)) or left_side
                 right_side = game.test_right_hand(
                     (left_x, top_y), (right_x, bottom_y)) or right_side
-
         video_handler.paint_all(left_x, top_y, right_x,
                                 bottom_y, results.names[int(class_id)], score)
+    if (best_score_ball != 0):
+        game.ball.set_coordinates(best_ball_x_center, best_ball_y_center)
+        game.ball.set_speed()
     check_hands.update(left_side, right_side)
 
 
 video_handler = VideoHandler()
 # create mini_court draw
 mini_court = MiniCourt(VideoHandler.frame)
-model_path = os.path.join('.', 'Algorithm', 'train7',
-                          'weights', 'best.pt')  # get the training set
+model_path = os.path.join('.', 'Algorithm', 'train9',
+                          'weights', 'last.pt')  # get the training set
 # use cuda if possible
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print(f'Using device: {device}')
@@ -93,10 +102,8 @@ game.set_game_constants()
 while video_handler.get_ret() and game.is_alive():
     results = model.predict(video_handler.get_frame())[0]
     process_game_frames()
-    if (Constants.counterUntilFrame == 675):
-        print("hi")
     game.judge(VideoHandler.frame, Constants.counterUntilFrame)
-
+    video_handler.paint_ball_movement(game)
     # * this need to be last because at the end there is self.out.write(self.frame)
     video_handler.paint_two_sides_and_zones(game)
 
