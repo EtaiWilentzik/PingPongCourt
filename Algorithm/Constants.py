@@ -1,4 +1,3 @@
-import numpy as np
 
 
 class Constants:
@@ -32,14 +31,18 @@ class Constants:
 
     L_RESULT = 5
     R_RESULT = 0
-    THRESHOLD = 0.5  # threshold of accuracy of classification
+    THRESHOLD = 0.15  # threshold of accuracy of classification
     TABLE_SIZE = 1
     LEFT_PLAYER = 0
     RIGHT_PLAYER = 1
     NET_X = 0
 
-    ALLOWED_MISTAKES = 5
-    FRAMES_TO_COUNT = 30
+    ALLOWED_MISTAKES = 6
+    FRAMES_TO_COUNT = 10
+
+    wait_hand = 0
+    wait_for_fault = 1
+    WON_REASON = "NONE"
 
 
 class Dimensions:

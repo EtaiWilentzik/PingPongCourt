@@ -1,6 +1,8 @@
 
+
 import cv2
-from scipy import constants
+from gestureFrameCounter import gestureFrameCounter
+from game_status import GameStatus
 from Constants import *
 from Ball import Ball
 from Table import Table
@@ -10,18 +12,23 @@ from TrackScore import TrackScore
 ##! the convention is ({true- violation in the game or false- point still active without violation},{if there was violation who won it})
 ##! for example (true,left_player) , (false,)
 
+
 # todo: ליצור פונקציה שבודקת אם הכדור נעלם למשך של יותר מ2 שניות אחרי פגיעה בשולחן מסוים זה אומר שהשחקן שהפגיעה האחרונה בשולחן שלו הפסיד
 # todo:     לטפל בכל מה שקשור לסרבים עשינו אבל לא בדקנו עם עובד עדיין
 
 
 class Game:
-    def __init__(self):
+    def __init__(self, check_hands: gestureFrameCounter):
         self.min_height = 0  # put zero because its the maximum i.e the top of the frame
         self.ball = Ball()
         self.table = Table()
         self.track_score = TrackScore()
+        self.check_hands = check_hands
         self.legal_serve = True
         self.last_frame_ball_seen_bounce = 0
+        self.game_status = GameStatus(self.wait_for_hand, self.wait_for_fault)
+        self.last_judge_point = None
+
         # self.min_duration = 20
         # self.starting_point = None
         # self.starting_point_right = None
@@ -30,6 +37,10 @@ class Game:
     def is_alive(self):
         # if its false
         return not self.track_score.get_status()[0]
+
+    def judge(self, frame, counter):
+        # this is the arguments that the function will get
+        (self.game_status.get_function())(frame, counter)
 
     def double_bounce(self, frame, counter):
         if len(self.ball.positions) < 3:
@@ -50,22 +61,15 @@ class Game:
                 self.ball.add_hit(
                     (self.ball.positions[-2].x, self.ball.positions[-2].y)
                 )
-                self.last_frame_ball_seen_bounce = Constants.counterUntilFrame
+                self.last_frame_ball_seen_bounce = Constants.counterUntilFrame - \
+                    1  # because we find the "min" one frame after
 
                 self.ball.left_counter += 1  # ball hits left table one more time
 
                 # ball hits twice in the same table - means losing the game
                 if self.ball.left_counter > 1:
-                    cv2.putText(
-                        frame,
-                        f" player right won and the counter is {counter}",
-                        (int(100), int(500)),
-                        cv2.FONT_HERSHEY_SIMPLEX,
-                        1.0,
-                        Color.BLUE,
-                        3,
-                        cv2.LINE_AA,
-                    )
+                    cv2.putText(frame, f" player right won and the counter is {counter}", (int(
+                        100), int(500)), cv2.FONT_HERSHEY_SIMPLEX, 1.0, Color.BLUE,  3, cv2.LINE_AA,)
                     Constants.R_RESULT += 1
                     return (True, Constants.RIGHT_PLAYER)
             # checks if x coordinate is in the right table
@@ -80,13 +84,15 @@ class Game:
                 # we only need the x value to draw it in the table. we use it as a list of all the points that hit the table.
                 self.ball.add_hit(
                     (self.ball.positions[-2].x, self.ball.positions[-2].y))
+                self.last_frame_ball_seen_bounce = Constants.counterUntilFrame-1
                 self.ball.right_counter += 1  # ball hits right table one more time
-                self.check_last_ball_seen = Constants.counterUntilFrame
+                # self.check_last_ball_seen = Constants.counterUntilFrame
 
                 # ball hits twice in the same table - means losing the game
                 if (self.ball.right_counter > 1):
                     cv2.putText(frame, f" player left won and the counter is {counter}", (int(
                         800), int(800)), cv2.FONT_HERSHEY_SIMPLEX, 1.0, Color.RED, 2, cv2.LINE_AA,)
+                    print(f"______________ player left won {counter}")
                     Constants.L_RESULT += 1
                     return (True, Constants.LEFT_PLAYER)
         return (False,)
@@ -129,8 +135,7 @@ class Game:
                     5,
                     cv2.LINE_AA,
                 )
-                # adding 1 to the right player
-                Constants.R_RESULT += 1
+
                 return (True, Constants.RIGHT_PLAYER)
             elif self.ball.right_counter > 0:
                 cv2.putText(
@@ -143,11 +148,10 @@ class Game:
                     5,
                     cv2.LINE_AA,
                 )
-                # adding 1 to the left player
-                Constants.L_RESULT += 1
+
                 return (True, Constants.LEFT_PLAYER)
         return False,
-
+    #! we dont need this function hit_table_point do it
     # def hit_floor_first(self, frame):
 
     #     if len(self.ball.positions) < 3:
@@ -175,7 +179,6 @@ class Game:
     #                 5,
     #                 cv2.LINE_AA,
     #             )
-    #             Constants.L_RESULT += 1
     #             return (True, Constants.LEFT_PLAYER)
     #             print(
     #                 f"player left won in hit floor point {self.ball.get_y()}")
@@ -191,7 +194,6 @@ class Game:
     #                         5,
     #                         cv2.LINE_AA,
     #                         )
-    #             Constants.R_RESULT += 1
     #             return (True, Constants.RIGHT_PLAYER)
     #     return (False,)
     #     # print(
@@ -202,7 +204,7 @@ class Game:
         self.table.set_coordinates_net()
         self.table.set_two_sides()
         self.table.set_touch_zones()
-        self.ball.net_x = self.table.netlist[0]
+        # self.ball.net_x = self.table.netlist[0]
         # this is the minimum value that we expect someone to hit the ball. i.e lower than this is a point to the
         # opponent.
         # we need to think about good min height because its very important attribute
@@ -211,18 +213,38 @@ class Game:
             (7 * self.table.list[1] + 3 * self.table.list[3]) / 10
         )  # calculating the min height when we assume player cant return the ball
 
-    def test_frame(self, frame, counter):
-        # ? we need to delete it from here  and move it into predict
-        # cv2.putText(VideoHandler.frame, f"Frame number: {self.track_score.get_score()}",
-        #             (100, 30), cv2.FONT_HERSHEY_PLAIN,  2, Color.BLUE, 2)
-        self.bounce_on_serve_side()
-        if not self.legal_serve:
-            print("_____________________________im here ")
-            # the player who did the serve lost the point. so we update the winner to be the other player.
-            return self.track_score.update_score((self.track_score.get_server()+1) % 2)
+    def wait_for_fault(self, frame, counter):
+        # self.bounce_on_serve_side()
+        # if not self.legal_serve:
+        #     print("_____________________________im here ")
+        #     # the player who did the serve lost the point. so we update the winner to be the other player.
+        #     self.game_status.next_state()
+        #     return self.track_score.update_score((self.track_score.get_server()+1) % 2)
+
+        # * if the length is zero we dont need to do anything so return false
+        if len(self.ball.positions) == 0:
+            return (False,)
+
+        # here we need to call check_last_ball_seen to check more than 2 *fps
+
+        clbs = self.check_last_ball_seen()
+        if clbs[0]:
+            Constants.WON_REASON = "check_last_ball_seen in right table"
+            self.game_status.next_state()
+            return self.track_score.update_score(clbs[1])
+
+            # * if the last location of the ball is different change it. if its the same, return false as we dont need to change anything about the score.
+        if (len(self.ball.positions) > 0 and self.ball.positions[-1] != self.last_judge_point):
+            self.last_judge_point = self.ball.positions[-1]
+        else:
+            return (False,)
+
         self.ball.set_side_of_table()
+
         htp = self.hit_table_point(frame)
         if htp[0]:
+            Constants.WON_REASON = "hit table_point"
+            self.game_status.next_state()
             return self.track_score.update_score(htp[1])
         # ? do not use it now because this function is not working properly
         # hff = self.hit_floor_first(frame)
@@ -231,14 +253,12 @@ class Game:
 
         # i think this function need to called last  because only here i change the left and right counting but im not sure about it yet.
         db = self.double_bounce(frame, counter)
-        if db[0]:
-            return self.track_score.update_score(db[1])
 
-        # need to create here function that checks if the ball hit the table and now he is lower than something we can say its a point to the other side
-        # todo: somehow to check if the player touch the ball before its hits the table.
-        # todo: identify if its a server or not
-        # todo: identify when point is ending
-        # todo: maybe to use threads on each function that being called in test_frame
+        if db[0]:
+            Constants.WON_REASON = "double_bounce"
+            self.game_status.next_state()
+            return self.track_score.update_score(db[1])
+        return (False,)
 
     def bounce_on_serve_side(self):
         if len(self.ball.get_hit_positions()) == 1:
@@ -254,35 +274,35 @@ class Game:
             else:
                 self.legal_serve = in_right_side
 
-    def test_hands(self, left_point, right_point, counter):
+    # def test_hands(self, left_point, right_point, counter):
 
-        x_center = (left_point[0] + right_point[0]) / 2
-        y_center = (left_point[1] + right_point[1]) / 2
+    #     x_center = (left_point[0] + right_point[0]) / 2
+    #     y_center = (left_point[1] + right_point[1]) / 2
 
-        # Check if the condition is true
-        hands_in_right_side = (
-            self.table.right_zone[0] <= x_center <= self.table.right_zone[2]
-        ) and (self.table.right_zone[1] <= y_center <= self.table.right_zone[3])
-        hands_in_left_side = (
-            self.table.left_zone[0] <= x_center <= self.table.left_zone[2]
-        ) and (self.table.left_zone[1] <= y_center <= self.table.left_zone[3])
+    #     # Check if the condition is true
+    #     hands_in_right_side = (
+    #         self.table.right_zone[0] <= x_center <= self.table.right_zone[2]
+    #     ) and (self.table.right_zone[1] <= y_center <= self.table.right_zone[3])
+    #     hands_in_left_side = (
+    #         self.table.left_zone[0] <= x_center <= self.table.left_zone[2]
+    #     ) and (self.table.left_zone[1] <= y_center <= self.table.left_zone[3])
 
-        if hands_in_right_side or hands_in_left_side:
-            if self.starting_point is None:
-                # Start a new sequence
-                self.starting_point = counter  # Set the starting point
+    #     if hands_in_right_side or hands_in_left_side:
+    #         if self.starting_point is None:
+    #             # Start a new sequence
+    #             self.starting_point = counter  # Set the starting point
 
-        else:
-            if self.starting_point is not None:
-                # The condition was true but has now ended, so print the interval
-                duration = counter - self.starting_point
-                if duration > self.min_duration:
-                    print(
-                        f"Condition was true from {self.starting_point} to {counter} "
-                        f"(duration: {duration} seconds)"
-                    )
-                # Reset the tracking variables for the next sequence
-                self.starting_point = None
+    #     else:
+    #         if self.starting_point is not None:
+    #             # The condition was true but has now ended, so print the interval
+    #             duration = counter - self.starting_point
+    #             if duration > self.min_duration:
+    #                 print(
+    #                     f"Condition was true from {self.starting_point} to {counter} "
+    #                     f"(duration: {duration} seconds)"
+    #                 )
+    #             # Reset the tracking variables for the next sequence
+    #             self.starting_point = None
 
     def test_right_hand(self, left_point, right_point):
         x_center = (left_point[0] + right_point[0]) / 2
@@ -292,6 +312,8 @@ class Game:
         hands_in_right_side = (
             self.table.right_zone[0] <= x_center <= self.table.right_zone[2]
         ) and (self.table.right_zone[1] <= y_center <= self.table.right_zone[3])
+        if (hands_in_right_side):
+            print("_________________________________inside test frame")
         return hands_in_right_side
 
         # region Comment Block
@@ -323,21 +345,35 @@ class Game:
         hands_in_left_side = (
             self.table.left_zone[0] <= x_center <= self.table.left_zone[2]
         ) and (self.table.left_zone[1] <= y_center <= self.table.left_zone[3])
+        if hands_in_left_side:
+            print("_________________________________inside test frame left")
         return hands_in_left_side
 
+    def wait_for_hand(self, frame, counter):
+        # check that the hand was enough time in the zone
+        if self.check_hands.get_current():
+            self.game_status.next_state()
+            # * we are starting a new point and instead of reset every field of ball we just create new ball .
+            self.ball = Ball()
+            self.last_judge_point = None
+
     def check_last_ball_seen(self):
+        # if there is more 2 seconds from the last we saw the ball and its a fault so we need to update the score.
         if (Constants.counterUntilFrame-self.last_frame_ball_seen_bounce > 2*Constants.FPS):
-            x_coordinate = self.ball.get_hit_positions[-1][0]
-            y_coordinate = self.ball.get_hit_positions[-1][0]
+            if len(self.ball.get_hit_positions()) == 0:
+                return (False,)
+            x_coordinate = self.ball.get_hit_positions()[-1][0]
             if (self.table.left_table[0] <= x_coordinate <= self.table.left_table[2]):
+
                 print(
                     f"inside the check_last_ball_seen1 {Constants.counterUntilFrame} ")
                 return (True, Constants.RIGHT_PLAYER)
             print(
                 f"inside the check_last_ball_seen2 {Constants.counterUntilFrame} ")
+
             # its in the right side so left is the winner
             return (True, Constants.LEFT_PLAYER)
-        # nothing happend
+        # nothing happened
         return (False,)
 
         # region Comment Block

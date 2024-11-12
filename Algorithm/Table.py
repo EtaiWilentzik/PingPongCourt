@@ -1,4 +1,4 @@
-import Constants
+from Constants import Constants
 
 
 class Table:
@@ -78,6 +78,7 @@ class Table:
         self.set_bottom_net((self.netlist[2], self.netlist[3]))
         # add constant of x coordinate of net
         Constants.NET_X = self.netlist[0]
+        print(f"net is { Constants.NET_X }")
 
     def set_two_sides(self):
         # declare the left side of the table

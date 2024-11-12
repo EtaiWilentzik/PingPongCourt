@@ -1,6 +1,5 @@
 import math
 from Constants import *
-from video_handler import VideoHandler
 from formulas import calculate_linear_distance
 
 
@@ -12,7 +11,6 @@ class Ball:
         self.left_counter = 0
         self.right_counter = 0
         self.direction = -1
-        self.net_x = 0
         # maybe we will use it for statistics or max speed of interval something like that
         self.speeds = []
 
@@ -42,9 +40,8 @@ class Ball:
     def set_side_of_table(self):
         if len(self.positions) > 0:
             # check side of ball
-            if self.positions[-1].x > self.net_x:
+            if self.positions[-1].x > Constants.NET_X:
                 self.left_counter = 0
-
             else:
                 self.right_counter = 0
 
