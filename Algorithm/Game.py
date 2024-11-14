@@ -1,6 +1,7 @@
 
 
 import cv2
+# from Algorithm import GameStats
 from gestureFrameCounter import gestureFrameCounter
 from game_status import GameStatus
 from Constants import *
@@ -18,7 +19,7 @@ from TrackScore import TrackScore
 
 
 class Game:
-    def __init__(self, check_hands: gestureFrameCounter):
+    def __init__(self, check_hands: gestureFrameCounter, player_names):
         self.min_height = 0  # put zero because its the maximum i.e the top of the frame
         self.ball = Ball()
         self.table = Table()
@@ -28,6 +29,8 @@ class Game:
         self.last_frame_ball_seen_bounce = 0
         self.game_status = GameStatus(self.wait_for_hand, self.wait_for_fault)
         self.last_judge_point = None
+        self.last_side_hitter = Constants.LEFT_PLAYER
+        # self.game_stats = GameStats(player_names)
 
         # self.min_duration = 20
         # self.starting_point = None
@@ -225,7 +228,7 @@ class Game:
         if len(self.ball.positions) == 0:
             return (False,)
 
-        # here we need to call check_last_ball_seen to check more than 2 *fps
+        # here we need to call check_last_ball_seen to check more than 2 *fps before checking if it is the same frame!!
 
         clbs = self.check_last_ball_seen()
         if clbs[0]:
@@ -241,6 +244,12 @@ class Game:
 
         self.ball.set_side_of_table()
 
+        # update the who hit the ball last
+        if self.ball.bounce_horizontal(self.last_side_hitter):
+            # this change to the other player.
+            self.last_side_hitter = (self.last_side_hitter+1) % 2
+
+        # this is the functions that judge the game
         htp = self.hit_table_point(frame)
         if htp[0]:
             Constants.WON_REASON = "hit table_point"
@@ -356,6 +365,8 @@ class Game:
             # * we are starting a new point and instead of reset every field of ball we just create new ball .
             self.ball = Ball()
             self.last_judge_point = None
+
+            self.last_side_hitter = self.track_score.get_server()
 
     def check_last_ball_seen(self):
         # if there is more 2 seconds from the last we saw the ball and its a fault so we need to update the score.

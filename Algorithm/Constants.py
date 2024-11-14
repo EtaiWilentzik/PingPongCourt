@@ -40,7 +40,7 @@ class Constants:
     NET_X = 0
 
     ALLOWED_MISTAKES = 6
-    FRAMES_TO_COUNT = 30
+    FRAMES_TO_COUNT = 15
 
     wait_hand = 0
     wait_for_fault = 1

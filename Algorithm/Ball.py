@@ -1,3 +1,4 @@
+from ast import Return
 import math
 from Constants import *
 from formulas import calculate_linear_distance
@@ -10,7 +11,7 @@ class Ball:
         self.hit_positions = []
         self.left_counter = 0
         self.right_counter = 0
-        self.direction = -1
+        self.opposite_direction_count = 0
         # maybe we will use it for statistics or max speed of interval something like that
         self.speeds = []
 
@@ -57,21 +58,41 @@ class Ball:
     def get_y(self):
         return self.positions[-1].y
 
-    def bounce_horizontal(self):
-        if len(self.positions) > 2:
+    def bounce_horizontal(self, current_last_side_hitter):
+        # we want to obtaion the oposite dircation that why we want to count "mistake "
+        Allowed_time = 3
+        if len(self.positions) < 2:
+            return False
+        if current_last_side_hitter == Constants.LEFT_PLAYER:
+            if self.positions[-1].x < self.positions[-2].x:
+                self.opposite_direction_count += 1
+            else:
+                self.opposite_direction_count = 0
+        elif current_last_side_hitter == Constants.RIGHT_PLAYER:
+            if self.positions[-1].x > self.positions[-2].x:
+                self.opposite_direction_count += 1
+            else:
+                self.opposite_direction_count = 0
+        if self.opposite_direction_count == Allowed_time:
+            print(
+                f"______________________ in bounce horizontal and true {Constants.counterUntilFrame}")
+            return True
+        return False
 
-            # check direction of last 2 frames
-            d_last = self.positions[-1].x - self.positions[-2].x
-            if d_last < 0:  # if direction is left
-                if self.direction == Constants.RIGHT:  # if direction was right
-                    # mark as change of directions
-                    self.positions[-2].set_horizontal()
-                self.direction = Constants.LEFT  # set the direction to left
-            elif d_last > 0:  # if direction is right
-                if self.direction == Constants.LEFT:  # if direction was left
-                    # mark as change of directions
-                    self.positions[-2].set_horizontal()
-                self.direction = Constants.RIGHT  # set the direction to right
+        # if len(self.positions) > 2:
+
+        #     # check direction of last 2 frames
+        #     d_last = self.positions[-1].x - self.positions[-2].x
+        #     if d_last < 0:  # if direction is left
+        #         if self.direction == Constants.RIGHT:  # if direction was right
+        #             # mark as change of directions
+        #             self.positions[-2].set_horizontal()
+        #         self.direction = Constants.LEFT  # set the direction to left
+        #     elif d_last > 0:  # if direction is right
+        #         if self.direction == Constants.LEFT:  # if direction was left
+        #             # mark as change of directions
+        #             self.positions[-2].set_horizontal()
+        #         # self.direction = Constants.RIGHT  # set the direction to right
 
     def add_hit(self, point):
         if len(self.hit_positions) >= 2:
@@ -84,20 +105,21 @@ class Ball:
     # def bounce_vertical(self, table):
     #     if len(self.positions) < 3:
     #         return
-    #
+
     #     # second last position is minimum (y value) of it's neighbors. we need it because if the ball still in the area in the next frame we dont want to count it as two bounces
     #     min_position = self.positions[-1].y < self.positions[-2].y and self.positions[-3].y < self.positions[-2].y
-    #
+
     #     #  checks if the x coordinates is in the table area
     #     x_in_table = table.get_bottom_right()[Constants.X_COORDINATE] > self.positions[-2][0] > table.get_top_left()[
     #         Constants.X_COORDINATE]
-    #
+
     #     #  checks that the second last position is on the table (y coordinates only)
     #     y_on_table = (table.get_top_left()[Constants.Y_COORDINATE] - Constants.EPSILON) < self.positions[-2].y < \
-    #                  table.get_bottom_right()[Constants.Y_COORDINATE]
-    #
+    #         table.get_bottom_right()[Constants.Y_COORDINATE]
+
     #     if min_position and y_on_table and x_in_table:  # if the ball hits the table
-    #         self.positions[-2].set_vertical()  # set the position to indicate vertical change
+    #         # set the position to indicate vertical change
+    #         self.positions[-2].set_vertical()
 
 # position of ball at each frame
 

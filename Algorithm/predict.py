@@ -127,9 +127,11 @@
 
 import multiprocessing
 import os
+from pstats import Stats
 import torch
 from ultralytics import YOLO
 from multiprocessing import Process, Queue, Event
+
 from Constants import Color, Constants
 from video_handler import VideoReader, VideoWriter
 from mini_court import MiniCourt
@@ -163,6 +165,7 @@ def process_game_frames(results, game):
 
         if score > Constants.THRESHOLD:
             if class_id == Constants.Ball_ID_NEW_TRAIN:
+                # this is for indemnify the best ball if there is more than one .
                 if best_score_ball < score:
                     best_score_ball = score
                     best_ball_y_center = y_center
@@ -229,6 +232,8 @@ def annotate_frame(frame, results, game, mini_court):
                 (700, 100), cv2.FONT_HERSHEY_PLAIN, 2, Color.RED, 2)
     cv2.putText(frame, f"Reason: {Constants.WON_REASON}",
                 (1400, 100), cv2.FONT_HERSHEY_PLAIN, 2, Color.RED, 2)
+    cv2.putText(frame, f"last hit: {game.last_side_hitter}",
+                (1400, 250), cv2.FONT_HERSHEY_PLAIN, 2, Color.RED, 2)
     return frame
 
 
@@ -266,7 +271,8 @@ def inference_process(frame_queue, output_queue, read_complete_event, inference_
         game_model.to(device=device)
 
         check_hands = gestureFrameCounter()
-        game = Game(check_hands)
+        game = Game(check_hands, ("Etai", "Daniel"))
+
         Constants.counterUntilFrame = 0
 
         mini_court = None
@@ -277,7 +283,7 @@ def inference_process(frame_queue, output_queue, read_complete_event, inference_
             if not frame_queue.empty():
                 frame = frame_queue.get()
                 logging.debug('Initial frame received from frame_queue')
-                results = initial_model.predict(frame, half=True, conf=0.6)[0]
+                results = initial_model.predict(frame, half=True, conf=0.4)[0]
                 process_initial_frames(results, game)
                 annotated_frame = frame.copy()
                 annotate_frame(annotated_frame, results, game, mini_court)
@@ -300,7 +306,7 @@ def inference_process(frame_queue, output_queue, read_complete_event, inference_
             if not frame_queue.empty():
                 frame = frame_queue.get()
                 logging.debug('Frame received from frame_queue')
-                results = game_model.predict(frame, half=True, conf=0.6)[0]
+                results = game_model.predict(frame, half=True, conf=0.4)[0]
                 process_game_frames(results, game)
                 annotated_frame = frame.copy()
                 annotate_frame(annotated_frame, results, game, mini_court)
@@ -356,7 +362,7 @@ if __name__ == "__main__":
     multiprocessing.set_start_method('spawn')
 
     VIDEOS_DIR = os.path.join('.', 'Algorithm', 'videos_new_new_new')
-    video_path = os.path.join(VIDEOS_DIR, 'full_game_30fps.mp4')
+    video_path = os.path.join(VIDEOS_DIR, 'v2_short.mp4')
     output_path = f"{video_path}_out.mp4"
     initial_model_path = os.path.join(
         '.', 'Algorithm', 'train11', 'weights', 'best.pt')
