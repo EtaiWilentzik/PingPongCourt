@@ -22,9 +22,11 @@ class Constants:
     LAST = -1
     IS_BOUNCE_VERTICAL = 2
     IS_BOUNCE_HORIZONTAL = 3
-    FPS = 60
+    FPS = 30
 
     Ball_ID = 0
+    Ball_ID_NEW_TRAIN = 0
+    Hand_ID_NEW_TRAIN = 1
     NET_ID = 1
     TABLE_ID = 2
     Hand_ID = 3
@@ -38,7 +40,7 @@ class Constants:
     NET_X = 0
 
     ALLOWED_MISTAKES = 6
-    FRAMES_TO_COUNT = 10
+    FRAMES_TO_COUNT = 30
 
     wait_hand = 0
     wait_for_fault = 1

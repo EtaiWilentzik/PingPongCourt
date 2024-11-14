@@ -162,12 +162,12 @@ def process_game_frames(results, game):
         y_center = (top_y + bottom_y) // 2
 
         if score > Constants.THRESHOLD:
-            if class_id == Constants.Ball_ID:
+            if class_id == Constants.Ball_ID_NEW_TRAIN:
                 if best_score_ball < score:
                     best_score_ball = score
                     best_ball_y_center = y_center
                     best_ball_x_center = x_center
-            elif class_id == Constants.Hand_ID:
+            elif class_id == Constants.Hand_ID_NEW_TRAIN:
                 left_side = game.test_left_hand(
                     (left_x, top_y), (right_x, bottom_y)) or left_side
                 right_side = game.test_right_hand(
@@ -183,11 +183,11 @@ def annotate_frame(frame, results, game, mini_court):
     # Paint all detections
     for left_x, top_y, right_x, bottom_y, score, class_id in results.boxes.data.tolist():
         label = f"{results.names[int(class_id)]} ({score:.2f})"
-        if class_id == Constants.Hand_ID:
-            cv2.rectangle(frame, (int(left_x), int(top_y)),
-                          (int(right_x), int(bottom_y)), Color.GREEN, 4)
-            cv2.putText(frame, label, (int(left_x), int(top_y) - 10),
-                        cv2.FONT_HERSHEY_SIMPLEX, 1.3, Color.GREEN, 3)
+
+        cv2.rectangle(frame, (int(left_x), int(top_y)),
+                      (int(right_x), int(bottom_y)), Color.GREEN, 4)
+        cv2.putText(frame, label, (int(left_x), int(top_y) - 10),
+                    cv2.FONT_HERSHEY_SIMPLEX, 1.3, Color.GREEN, 3)
         # Add more conditions for other classes as needed
 
     # Paint ball movement
@@ -277,7 +277,7 @@ def inference_process(frame_queue, output_queue, read_complete_event, inference_
             if not frame_queue.empty():
                 frame = frame_queue.get()
                 logging.debug('Initial frame received from frame_queue')
-                results = initial_model.predict(frame, half=True)[0]
+                results = initial_model.predict(frame, half=True, conf=0.6)[0]
                 process_initial_frames(results, game)
                 annotated_frame = frame.copy()
                 annotate_frame(annotated_frame, results, game, mini_court)
@@ -300,7 +300,7 @@ def inference_process(frame_queue, output_queue, read_complete_event, inference_
             if not frame_queue.empty():
                 frame = frame_queue.get()
                 logging.debug('Frame received from frame_queue')
-                results = game_model.predict(frame, half=True)[0]
+                results = game_model.predict(frame, half=True, conf=0.6)[0]
                 process_game_frames(results, game)
                 annotated_frame = frame.copy()
                 annotate_frame(annotated_frame, results, game, mini_court)
@@ -356,12 +356,12 @@ if __name__ == "__main__":
     multiprocessing.set_start_method('spawn')
 
     VIDEOS_DIR = os.path.join('.', 'Algorithm', 'videos_new_new_new')
-    video_path = os.path.join(VIDEOS_DIR, 'v2_short.mp4')
+    video_path = os.path.join(VIDEOS_DIR, 'full_game_30fps.mp4')
     output_path = f"{video_path}_out.mp4"
     initial_model_path = os.path.join(
         '.', 'Algorithm', 'train11', 'weights', 'best.pt')
     game_model_path = os.path.join(
-        '.', 'Algorithm', 'train9', 'weights', 'best.pt')
+        '.', 'Algorithm', 'train13', 'weights', 'best.pt')
 
     # Initialize VideoReader to get frame properties
     video_reader = VideoReader(video_path)

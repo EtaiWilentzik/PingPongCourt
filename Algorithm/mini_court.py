@@ -35,7 +35,7 @@ class MiniCourt:
         self.background_bottom_y = int(
             self.background_top_y + self.rectangle_height)  # make it correlated to backgroudn topp y
         # set the table coordinates
-        # corespons to background top x.
+        # correspond to background top x.
         self.table_top_x = int(self.background_top_x + self.buffer)
         self.table_top_y = int(
             self.background_top_y + self.padding_inside_rectangle)  # padding inside the rectangle background
