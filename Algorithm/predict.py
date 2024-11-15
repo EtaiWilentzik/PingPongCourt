@@ -77,7 +77,7 @@ def process_game_frames():
 video_handler = VideoHandler()
 # create mini_court draw
 mini_court = MiniCourt(VideoHandler.frame)
-model_path = os.path.join('.', 'Algorithm', 'train9',
+model_path = os.path.join('.',  'train9',
                           'weights', 'last.pt')  # get the training set
 # use cuda if possible
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
