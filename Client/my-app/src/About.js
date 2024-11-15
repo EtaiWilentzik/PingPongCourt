@@ -5,7 +5,6 @@ import { motion } from 'framer-motion';
 const About = () => {
     return (
         <>
-            <Nav/>
             {/*<p className="Header"> hello  </p>*/}
             <div>
                 <motion.div

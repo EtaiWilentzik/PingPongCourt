@@ -1,47 +1,20 @@
+import "./App.css";
+import { Route, Routes } from "react-router-dom";
+import { Screen, SCREEN_TYPE } from "./Screen";
 
-import { Log} from "./LogIn";
-import {Reg} from "./Register"
-import About from "./About";
-import Video from "./Video";
-import "./App.css"
-import  {Route,Routes}from "react-router-dom"
-import {ErrorRoute} from "./ErrorRoute";
-import {ScoreBoard} from "./ScoreBoard";
-import {StartGame} from "./StartGame";
-import { Stats } from "./Stats";
 function App() {
     return (
         <>
-             {/*<Nav/>*/}
             <Routes>
-                <Route path="/" element={<Video/>}/>
-                <Route path="/register" element={<Reg/>}/>
-                <Route path="/login" element={<Log/>}/>
-                <Route path="/about" element={<About/>}/>
-                <Route path="/start" element={<StartGame/>}/>
-                <Route path="/score" element={<ScoreBoard/>}/>
-                <Route path="/statistics" element={<Stats/>}/>
-                <Route path="/*" element={<ErrorRoute/>}/>
+                <Route path="/" element={<Screen screenType={SCREEN_TYPE.MAIN} />} />
+                <Route path="/register" element={<Screen screenType={SCREEN_TYPE.REGISTER} />} />
+                <Route path="/login" element={<Screen screenType={SCREEN_TYPE.LOGIN} />} />
+                <Route path="/about" element={<Screen screenType={SCREEN_TYPE.ABOUT} />} />
+                <Route path="/start" element={<Screen screenType={SCREEN_TYPE.START} />} />
+                <Route path="/score" element={<Screen screenType={SCREEN_TYPE.SCORE} />} />
+                <Route path="/statistics" element={<Screen screenType={SCREEN_TYPE.STATISTICS} />} />
+                <Route path="/*" element={<Screen screenType={SCREEN_TYPE.ERROR} />} />
             </Routes>
-
-            {/*<p>hello world</p>*/}
-            {/*<Video/>*/}
-            {/*<About/>*/}
-            {/*<FadeMedia /> /!* Use the FadeMedia component here *!/*/}
-            {/*<NavBar/>*/}
-            {/*<ParagraphsContainer/>*/}
-            {/*<LogIn/>*/}
-            {/*<Register/>*/}
-            {/*<Reg/>*/}
-            {/*            <MovingText text="This is my scrolling text. You can add any data you want here!" />*/}
-
-
-            {/*<Log/>>*/}
-            {/*<GPT/>*/}
-            {/*      <Try />*/}
-            {/*<CoolStaff/>*/}
-            {/* <Demo logo={logo} /> */}
-
         </>
     );
 }

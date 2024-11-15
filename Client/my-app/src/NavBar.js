@@ -11,12 +11,9 @@ const NavBar = () => {
                     <div className="menu-item">Register</div>
                     <div className="menu-item">About</div>
                 </div>
-
             </div>
-
         </>
     );
-
 }
 
 // im using the color of the menu as the ping pong racket one is red one is blue
@@ -47,19 +44,26 @@ const Nav = () => {
                     </button>
 
 
+
+
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav ms-auto">
                             <li className="nav-item">
                                 {/*<a className="nav-link active" aria-current="page" href="#">Home</a>*/}
-                                   <Link to="/about" className="nav-link active">About </Link>
+                                <Link to="/about" className="nav-link active">About </Link>
                             </li>
                             <li className="nav-item">
                                 {/*<a className="nav-link active" href="#">Features</a>*/}
-                                 <Link to="/login" className="nav-link active">Log In </Link>
+                                <Link to="/login" className="nav-link active">Log In </Link>
                             </li>
                             <li className="nav-item">
                                 {/*<a className="nav-link active" href="#">Pricing</a>*/}
-                            <Link to="/register" className="nav-link active">Register</Link>
+                                <Link to="/register" className="nav-link active">Register</Link>
+                            </li>
+
+                            <li className="nav-item">
+                                {/*<a className="nav-link active" href="#">Pricing</a>*/}
+                                <Link to="/statistics" className="nav-link active">Statistics</Link>
                             </li>
 
                         </ul>

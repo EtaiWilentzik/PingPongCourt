@@ -48,7 +48,6 @@ const Reg = () => {
     return (
         <>
 
-            <Nav/>
             <div className="container">
                 <div className="row justify-content-center row-equal-height">
                     <div className=" col-12  col-md-4   neon-div order-2 order-md-1" id="left">
