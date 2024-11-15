@@ -8,6 +8,7 @@ import  {Route,Routes}from "react-router-dom"
 import {ErrorRoute} from "./ErrorRoute";
 import {ScoreBoard} from "./ScoreBoard";
 import {StartGame} from "./StartGame";
+import { Stats } from "./Stats";
 function App() {
     return (
         <>
@@ -19,6 +20,7 @@ function App() {
                 <Route path="/about" element={<About/>}/>
                 <Route path="/start" element={<StartGame/>}/>
                 <Route path="/score" element={<ScoreBoard/>}/>
+                <Route path="/statistics" element={<Stats/>}/>
                 <Route path="/*" element={<ErrorRoute/>}/>
             </Routes>
 
