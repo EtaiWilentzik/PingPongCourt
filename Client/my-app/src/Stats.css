@@ -1,31 +1,100 @@
+/* Body Styling */
 body {
     overflow: hidden;
-
 }
 
+/* Stats Layout */
 .stats {
     display: grid;
     grid-template-rows: 50% 50%;
     height: 100vh;
     padding: 30px;
-    margin: 40px;
+    margin: 60px;
 }
 
 .stats-row {
     display: grid;
     grid-template-columns: 50% 50%;
     height: 100%;
-
 }
 
 .stats-column {
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
     font-size: 2rem;
     font-weight: bold;
-    overflow: hidden;
+    height: 90%;
+}
+
+/* Navigable Chart */
+.navigable-chart {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 15px;
+    position: relative;
+    width: 100%;
+}
+
+/* Navigation Arrows */
+.arrow {
+    background-color: transparent;
+    border: none;
+    color: yellow;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.arrow:hover {
+    color: orange;
+}
+
+/* PieChart Styling (if specific styles needed) */
+.pie-chart {
+    width: 100%;
+    height: auto;
+}
+
+/* BarChart Styling */
+.bar-chart {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
     height: 100%;
+    width: 40%;
+}
+
+.bar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
+.bar {
+    width: 20px;
+    background-color: yellow;
+    transition: height 0.7s ease;
+}
+
+.bar-label {
+    color: yellow;
+    font-size: 40px;
+}
+
+h2 {
+    color: yellow;
+}
+
+/* Button Responsiveness */
+@media (max-width: 768px) {
+    .arrow {
+        font-size: 1.5rem;
+    }
+
+    .navigable-chart {
+        gap: 10px;
+    }
 }
