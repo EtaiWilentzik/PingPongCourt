@@ -322,6 +322,10 @@ def inference_process(frame_queue, output_queue, read_complete_event, inference_
             else:
                 time.sleep(0.01)  # Prevent tight loop
         inference_complete_event.set()
+
+        # * here to send the game data
+
+        game.game_stats.send_to_server()
     except Exception as e:
         logging.error(f'Exception in inference_process: {e}')
         traceback.print_exc()
@@ -362,7 +366,7 @@ if __name__ == "__main__":
     multiprocessing.set_start_method('spawn')
 
     VIDEOS_DIR = os.path.join('.', 'Algorithm', 'videos_new_new_new')
-    video_path = os.path.join(VIDEOS_DIR, 'v2_short.mp4')
+    video_path = os.path.join(VIDEOS_DIR, 'v1_short.mp4')
     output_path = f"{video_path}_out.mp4"
     initial_model_path = os.path.join(
         '.', 'Algorithm', 'train11', 'weights', 'best.pt')

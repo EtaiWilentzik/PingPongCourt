@@ -3,6 +3,7 @@ const gameSchema = require("../models/gameModel");
 const userSchema = require("../models/userModel");
 
 const Respond = require("../utils/helpers");
+
 const createGame = async (player1, player2) => {
   console.log(player1, player2);
   const potentialPlayer1 = await userSchema.User.findOne({ name: player1 });
@@ -71,4 +72,12 @@ const getHistoryAgainstPlayer = async (currentUserId, friend) => {
     return Respond.createResponse(false, 500, null, error.message);
   }
 };
-module.exports = { createGame, updateGame, getHistory, getHistoryAgainstPlayer };
+
+const createGameAtEnd = async (data) => {
+  const newGame = new gameSchema.Game({
+    scores: { player1: potentialPlayer1._id, player2: potentialPlayer2._id },
+  });
+  await newGame.save();
+  return Respond.createResponse(true, 201, newGame, "Created new game successfully");
+};
+module.exports = { createGame, updateGame, getHistory, getHistoryAgainstPlayer, createGameAtEnd };

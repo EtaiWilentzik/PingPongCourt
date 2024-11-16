@@ -62,6 +62,33 @@ Content-Type: application/json
 get {{host}}/games/history
 Authorization: Bearer {{token1}}
 ###
+
+
+### 
+post {{host}}/gaems/Stats
+
+Content-Type: application/json
+{
+  "longest_games_in_time": 0,
+  "max_hits_in_game": 0,
+  "average_hits_in_game": 0,
+  "player_left": {
+    "name": "Etai",
+    "faults": [0, 0, 0],
+    "aces": 0,
+    "average_speed": 0,
+    "depth_of_hits": [0, 0]
+  },
+  "player_right": {
+    "name": "Daniel",
+    "faults": [0, 0, 0],
+    "aces": 0,
+    "average_speed": 0,
+    "depth_of_hits": [0, 0]
+  }
+}
+
+###
 get {{host}}/games//history/against-player?player_name={{player2WithoutQuoutes}}
 Authorization: Bearer {{token1}}
 ####
