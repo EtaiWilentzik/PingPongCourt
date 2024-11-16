@@ -12,3 +12,5 @@ class GameStatus:
 
     def get_function(self):
         return self.dic[self.state]
+
+

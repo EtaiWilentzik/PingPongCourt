@@ -8,6 +8,7 @@ from Constants import *
 from Ball import Ball
 from Table import Table
 from TrackScore import TrackScore
+from GameStats import GameStats
 # aaa
 
 ##! the convention is ({true- violation in the game or false- point still active without violation},{if there was violation who won it})
@@ -23,6 +24,7 @@ class Game:
         self.min_height = 0  # put zero because its the maximum i.e the top of the frame
         self.ball = Ball()
         self.table = Table()
+        self.game_stats = GameStats(("Daniel","Etai"))
         self.track_score = TrackScore()
         self.check_hands = check_hands
         self.legal_serve = True
@@ -234,6 +236,7 @@ class Game:
         if clbs[0]:
             Constants.WON_REASON = "check_last_ball_seen in right table"
             self.game_status.next_state()
+            self.game_stats.set_after_ball_out_zone(self.last_side_hitter,clbs[1])
             return self.track_score.update_score(clbs[1])
 
             # * if the last location of the ball is different change it. if its the same, return false as we dont need to change anything about the score.
@@ -247,6 +250,7 @@ class Game:
         # update the who hit the ball last
         if self.ball.bounce_horizontal(self.last_side_hitter):
             # this change to the other player.
+            self.game_stats.curr_mini_game_hits +=1
             self.last_side_hitter = (self.last_side_hitter+1) % 2
 
         # this is the functions that judge the game
@@ -254,6 +258,7 @@ class Game:
         if htp[0]:
             Constants.WON_REASON = "hit table_point"
             self.game_status.next_state()
+            self.game_stats.set_after_ball_out_zone(self.last_side_hitter,htp[1])
             return self.track_score.update_score(htp[1])
         # ? do not use it now because this function is not working properly
         # hff = self.hit_floor_first(frame)
@@ -266,6 +271,7 @@ class Game:
         if db[0]:
             Constants.WON_REASON = "double_bounce"
             self.game_status.next_state()
+            self.game_stats.set_after_double_bounce(db[1])
             return self.track_score.update_score(db[1])
         return (False,)
 
@@ -370,7 +376,7 @@ class Game:
 
     def check_last_ball_seen(self):
         # if there is more 2 seconds from the last we saw the ball and its a fault so we need to update the score.
-        if (Constants.counterUntilFrame-self.last_frame_ball_seen_bounce > 2*Constants.FPS):
+        if (Constants.counterUntilFrame-self.last_frame_ball_seen_bounce > 2.5*Constants.FPS):
             if len(self.ball.get_hit_positions()) == 0:
                 return (False,)
             x_coordinate = self.ball.get_hit_positions()[-1][0]

@@ -155,7 +155,6 @@ def process_initial_frames(results, game):
             elif class_id == Constants.NET_ID:
                 game.table.sum_net((left_x, top_y), (right_x, bottom_y))
 
-
 def process_game_frames(results, game):
     best_ball_x_center, best_ball_y_center, best_score_ball = 0, 0, 0
     right_side, left_side = False, False

@@ -2,6 +2,7 @@ from ultralytics import YOLO
 
 
 if __name__ == '__main__':
+    print(" iam hereeeee")
     # Load a model
     model = YOLO("yolov8n.yaml")  # build a new model from scratch
     # hello from adi

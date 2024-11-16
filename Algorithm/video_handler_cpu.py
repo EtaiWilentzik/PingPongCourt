@@ -16,6 +16,8 @@ class VideoHandler:
             self.video_path)  # create ending name for output file
         # input source for cv2 library
         self.cap = cv2.VideoCapture(self.video_path)
+        Constants.FPS =int(self.cap.get(cv2.CAP_PROP_FPS))
+        print("the fps is", Constants.FPS)
         # ret - boolean (next frame exist), frame - encoding of current frame
         self.ret, VideoHandler.frame = self.cap.read()
         # height, width, _ (of the frame)
