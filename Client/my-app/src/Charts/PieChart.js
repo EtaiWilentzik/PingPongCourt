@@ -5,12 +5,12 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 // Register necessary components
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export const PieChart = () => {
+export const PieChart = ({values, labels}) => {
     const data = {
-        labels: ['Hit Table First', 'Double Bounce', 'Miss the Ball'],
+        labels: labels,
         datasets: [
             {
-                data: [30, 20, 50],
+                data: values,
                 backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
                 hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
             },
@@ -27,9 +27,9 @@ export const PieChart = () => {
     };
 
     return (
-        <>
+        <div className="chart-container">
             <h2>Shot Outcome</h2>
             <Pie data={data} options={options} />
-        </>
+        </div>
     );
 };

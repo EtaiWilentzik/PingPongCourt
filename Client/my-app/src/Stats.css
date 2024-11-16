@@ -1,6 +1,8 @@
 /* Body Styling */
 body {
     overflow: hidden;
+    margin: 0;
+    font-family: Arial, sans-serif;
 }
 
 /* Stats Layout */
@@ -9,13 +11,15 @@ body {
     grid-template-rows: 50% 50%;
     height: 100vh;
     padding: 30px;
-    margin: 60px;
+    margin: 20px;
 }
 
 .stats-row {
     display: grid;
     grid-template-columns: 50% 50%;
     height: 100%;
+    margin-top: 30px;
+    /*margin-bottom: 30px;*/
 }
 
 .stats-column {
@@ -25,6 +29,20 @@ body {
     font-size: 2rem;
     font-weight: bold;
     height: 90%;
+    margin-right: 30px;
+}
+
+/* PieChart Styling */
+.pie-charts {
+    display: flex;
+    justify-content: space-around; /* Space between the charts */
+    align-items: center;
+    width: 100%; /* Ensure it spans the column width */
+}
+
+.pie-chart {
+    width: 100%;
+    height: auto;
 }
 
 /* Navigable Chart */
@@ -37,7 +55,6 @@ body {
     width: 100%;
 }
 
-/* Navigation Arrows */
 .arrow {
     background-color: transparent;
     border: none;
@@ -49,12 +66,6 @@ body {
 
 .arrow:hover {
     color: orange;
-}
-
-/* PieChart Styling (if specific styles needed) */
-.pie-chart {
-    width: 100%;
-    height: auto;
 }
 
 /* BarChart Styling */
@@ -85,10 +96,54 @@ body {
 }
 
 h2 {
-    color: yellow;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #444;
 }
 
-/* Button Responsiveness */
+/* GameInfo Component Styling */
+.top-right-component {
+    display: grid;
+    grid-template-rows: 50% 50%;
+    height: 100%;
+    width: 100%;
+    gap: 10px;
+}
+
+.game-stats, .player-stats {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.game-stats h3, .player-stats h3 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+.game-stats p, .player-stats p {
+    margin: 5px 0;
+    color: gray;
+    font-size: 1rem;
+}
+
+/* Video Section Styling */
+.video-container {
+    text-align: center;
+    width: 100%;
+}
+
+video {
+    max-width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
     .arrow {
         font-size: 1.5rem;
@@ -97,12 +152,8 @@ h2 {
     .navigable-chart {
         gap: 10px;
     }
-}
 
-
-h2 {
-    font-size: 1.5rem;
-    text-align: center;
-    margin-bottom: 10px;
-    color: #444;
+    h2 {
+        font-size: 1.2rem;
+    }
 }

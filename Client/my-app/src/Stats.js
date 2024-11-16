@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { PieChart } from "./Charts/PieChart";
 import { BarChart } from "./Charts/BarChart";
+import { GameInfo } from "./Charts/GameInfo";
 import "./Stats.css";
+import Video from "./Video";
 
 const NavigableChart = ({ dataSets, children }) => {
     const [currentStatIndex, setCurrentStatIndex] = useState(0);
@@ -31,16 +33,37 @@ export function Stats() {
         [4, 6, 3, 8, 7, 5, 9, 2]
     ];
 
+    const gameStats = {
+        longestRally: "15 shots",
+        numberOfPoints: 45,
+        result: "Player A won 21-19",
+        time: "30 mins",
+    };
+
+    const playerStatsData = [
+        {
+            avgSpeed: "25 km/h",
+            longestPointsRally: "15 shots",
+            // Add more metrics as needed
+        },
+        {
+            avgSpeed: "23 km/h",
+            longestPointsRally: "12 shots",
+            // Add more metrics as needed
+        },
+    ];
+
     return (
         <div className="stats">
             <div className="stats-row">
                 <div className="stats-column">
-                    {/*<h2>Outcome Analysis</h2>*/}
-                    <PieChart />
+                    <div className="pie-charts">
+                        <PieChart values={[15,20,30]} labels={['hit floor first', 'double bounce', '2 seconds']}/>
+                        <PieChart values={[40,10,3]} labels={['stat1', 'stats2', 'stats3']}/>
+                    </div>
                 </div>
                 <div className="stats-column">
-                    <h2>Impact Insight</h2>
-                    2 will be cut to half
+                    <GameInfo gameStats={gameStats} playerStats={playerStatsData} />;
                 </div>
             </div>
             <div className="stats-row">
@@ -50,7 +73,13 @@ export function Stats() {
                     </NavigableChart>
                 </div>
                 <div className="stats-column">
-                    <PieChart />
+                    <div>
+                        <h2>My Video</h2>
+                        <video controls width="600">
+                            <source src="video.mp4" type="video/mp4"/>
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
                 </div>
             </div>
         </div>
