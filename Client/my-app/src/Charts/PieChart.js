@@ -1,12 +1,13 @@
 import React from 'react';
 import { Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+
 // Register necessary components
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export const PieChart = () => {
     const data = {
-        labels: ['hit table first', 'double bounce', 'miss the ball'],
+        labels: ['Hit Table First', 'Double Bounce', 'Miss the Ball'],
         datasets: [
             {
                 data: [30, 20, 50],
@@ -25,6 +26,10 @@ export const PieChart = () => {
         },
     };
 
-    return <Pie data={data} options={options} />;
+    return (
+        <>
+            <h2>Shot Outcome</h2>
+            <Pie data={data} options={options} />
+        </>
+    );
 };
-

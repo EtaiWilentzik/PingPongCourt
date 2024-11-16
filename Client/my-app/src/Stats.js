@@ -17,7 +17,9 @@ const NavigableChart = ({ dataSets, children }) => {
     return (
         <div className="navigable-chart">
             <button className="arrow" onClick={() => navigate('left')}>{"<"}</button>
-            {React.cloneElement(children, { values: dataSets[currentStatIndex] })}
+            <>
+                {React.cloneElement(children, { values: dataSets[currentStatIndex] })}
+            </>
             <button className="arrow" onClick={() => navigate('right')}>{">"}</button>
         </div>
     );
@@ -27,13 +29,19 @@ export function Stats() {
     const barChartData = [
         [3, 5, 2, 7, 6, 4, 8, 1],
         [4, 6, 3, 8, 7, 5, 9, 2]
-    ]; // Example sets of statistics
+    ];
 
     return (
         <div className="stats">
             <div className="stats-row">
-                <div className="stats-column">{<PieChart />}</div>
-                <div className="stats-column">2 will be cut to half</div>
+                <div className="stats-column">
+                    {/*<h2>Outcome Analysis</h2>*/}
+                    <PieChart />
+                </div>
+                <div className="stats-column">
+                    <h2>Impact Insight</h2>
+                    2 will be cut to half
+                </div>
             </div>
             <div className="stats-row">
                 <div className="stats-column">
@@ -41,7 +49,9 @@ export function Stats() {
                         <BarChart />
                     </NavigableChart>
                 </div>
-                <div className="stats-column">{<PieChart />}</div>
+                <div className="stats-column">
+                    <PieChart />
+                </div>
             </div>
         </div>
     );

@@ -4,13 +4,15 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Tooltip, Lege
 
 // Register necessary components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
-const labels = ['Net', '', '','Middle','','','Deep'];
+
+const labels = ['Net', '', '', 'Middle', '', '', 'Deep'];
+
 export const BarChart = ({ values }) => {
     const data = {
         labels: labels,
         datasets: [
             {
-                label: 'Depth of the ball',
+                label: 'Depth of the Ball',
                 data: values,
                 backgroundColor: 'rgba(75, 192, 192, 0.6)',
                 borderColor: 'rgba(75, 192, 192, 1)',
@@ -28,5 +30,10 @@ export const BarChart = ({ values }) => {
         },
     };
 
-    return <Bar data={data} options={options} />;
+    return (
+        <>
+            <h2>Ball Depth</h2>
+            <Bar data={data} options={options} />
+        </>
+    );
 };
