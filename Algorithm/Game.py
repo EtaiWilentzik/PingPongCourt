@@ -24,7 +24,7 @@ class Game:
         self.min_height = 0  # put zero because its the maximum i.e the top of the frame
         self.ball = Ball()
         self.table = Table()
-        self.game_stats = GameStats(("Daniel","Etai"))
+        self.game_stats = GameStats(player_names)
         self.track_score = TrackScore()
         self.check_hands = check_hands
         self.legal_serve = True
@@ -158,53 +158,6 @@ class Game:
 
                 return (True, Constants.LEFT_PLAYER)
         return False,
-    #! we dont need this function hit_table_point do it
-    # def hit_floor_first(self, frame):
-
-    #     if len(self.ball.positions) < 3:
-    #         return False,
-
-    #     if self.ball.get_y() > self.min_height:
-    #         # checks if x coordinate is in the left table
-    #         left_table_x = (
-    #             self.table.left_table[2] > self.ball.positions[-2].x > self.table.left_table[0])
-
-    #         right_table_x = (
-    #             self.table.right_table[2] > self.ball.positions[-2].x > self.table.right_table[0])
-    #         #
-    #         if (self.ball.left_counter == 0 and left_table_x):
-    #             # meaning that the x is in the table area and there is
-    #             # no hitting in the left area the conclusion is that the right player miss
-
-    #             cv2.putText(
-    #                 frame,
-    #                 f" player left won  in hit floor point {self.ball.get_y()}",
-    #                 (int(130), int(150)),
-    #                 cv2.FONT_HERSHEY_SIMPLEX,
-    #                 1.0,
-    #                 Color.ORANGE,
-    #                 5,
-    #                 cv2.LINE_AA,
-    #             )
-    #             return (True, Constants.LEFT_PLAYER)
-    #             print(
-    #                 f"player left won in hit floor point {self.ball.get_y()}")
-    #         # meaning that the x is in the table area and there is
-    #         elif self.ball.right_counter == 0 and right_table_x:
-    #             # no hitting in the right area the conclusion is that the left player miss
-
-    #             cv2.putText(frame, f" player right won in hit floor point {self.ball.get_y()}",
-    #                         (int(600), int(700)),
-    #                         cv2.FONT_HERSHEY_SIMPLEX,
-    #                         1.0,
-    #                         Color.ORANGE,
-    #                         5,
-    #                         cv2.LINE_AA,
-    #                         )
-    #             return (True, Constants.RIGHT_PLAYER)
-    #     return (False,)
-    #     # print(
-    #     #     f"player right won in hit floor point {self.ball.get_y()}")
 
     def set_game_constants(self):
         self.table.set_coordinates_table()
@@ -251,7 +204,7 @@ class Game:
         self.ball.set_side_of_table()
 
         # update the who hit the ball last
-        if self.ball.bounce_horizontal(self.last_side_hitter):
+        if self.ball.bounce_horizontal(self.last_side_hitter,self.table.quarters_intervales):
             # this change to the other player.
             self.game_stats.curr_mini_game_hits +=1
             self.last_side_hitter = (self.last_side_hitter+1) % 2

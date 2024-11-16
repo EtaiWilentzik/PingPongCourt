@@ -1,17 +1,35 @@
 from Constants import *
+import requests
 
 
 class GameStats:
+
     def __init__(self, player_names):
 
         self.player_names = player_names
-        self.longest_games_in_time = 0
         self.max_hits_in_game = 0
         self.curr_mini_game_hits = 1
         self.sum_all_hits = 0
         self.average_hits_in_game = 0
         self.player_left = PlayerStats(player_names[0])
         self.player_right = PlayerStats(player_names[1])
+        self.url = "http://localhost:3000/games/stats"
+
+    def send_to_server(self):
+        data = self.to_dict()
+        response = requests.post(self.url, json=data)
+        # Check the response
+        if response.status_code == 200:
+            print("Data sent successfully:", response.json())
+        else:
+            print(f"Failed to send data: {response.status_code}, {response.text}")
+
+    def to_dict(self):
+        return {
+            "max_hits_in_game": self.max_hits_in_game,
+            "average_hits_in_game": self.average_hits_in_game,
+            "player_left": self.player_left.to_dict(),
+            "player_right": self.player_right.to_dict()}
 
     def set_after_point(self, winner):
         if self.curr_mini_game_hits == 1:
@@ -67,11 +85,12 @@ class GameStats:
         if self.sum_all_hits != 0:
             self.average_hits_in_game = self.sum_all_hits / sum_points
         self.print_all_statistics()
+        self.send_to_server()
 
     def print_all_statistics(self):
-        print("the left player win_point_reson")
+        print("the left player win_point_reason")
         print(self.player_left.win_reasons)
-        print("the right player ein_point_resons")
+        print("the right player ein_point_resaons")
         print(self.player_right.win_reasons)
         print("the left player depth_hit")
         print(self.player_left.depth_of_hits)
@@ -90,3 +109,32 @@ class PlayerStats:
         self.bad_serves = 0
         self.average_speed = 0
         self.depth_of_hits = [0] * 8
+
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "faults": self.win_reasons,
+            "aces": self.aces,
+            "bad_serves": self.bad_serves,
+            "average_speed": self.average_speed,
+            "depth_of_hits": self.depth_of_hits}
+
+
+
+
+
+# class PlayerStats:
+#     def _init_(self, player_name):
+#         self.name = player_name
+#         self.faults = [0] * 3
+#         self.aces = 0
+#         self.average_speed = 0
+#         self.depth_of_hits = [0] * 2
+#
+#     def to_dict(self):
+#         return {
+#             "name": self.name,
+#             "faults": self.faults,
+#             "aces": self.aces,
+#             "average_speed": self.average_speed,
+#             "depth_of_hits": self.depth_of_hits
