@@ -45,6 +45,14 @@ class VideoHandler:
 
         cv2.rectangle(VideoHandler.frame, (int(game.table.right_zone[0]), int(game.table.right_zone[1])),
                       (int(game.table.right_zone[2]), int(game.table.right_zone[3])), Color.GREEN, 4)
+        self.paint_interval_lines(game)
+
+
+    def paint_interval_lines(self,game):
+        for i in range(8):
+            curr_x=int(game.table.quarters_intervales[i][0])
+            cv2.line(VideoHandler.frame, (curr_x, 200), (curr_x, 800), Color.RED, 2)
+
 
     def paint_frame_counter(self):
         cv2.putText(VideoHandler.frame, f"Frame number: {Constants.counterUntilFrame}",

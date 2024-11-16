@@ -121,7 +121,7 @@ while video_handler.get_ret() and game.is_alive():
 
     Constants.counterUntilFrame += 1
     video_handler.read_next_frame()
-game.game_stats.end_of_game_statistics()
+game.game_stats.end_of_game_statistics(game.track_score)
 video_handler.release()
 
 

@@ -55,7 +55,6 @@ class Game:
             # checks if x coordinate is in the left table
             left_table_x = (
                 self.table.left_table[2] > self.ball.positions[-2].x > self.table.left_table[0])
-
             # checks if y coordinate is the same as height of the table
             left_on_table_y = (
                 self.table.left_table[1] - Constants.EPSILON < self.ball.positions[-2].y < self.table.left_table[3])
@@ -66,6 +65,7 @@ class Game:
                 self.ball.add_hit(
                     (self.ball.positions[-2].x, self.ball.positions[-2].y)
                 )
+                self.game_stats.set_areas_of_hits(self.last_side_hitter,self.ball.positions[-2].x,self.table.quarters_intervales)
                 self.last_frame_ball_seen_bounce = Constants.counterUntilFrame - \
                     1  # because we find the "min" one frame after
 
@@ -89,6 +89,8 @@ class Game:
                 # we only need the x value to draw it in the table. we use it as a list of all the points that hit the table.
                 self.ball.add_hit(
                     (self.ball.positions[-2].x, self.ball.positions[-2].y))
+                self.game_stats.set_areas_of_hits(self.last_side_hitter, self.ball.positions[-2].x,
+                                                  self.table.quarters_intervales)
                 self.last_frame_ball_seen_bounce = Constants.counterUntilFrame-1
                 self.ball.right_counter += 1  # ball hits right table one more time
                 # self.check_last_ball_seen = Constants.counterUntilFrame
@@ -209,6 +211,7 @@ class Game:
         self.table.set_coordinates_net()
         self.table.set_two_sides()
         self.table.set_touch_zones()
+        self.table.set_intervals()
         # self.ball.net_x = self.table.netlist[0]
         # this is the minimum value that we expect someone to hit the ball. i.e lower than this is a point to the
         # opponent.
