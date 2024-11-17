@@ -8,6 +8,7 @@ from Constants import *
 from Ball import Ball
 from Table import Table
 from TrackScore import TrackScore
+from GameStats import GameStats
 # aaa
 
 ##! the convention is ({true- violation in the game or false- point still active without violation},{if there was violation who won it})
@@ -23,6 +24,7 @@ class Game:
         self.min_height = 0  # put zero because its the maximum i.e the top of the frame
         self.ball = Ball()
         self.table = Table()
+        self.game_stats = GameStats(player_names)
         self.track_score = TrackScore()
         self.check_hands = check_hands
         self.legal_serve = True
@@ -53,7 +55,6 @@ class Game:
             # checks if x coordinate is in the left table
             left_table_x = (
                 self.table.left_table[2] > self.ball.positions[-2].x > self.table.left_table[0])
-
             # checks if y coordinate is the same as height of the table
             left_on_table_y = (
                 self.table.left_table[1] - Constants.EPSILON < self.ball.positions[-2].y < self.table.left_table[3])
@@ -64,6 +65,8 @@ class Game:
                 self.ball.add_hit(
                     (self.ball.positions[-2].x, self.ball.positions[-2].y)
                 )
+                self.game_stats.set_areas_of_hits(
+                    self.last_side_hitter, self.ball.positions[-2].x, self.table.quarters_intervals)
                 self.last_frame_ball_seen_bounce = Constants.counterUntilFrame - \
                     1  # because we find the "min" one frame after
 
@@ -87,6 +90,8 @@ class Game:
                 # we only need the x value to draw it in the table. we use it as a list of all the points that hit the table.
                 self.ball.add_hit(
                     (self.ball.positions[-2].x, self.ball.positions[-2].y))
+                self.game_stats.set_areas_of_hits(self.last_side_hitter, self.ball.positions[-2].x,
+                                                  self.table.quarters_intervals)
                 self.last_frame_ball_seen_bounce = Constants.counterUntilFrame-1
                 self.ball.right_counter += 1  # ball hits right table one more time
                 # self.check_last_ball_seen = Constants.counterUntilFrame
@@ -154,59 +159,13 @@ class Game:
 
                 return (True, Constants.LEFT_PLAYER)
         return False,
-    #! we dont need this function hit_table_point do it
-    # def hit_floor_first(self, frame):
-
-    #     if len(self.ball.positions) < 3:
-    #         return False,
-
-    #     if self.ball.get_y() > self.min_height:
-    #         # checks if x coordinate is in the left table
-    #         left_table_x = (
-    #             self.table.left_table[2] > self.ball.positions[-2].x > self.table.left_table[0])
-
-    #         right_table_x = (
-    #             self.table.right_table[2] > self.ball.positions[-2].x > self.table.right_table[0])
-    #         #
-    #         if (self.ball.left_counter == 0 and left_table_x):
-    #             # meaning that the x is in the table area and there is
-    #             # no hitting in the left area the conclusion is that the right player miss
-
-    #             cv2.putText(
-    #                 frame,
-    #                 f" player left won  in hit floor point {self.ball.get_y()}",
-    #                 (int(130), int(150)),
-    #                 cv2.FONT_HERSHEY_SIMPLEX,
-    #                 1.0,
-    #                 Color.ORANGE,
-    #                 5,
-    #                 cv2.LINE_AA,
-    #             )
-    #             return (True, Constants.LEFT_PLAYER)
-    #             print(
-    #                 f"player left won in hit floor point {self.ball.get_y()}")
-    #         # meaning that the x is in the table area and there is
-    #         elif self.ball.right_counter == 0 and right_table_x:
-    #             # no hitting in the right area the conclusion is that the left player miss
-
-    #             cv2.putText(frame, f" player right won in hit floor point {self.ball.get_y()}",
-    #                         (int(600), int(700)),
-    #                         cv2.FONT_HERSHEY_SIMPLEX,
-    #                         1.0,
-    #                         Color.ORANGE,
-    #                         5,
-    #                         cv2.LINE_AA,
-    #                         )
-    #             return (True, Constants.RIGHT_PLAYER)
-    #     return (False,)
-    #     # print(
-    #     #     f"player right won in hit floor point {self.ball.get_y()}")
 
     def set_game_constants(self):
         self.table.set_coordinates_table()
         self.table.set_coordinates_net()
         self.table.set_two_sides()
         self.table.set_touch_zones()
+        self.table.set_intervals()
         # self.ball.net_x = self.table.netlist[0]
         # this is the minimum value that we expect someone to hit the ball. i.e lower than this is a point to the
         # opponent.
@@ -234,6 +193,8 @@ class Game:
         if clbs[0]:
             Constants.WON_REASON = "check_last_ball_seen in right table"
             self.game_status.next_state()
+            self.game_stats.set_after_ball_out_zone(
+                self.last_side_hitter, clbs[1])
             return self.track_score.update_score(clbs[1])
 
             # * if the last location of the ball is different change it. if its the same, return false as we dont need to change anything about the score.
@@ -245,8 +206,9 @@ class Game:
         self.ball.set_side_of_table()
 
         # update the who hit the ball last
-        if self.ball.bounce_horizontal(self.last_side_hitter):
+        if self.ball.bounce_horizontal(self.last_side_hitter, self.table.quarters_intervals):
             # this change to the other player.
+            self.game_stats.curr_mini_game_hits += 1
             self.last_side_hitter = (self.last_side_hitter+1) % 2
 
         # this is the functions that judge the game
@@ -254,6 +216,8 @@ class Game:
         if htp[0]:
             Constants.WON_REASON = "hit table_point"
             self.game_status.next_state()
+            self.game_stats.set_after_ball_out_zone(
+                self.last_side_hitter, htp[1])
             return self.track_score.update_score(htp[1])
         # ? do not use it now because this function is not working properly
         # hff = self.hit_floor_first(frame)
@@ -266,6 +230,7 @@ class Game:
         if db[0]:
             Constants.WON_REASON = "double_bounce"
             self.game_status.next_state()
+            self.game_stats.set_after_double_bounce(db[1])
             return self.track_score.update_score(db[1])
         return (False,)
 
@@ -370,7 +335,7 @@ class Game:
 
     def check_last_ball_seen(self):
         # if there is more 2 seconds from the last we saw the ball and its a fault so we need to update the score.
-        if (Constants.counterUntilFrame-self.last_frame_ball_seen_bounce > 2*Constants.FPS):
+        if (Constants.counterUntilFrame-self.last_frame_ball_seen_bounce > 2.5*Constants.FPS):
             if len(self.ball.get_hit_positions()) == 0:
                 return (False,)
             x_coordinate = self.ball.get_hit_positions()[-1][0]

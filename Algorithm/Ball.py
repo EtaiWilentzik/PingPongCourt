@@ -26,8 +26,9 @@ class Ball:
             if len(self.positions) < 2:
                 return
 
-            speed = (274 / Constants.TABLE_SIZE) * calculate_linear_distance((self.positions[-1].x, self.positions[-1].y),
-                                                                             (self.positions[-2].x, self.positions[-2].y))
+            speed = (274 / Constants.TABLE_SIZE) * calculate_linear_distance(
+                (self.positions[-1].x, self.positions[-1].y),
+                (self.positions[-2].x, self.positions[-2].y))
             speed *= Constants.FPS
             speed *= 0.036
             speed /= 1000
@@ -36,7 +37,8 @@ class Ball:
             #     (self.positions[-1].x - self.positions[-2].x) ** 2 + (self.positions[-1].y - self.positions[-2].y) ** 2)
             # speed = distance / time_interval
             self.speeds.append(int(speed))
-# this function determine in which side of the table the ball is
+
+    # this function determine in which side of the table the ball is
 
     def set_side_of_table(self):
         if len(self.positions) > 0:
@@ -58,18 +60,18 @@ class Ball:
     def get_y(self):
         return self.positions[-1].y
 
-    def bounce_horizontal(self, current_last_side_hitter):
+    def bounce_horizontal(self, current_last_side_hitter, ranges):
         # we want to obtaion the oposite dircation that why we want to count "mistake "
-        Allowed_time = 3
+        Allowed_time = 2
         if len(self.positions) < 2:
             return False
         if current_last_side_hitter == Constants.LEFT_PLAYER:
-            if self.positions[-1].x < self.positions[-2].x:
+            if self.positions[-2].x > self.positions[-1].x > ranges[4][0]:
                 self.opposite_direction_count += 1
             else:
                 self.opposite_direction_count = 0
         elif current_last_side_hitter == Constants.RIGHT_PLAYER:
-            if self.positions[-1].x > self.positions[-2].x:
+            if self.positions[-2].x < self.positions[-1].x < ranges[4][0]:
                 self.opposite_direction_count += 1
             else:
                 self.opposite_direction_count = 0
@@ -120,6 +122,7 @@ class Ball:
     #     if min_position and y_on_table and x_in_table:  # if the ball hits the table
     #         # set the position to indicate vertical change
     #         self.positions[-2].set_vertical()
+
 
 # position of ball at each frame
 
