@@ -144,6 +144,8 @@ from Constants import *
 class VideoReader:
     def __init__(self, video_path):
         self.cap = cv2.VideoCapture(video_path)
+        Constants.FPS = int(self.cap.get(cv2.CAP_PROP_FPS))
+        print("the fps is", Constants.FPS)
         if not self.cap.isOpened():
             raise IOError(f"Cannot open video file {video_path}")
 

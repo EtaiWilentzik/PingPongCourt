@@ -15,7 +15,8 @@ class Table:
         self.netlist = [0.0, 0.0, 0.0, 0.0]
         self.left_zone = [0.0, 0.0, 0.0, 0.0]
         self.right_zone = [0.0, 0.0, 0.0, 0.0]
-        self.quarters_intervales=[]
+        self.quarters_intervals = []
+
     def get_top_left(self):
         return self.top_left
 
@@ -104,8 +105,10 @@ class Table:
     #     self.set_coordinates_table()
     #     self.set_coordinates_net()
     #     self.set_two_sides()
-    def set_intervals(self,segments=8):
-        left_x=self.get_top_left()[0]
-        right_x=self.get_bottom_right()[0]
+    def set_intervals(self, segments=8):
+        left_x = self.get_top_left()[0]
+        right_x = self.get_bottom_right()[0]
         step = (right_x - left_x) / segments
-        self.quarters_intervales= [(left_x + i * step, left_x + (i + 1) * step) for i in range(segments)]
+        self.quarters_intervals = [
+            (left_x + i * step, left_x + (i + 1) * step) for i in range(segments)]
+        # print("set_intervals", self.quarters_intervals)

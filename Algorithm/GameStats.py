@@ -8,6 +8,7 @@ class GameStats:
 
         self.player_names = player_names
         self.max_hits_in_game = 0
+        # number of hits inside one point.
         self.curr_mini_game_hits = 1
         self.sum_all_hits = 0
         self.average_hits_in_game = 0
@@ -22,7 +23,8 @@ class GameStats:
         if response.status_code == 200:
             print("Data sent successfully:", response.json())
         else:
-            print(f"Failed to send data: {response.status_code}, {response.text}")
+            print(
+                f"Failed to send data: {response.status_code}, {response.text}")
 
     def to_dict(self):
         return {
@@ -37,7 +39,8 @@ class GameStats:
                 self.player_left.aces += 1
             else:
                 self.player_right.aces += 1
-        print("number of paddle hits after this mini-game", self.curr_mini_game_hits)
+        print("number of paddle hits after this mini-game",
+              self.curr_mini_game_hits)
         self.sum_all_hits += self.curr_mini_game_hits
         if self.curr_mini_game_hits > self.max_hits_in_game:
             self.max_hits_in_game = self.curr_mini_game_hits
@@ -58,7 +61,7 @@ class GameStats:
                 print("left player did out")
             if last_hitter == Constants.RIGHT_PLAYER:
                 self.player_right.win_reasons[2] += 1
-                print("left could not respone to right hit")
+                print("left could not respond to right hit")
         self.set_after_point(winner)
 
     def set_after_double_bounce(self, winner):
@@ -84,8 +87,10 @@ class GameStats:
         sum_points = track_score.right_player + track_score.left_player
         if self.sum_all_hits != 0:
             self.average_hits_in_game = self.sum_all_hits / sum_points
+        self.player_left.points = track_score.left_player
+        self.player_right.points = track_score.right_player
         self.print_all_statistics()
-        self.send_to_server()
+        # self.send_to_server()
 
     def print_all_statistics(self):
         print("the left player win_point_reason")
@@ -96,14 +101,17 @@ class GameStats:
         print(self.player_left.depth_of_hits)
         print("the right player depth_hit")
         print(self.player_right.depth_of_hits)
-        print("the average paddle hits per points are", self.average_hits_in_game)
+        print("the average paddle hits per points are",
+              self.average_hits_in_game)
         print("the most paddle hits for points are", self.max_hits_in_game)
 
 
 class PlayerStats:
     def __init__(self, player_name):
         self.name = player_name
-        # in place [0] is double bounce on opponents table,[1] is opponent miss i.e doing "out". [2] you hit opponent side and he  can not respod
+        self.points = 0
+        self.fastest_ball_speed = 0.0
+        # in place [0] is double bounce on opponents table,[1] is opponent miss i.e doing "out". [2] you hit opponent side and he  can not respond
         self.win_reasons = [0] * 3
         self.aces = 0
         self.bad_serves = 0
@@ -113,16 +121,13 @@ class PlayerStats:
     def to_dict(self):
         return {
             "name": self.name,
+            "points": self.points,
             "faults": self.win_reasons,
             "aces": self.aces,
+            "fastest_ball_speed": self.fastest_ball_speed,
             "bad_serves": self.bad_serves,
             "average_speed": self.average_speed,
             "depth_of_hits": self.depth_of_hits}
-
-
-
-
-
 # class PlayerStats:
 #     def _init_(self, player_name):
 #         self.name = player_name

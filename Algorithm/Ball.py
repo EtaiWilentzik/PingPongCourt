@@ -66,12 +66,12 @@ class Ball:
         if len(self.positions) < 2:
             return False
         if current_last_side_hitter == Constants.LEFT_PLAYER:
-            if self.positions[-2].x > self.positions[-1].x > ranges[5][0]:
+            if self.positions[-2].x > self.positions[-1].x > ranges[4][0]:
                 self.opposite_direction_count += 1
             else:
                 self.opposite_direction_count = 0
         elif current_last_side_hitter == Constants.RIGHT_PLAYER:
-            if self.positions[-2].x < self.positions[-1].x < ranges[3][0]:
+            if self.positions[-2].x < self.positions[-1].x < ranges[4][0]:
                 self.opposite_direction_count += 1
             else:
                 self.opposite_direction_count = 0

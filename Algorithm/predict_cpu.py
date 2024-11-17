@@ -73,11 +73,12 @@ def process_game_frames():
         game.ball.set_speed()
     check_hands.update(left_side, right_side)
 
+
 print("start running the code")
 video_handler = VideoHandler()
 # create mini_court draw
 mini_court = MiniCourt(VideoHandler.frame)
-model_path = os.path.join('.', 'train9',
+model_path = os.path.join('.', 'Algorithm', 'train9',
                           'weights', 'last.pt')  # get the training set
 # use cuda if possible
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -96,7 +97,7 @@ game = Game(check_hands, ("Etai", "Daniel"))
 for i in range(2*Constants.FPS):
     process_initial_frames()
 
-model_path = os.path.join('.', 'train13',
+model_path = os.path.join('.', 'Algorithm', 'train13',
                           'weights', 'last.pt')
 model = YOLO(model_path)  # load a custom model
 
@@ -123,5 +124,3 @@ while video_handler.get_ret() and game.is_alive():
     video_handler.read_next_frame()
 game.game_stats.end_of_game_statistics(game.track_score)
 video_handler.release()
-
-

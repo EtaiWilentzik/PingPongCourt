@@ -283,7 +283,7 @@ def inference_process(frame_queue, output_queue, read_complete_event, inference_
             if not frame_queue.empty():
                 frame = frame_queue.get()
                 logging.debug('Initial frame received from frame_queue')
-                results = initial_model.predict(frame, half=True, conf=0.4)[0]
+                results = initial_model.predict(frame)[0]
                 process_initial_frames(results, game)
                 annotated_frame = frame.copy()
                 annotate_frame(annotated_frame, results, game, mini_court)
@@ -292,8 +292,8 @@ def inference_process(frame_queue, output_queue, read_complete_event, inference_
                 Constants.counterUntilFrame += 1
             elif read_complete_event.is_set() and frame_queue.empty():
                 break
-            else:
-                time.sleep(0.01)  # Prevent tight loop
+            # else:
+            #     time.sleep(0.01)  # Prevent tight loop
 
         game.set_game_constants()
         logging.debug('Game constants set')
@@ -306,7 +306,7 @@ def inference_process(frame_queue, output_queue, read_complete_event, inference_
             if not frame_queue.empty():
                 frame = frame_queue.get()
                 logging.debug('Frame received from frame_queue')
-                results = game_model.predict(frame, half=True, conf=0.4)[0]
+                results = game_model.predict(frame)[0]
                 process_game_frames(results, game)
                 annotated_frame = frame.copy()
                 annotate_frame(annotated_frame, results, game, mini_court)
@@ -319,13 +319,13 @@ def inference_process(frame_queue, output_queue, read_complete_event, inference_
                     'No more frames to process, exiting inference_process')
                 break
                 ########################
-            else:
-                time.sleep(0.01)  # Prevent tight loop
+            # else:
+            #     time.sleep(0.01)  # Prevent tight loop
         inference_complete_event.set()
 
         # * here to send the game data
 
-        game.game_stats.send_to_server()
+        game.game_stats.end_of_game_statistics(game.track_score)
     except Exception as e:
         logging.error(f'Exception in inference_process: {e}')
         traceback.print_exc()
@@ -366,22 +366,34 @@ if __name__ == "__main__":
     multiprocessing.set_start_method('spawn')
 
     VIDEOS_DIR = os.path.join('.', 'Algorithm', 'videos_new_new_new')
-    video_path = os.path.join(VIDEOS_DIR, 'v1_short.mp4')
+    video_path = os.path.join(VIDEOS_DIR, 'v2_short.mp4')
     output_path = f"{video_path}_out.mp4"
     initial_model_path = os.path.join(
-        '.', 'Algorithm', 'train11', 'weights', 'best.pt')
+        '.', 'Algorithm', 'train9', 'weights', 'last.pt')
     game_model_path = os.path.join(
-        '.', 'Algorithm', 'train13', 'weights', 'best.pt')
+        '.', 'Algorithm', 'train13', 'weights', 'last.pt')
 
     # Initialize VideoReader to get frame properties
     video_reader = VideoReader(video_path)
-    ret, frame = video_reader.read_frame()
-    if not ret:
-        raise ValueError("Failed to read video")
-    H, W, _ = frame.shape
-    frame_size = (W, H)
+
+    # Use video properties to get frame dimensions and FPS without reading a frame
+    W = int(video_reader.cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    H = int(video_reader.cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     fps = int(video_reader.cap.get(cv2.CAP_PROP_FPS))
+    if W == 0 or H == 0 or fps == 0:
+        raise ValueError("Failed to retrieve video properties")
+
+    frame_size = (W, H)
+
+    # Release VideoReader resources after extracting metadata
     video_reader.release()
+    # ret, frame = video_reader.read_frame()
+    # if not ret:
+    #     raise ValueError("Failed to read video")
+    # H, W, _ = frame.shape
+    # frame_size = (W, H)
+    # fps = int(video_reader.cap.get(cv2.CAP_PROP_FPS))
+    # video_reader.release()
 
     # Initialize queues and events
     frame_queue = Queue(maxsize=50)
