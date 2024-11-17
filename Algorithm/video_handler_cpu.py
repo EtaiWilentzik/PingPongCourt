@@ -9,19 +9,25 @@ class VideoHandler:
     frame = None
 
     def __init__(self):
-        self.VIDEOS_DIR = os.path.join('.','videos')
+        self.VIDEOS_DIR = os.path.join('.', 'Algorithm', 'videos_new_new_new')
         # get the video from the folder
         self.video_path = os.path.join(self.VIDEOS_DIR, 'v2_short.mp4')
         self.video_path_out = '{}_out.mp4'.format(
             self.video_path)  # create ending name for output file
         # input source for cv2 library
         self.cap = cv2.VideoCapture(self.video_path)
-        Constants.FPS =int(self.cap.get(cv2.CAP_PROP_FPS))
+        Constants.FPS = int(self.cap.get(cv2.CAP_PROP_FPS))
         print("the fps is", Constants.FPS)
         # ret - boolean (next frame exist), frame - encoding of current frame
-        self.ret, VideoHandler.frame = self.cap.read()
+        self.ret,  self.frame = self.cap.read()
         # height, width, _ (of the frame)
-        self.H, self.W, _ = VideoHandler.frame.shape
+        if self.ret:
+            VideoHandler.frame = self.frame  # Update static frame
+            self.H, self.W, _ = self.frame.shape  # Dimensions of the frame
+        else:
+            raise ValueError(
+                "Failed to read the video. Please check the video path.")
+
         # output frame after writing on  it
         self.out = cv2.VideoWriter(self.video_path_out, cv2.VideoWriter_fourcc(*'mp4v'),
                                    int(self.cap.get(cv2.CAP_PROP_FPS)), (self.W, self.H))
@@ -47,12 +53,11 @@ class VideoHandler:
                       (int(game.table.right_zone[2]), int(game.table.right_zone[3])), Color.GREEN, 4)
         self.paint_interval_lines(game)
 
-
-    def paint_interval_lines(self,game):
+    def paint_interval_lines(self, game):
         for i in range(8):
-            curr_x=int(game.table.quarters_intervales[i][0])
-            cv2.line(VideoHandler.frame, (curr_x, 200), (curr_x, 800), Color.RED, 2)
-
+            curr_x = int(game.table.quarters_intervals[i][0])
+            cv2.line(VideoHandler.frame, (curr_x, 200),
+                     (curr_x, 800), Color.RED, 2)
 
     def paint_frame_counter(self):
         cv2.putText(VideoHandler.frame, f"Frame number: {Constants.counterUntilFrame}",
@@ -74,8 +79,6 @@ class VideoHandler:
                     (100, 250), cv2.FONT_HERSHEY_PLAIN,  2, Color.RED, 2)
         cv2.putText(VideoHandler.frame, f"last hit: {game.last_side_hitter}",
                     (1150, 250), cv2.FONT_HERSHEY_PLAIN, 2, Color.RED, 2)
-
-
 
     def write_video(self):
         self.out.write(VideoHandler.frame)

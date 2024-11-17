@@ -65,7 +65,8 @@ class Game:
                 self.ball.add_hit(
                     (self.ball.positions[-2].x, self.ball.positions[-2].y)
                 )
-                self.game_stats.set_areas_of_hits(self.last_side_hitter,self.ball.positions[-2].x,self.table.quarters_intervales)
+                self.game_stats.set_areas_of_hits(
+                    self.last_side_hitter, self.ball.positions[-2].x, self.table.quarters_intervals)
                 self.last_frame_ball_seen_bounce = Constants.counterUntilFrame - \
                     1  # because we find the "min" one frame after
 
@@ -90,7 +91,7 @@ class Game:
                 self.ball.add_hit(
                     (self.ball.positions[-2].x, self.ball.positions[-2].y))
                 self.game_stats.set_areas_of_hits(self.last_side_hitter, self.ball.positions[-2].x,
-                                                  self.table.quarters_intervales)
+                                                  self.table.quarters_intervals)
                 self.last_frame_ball_seen_bounce = Constants.counterUntilFrame-1
                 self.ball.right_counter += 1  # ball hits right table one more time
                 # self.check_last_ball_seen = Constants.counterUntilFrame
@@ -192,7 +193,8 @@ class Game:
         if clbs[0]:
             Constants.WON_REASON = "check_last_ball_seen in right table"
             self.game_status.next_state()
-            self.game_stats.set_after_ball_out_zone(self.last_side_hitter,clbs[1])
+            self.game_stats.set_after_ball_out_zone(
+                self.last_side_hitter, clbs[1])
             return self.track_score.update_score(clbs[1])
 
             # * if the last location of the ball is different change it. if its the same, return false as we dont need to change anything about the score.
@@ -204,9 +206,9 @@ class Game:
         self.ball.set_side_of_table()
 
         # update the who hit the ball last
-        if self.ball.bounce_horizontal(self.last_side_hitter,self.table.quarters_intervales):
+        if self.ball.bounce_horizontal(self.last_side_hitter, self.table.quarters_intervals):
             # this change to the other player.
-            self.game_stats.curr_mini_game_hits +=1
+            self.game_stats.curr_mini_game_hits += 1
             self.last_side_hitter = (self.last_side_hitter+1) % 2
 
         # this is the functions that judge the game
@@ -214,7 +216,8 @@ class Game:
         if htp[0]:
             Constants.WON_REASON = "hit table_point"
             self.game_status.next_state()
-            self.game_stats.set_after_ball_out_zone(self.last_side_hitter,htp[1])
+            self.game_stats.set_after_ball_out_zone(
+                self.last_side_hitter, htp[1])
             return self.track_score.update_score(htp[1])
         # ? do not use it now because this function is not working properly
         # hff = self.hit_floor_first(frame)
