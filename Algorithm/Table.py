@@ -109,3 +109,5 @@ class Table:
         right_x=self.get_bottom_right()[0]
         step = (right_x - left_x) / segments
         self.quarters_intervales= [(left_x + i * step, left_x + (i + 1) * step) for i in range(segments)]
+        print("ranges_arr")
+        print(self.quarters_intervales)

@@ -84,8 +84,10 @@ class GameStats:
         sum_points = track_score.right_player + track_score.left_player
         if self.sum_all_hits != 0:
             self.average_hits_in_game = self.sum_all_hits / sum_points
+        self.player_left.points=track_score.left_player
+        self.player_right.points=track_score.right_player
         self.print_all_statistics()
-        self.send_to_server()
+        print(self.to_dict())
 
     def print_all_statistics(self):
         print("the left player win_point_reason")
@@ -103,6 +105,8 @@ class GameStats:
 class PlayerStats:
     def __init__(self, player_name):
         self.name = player_name
+        self.points=0
+        self.fastest_ball_speed=0.0
         # in place [0] is double bounce on opponents table,[1] is opponent miss i.e doing "out". [2] you hit opponent side and he  can not respod
         self.win_reasons = [0] * 3
         self.aces = 0
@@ -113,8 +117,10 @@ class PlayerStats:
     def to_dict(self):
         return {
             "name": self.name,
+            "points": self.points,
             "faults": self.win_reasons,
             "aces": self.aces,
+            "fastest_ball_speed": self.fastest_ball_speed,
             "bad_serves": self.bad_serves,
             "average_speed": self.average_speed,
             "depth_of_hits": self.depth_of_hits}
