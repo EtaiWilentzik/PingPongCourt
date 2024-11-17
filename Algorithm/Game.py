@@ -1,7 +1,7 @@
 
 
 import cv2
-# from Algorithm import GameStats
+from GameStats import GameStats
 from gestureFrameCounter import gestureFrameCounter
 from game_status import GameStatus
 from Constants import *
@@ -32,7 +32,7 @@ class Game:
         self.game_status = GameStatus(self.wait_for_hand, self.wait_for_fault)
         self.last_judge_point = None
         self.last_side_hitter = Constants.LEFT_PLAYER
-        # self.game_stats = GameStats(player_names)
+        self.game_stats = GameStats(player_names)
 
         # self.min_duration = 20
         # self.starting_point = None

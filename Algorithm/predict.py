@@ -366,7 +366,7 @@ if __name__ == "__main__":
     multiprocessing.set_start_method('spawn')
 
     VIDEOS_DIR = os.path.join('.', 'Algorithm', 'videos_new_new_new')
-    video_path = os.path.join(VIDEOS_DIR, 'v2_short.mp4')
+    video_path = os.path.join(VIDEOS_DIR, 'v1_short.mp4')
     output_path = f"{video_path}_out.mp4"
     initial_model_path = os.path.join(
         '.', 'Algorithm', 'train9', 'weights', 'last.pt')

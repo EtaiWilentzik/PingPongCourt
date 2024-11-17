@@ -1,6 +1,7 @@
 const { response } = require("express");
 const gameServices = require("../services/gameServices");
 const Respond = require("../utils/helpers");
+
 const createGame = async (req, res) => {
   const { player1, player2 } = req.body;
   console.log(" in game controller ", player2);
@@ -31,4 +32,9 @@ const getHistoryAgainstPlayer = async (req, res) => {
   result = await gameServices.getHistoryAgainstPlayer(req.user.userId, friend);
   res.status(result.statusCode).json(result);
 };
-module.exports = { createGame, updateGame, getHistory, getHistoryAgainstPlayer };
+
+const createGameAtEnd = async (req, res) => {
+  console.log(req.body);
+  result = await gameServices.createGameAtEnd(req.body);
+};
+module.exports = { createGame, updateGame, getHistory, getHistoryAgainstPlayer, createGameAtEnd };

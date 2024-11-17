@@ -7,6 +7,7 @@ class GameStats:
     def __init__(self, player_names):
 
         self.player_names = player_names
+        self.longest_games_in_time = 0
         self.max_hits_in_game = 0
         # number of hits inside one point.
         self.curr_mini_game_hits = 1
@@ -105,41 +106,33 @@ class GameStats:
               self.average_hits_in_game)
         print("the most paddle hits for points are", self.max_hits_in_game)
 
+    def to_dict(self):
+        return {
+            "longest_games_in_time": self.longest_games_in_time,
+            "max_hits_in_game": self.max_hits_in_game,
+            "average_hits_in_game": self.average_hits_in_game,
+            "player_left": self.player_left.to_dict(),
+            "player_right": self.player_right.to_dict()
+        }
+
+    def send_to_server(self):
+        data = self.to_dict()
+        response = requests.post(url, json=data)
+
+        # Check the response
+        if response.status_code == 200:
+            print("Data sent successfully:", response.json())
+        else:
+            print(
+                f"Failed to send data: {response.status_code}, {response.text}")
+
 
 class PlayerStats:
     def __init__(self, player_name):
         self.name = player_name
-        self.points = 0
-        self.fastest_ball_speed = 0.0
-        # in place [0] is double bounce on opponents table,[1] is opponent miss i.e doing "out". [2] you hit opponent side and he  can not respond
-        self.win_reasons = [0] * 3
+        # in place [0] is double bounce in your table,[1] is player miss i.e doing "out". [2] the ball jump in your side and the player din't  react to it .
+        self.faults = [0]*3
         self.aces = 0
         self.bad_serves = 0
         self.average_speed = 0
-        self.depth_of_hits = [0] * 8
-
-    def to_dict(self):
-        return {
-            "name": self.name,
-            "points": self.points,
-            "faults": self.win_reasons,
-            "aces": self.aces,
-            "fastest_ball_speed": self.fastest_ball_speed,
-            "bad_serves": self.bad_serves,
-            "average_speed": self.average_speed,
-            "depth_of_hits": self.depth_of_hits}
-# class PlayerStats:
-#     def _init_(self, player_name):
-#         self.name = player_name
-#         self.faults = [0] * 3
-#         self.aces = 0
-#         self.average_speed = 0
-#         self.depth_of_hits = [0] * 2
-#
-#     def to_dict(self):
-#         return {
-#             "name": self.name,
-#             "faults": self.faults,
-#             "aces": self.aces,
-#             "average_speed": self.average_speed,
-#             "depth_of_hits": self.depth_of_hits
+        self.depth_of_hits = [0]*2
