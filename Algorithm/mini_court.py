@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 
 import Constants
-from video_handler import VideoHandler
+from video_handler import VideoWriter
 from Constants import Color
 from formulas import *
 
@@ -35,7 +35,7 @@ class MiniCourt:
         self.background_bottom_y = int(
             self.background_top_y + self.rectangle_height)  # make it correlated to backgroudn topp y
         # set the table coordinates
-        # corespons to background top x.
+        # correspond to background top x.
         self.table_top_x = int(self.background_top_x + self.buffer)
         self.table_top_y = int(
             self.background_top_y + self.padding_inside_rectangle)  # padding inside the rectangle background
@@ -100,9 +100,9 @@ class MiniCourt:
     def draw_mini_court(self, frame, game):
         self.draw_background_rectangle(frame)
         self.draw_mini_court_table(frame)
-        self.draw_ball(game)
+        self.draw_ball(game, frame)
 
-    def draw_ball(self, game):
+    def draw_ball(self, game, frame):
         table_length = game.table.get_bottom_right()[0] - game.table.get_top_left()[
             0]  # length of table in pixels (right - left)
         table_height = game.table.get_top_left()[1] - game.table.get_bottom_right()[
@@ -121,6 +121,6 @@ class MiniCourt:
             # calculate the x coordinate
             # of ball in new table according to relative position in real table
 
-            cv2.circle(VideoHandler.frame, (x_mini_court,
+            cv2.circle(frame, (x_mini_court,
                        self.table_top_y - 5), 5, Color.RED, cv2.FILLED)  # draw the
             # ball
