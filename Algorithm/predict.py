@@ -230,10 +230,10 @@ def annotate_frame(frame, results, game, mini_court):
                 (100, 100), cv2.FONT_HERSHEY_PLAIN, 2, Color.BLUE, 2)
     cv2.putText(frame, f"State: {game.game_status.state}",
                 (700, 100), cv2.FONT_HERSHEY_PLAIN, 2, Color.RED, 2)
-    cv2.putText(frame, f"Reason: {Constants.WON_REASON}",
+    cv2.putText(frame, f"loss reason: {Constants.WON_REASON}",
                 (1400, 100), cv2.FONT_HERSHEY_PLAIN, 2, Color.RED, 2)
-    cv2.putText(frame, f"last hit: {game.last_side_hitter}",
-                (1400, 250), cv2.FONT_HERSHEY_PLAIN, 2, Color.RED, 2)
+    # cv2.putText(frame, f"last hit: {game.last_side_hitter}",
+    #             (1400, 250), cv2.FONT_HERSHEY_PLAIN, 2, Color.RED, 2)
     return frame
 
 

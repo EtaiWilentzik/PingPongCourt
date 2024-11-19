@@ -14,6 +14,10 @@ class Ball:
         self.opposite_direction_count = 0
         # maybe we will use it for statistics or max speed of interval something like that
         self.speeds = []
+        self.fastest_left_speed=0
+        self.fastest_left_frame=0
+        self.fastest_right_speed=0
+        self.fastest_right_frame=0
 
     # add new coordinates of ball in new frame
     def set_coordinates(self, x, y):
@@ -21,22 +25,28 @@ class Ball:
             self.positions.pop(0)
         self.positions.append(Position(x, y))
 
-    def set_speed(self):
-        if Constants.counterUntilFrame % 30 == 0 and Constants.counterUntilFrame > 2 * Constants.FPS:
-            if len(self.positions) < 2:
-                return
+    def calc_scaling_factor(self):
+        print("calculating scaling factor")
 
-            speed = (274 / Constants.TABLE_SIZE) * calculate_linear_distance(
-                (self.positions[-1].x, self.positions[-1].y),
-                (self.positions[-2].x, self.positions[-2].y))
-            speed *= Constants.FPS
-            speed *= 0.036
-            speed /= 1000
-            # time_interval = 1 / Constants.FPS  # Time between frames
-            # distance = math.sqrt(
-            #     (self.positions[-1].x - self.positions[-2].x) ** 2 + (self.positions[-1].y - self.positions[-2].y) ** 2)
-            # speed = distance / time_interval
-            self.speeds.append(int(speed))
+    def set_speed(self,frame):
+        if len(self.positions) < 2:
+            return
+        speed = (274 / Constants.TABLE_SIZE) * calculate_linear_distance(
+            (self.positions[-1].x, self.positions[-1].y),
+            (self.positions[-2].x, self.positions[-2].y))
+        speed *= Constants.FPS #how many cm/sec
+        speed *= 0.036
+        speed /= 1000
+        if self.positions[-1].x>self.positions[-2].x:#means ball is moving from left to right
+            if speed > self.fastest_left_speed:
+                self.fastest_left_speed=speed
+                self.fastest_left_frame=frame
+        else:
+            if speed > self.fastest_right_speed:
+                self.fastest_right_speed=speed
+                self.fastest_right_frame=frame
+
+        print("the speed is", speed)
 
     # this function determine in which side of the table the ball is
 
@@ -97,6 +107,7 @@ class Ball:
         #         # self.direction = Constants.RIGHT  # set the direction to right
 
     def add_hit(self, point):
+
         if len(self.hit_positions) >= 2:
             self.hit_positions.pop(0)
         self.hit_positions.append(point)

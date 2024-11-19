@@ -8,10 +8,10 @@ class VideoHandler:
     # change frame to static variable because we dont need to create object for him in mini court to just get the frame.
     frame = None
 
-    def __init__(self):
-        self.VIDEOS_DIR = os.path.join('.', 'Algorithm', 'videos_new_new_new')
+    def __init__(self,video_path):
+        self.VIDEOS_DIR = os.path.join('.', 'videos')
         # get the video from the folder
-        self.video_path = os.path.join(self.VIDEOS_DIR, 'v2_short.mp4')
+        self.video_path = os.path.join(self.VIDEOS_DIR, f"{video_path}.mp4")
         self.video_path_out = '{}_out.mp4'.format(
             self.video_path)  # create ending name for output file
         # input source for cv2 library
@@ -56,8 +56,8 @@ class VideoHandler:
     def paint_interval_lines(self, game):
         for i in range(8):
             curr_x = int(game.table.quarters_intervals[i][0])
-            cv2.line(VideoHandler.frame, (curr_x, 200),
-                     (curr_x, 800), Color.RED, 2)
+            cv2.line(VideoHandler.frame, (curr_x, int(game.table.left_table[1])),
+                     (curr_x, int(game.table.bottom_net[1])), Color.RED, 2)
 
     def paint_frame_counter(self):
         cv2.putText(VideoHandler.frame, f"Frame number: {Constants.counterUntilFrame}",
@@ -65,20 +65,17 @@ class VideoHandler:
 
     def paint_score(self, game):
         cv2.putText(VideoHandler.frame, f"Score: {game.track_score.get_score()}",
-                    (100, 100), cv2.FONT_HERSHEY_PLAIN,  2, Color.BLUE, 2)
+                    (100, 100), cv2.FONT_HERSHEY_PLAIN,  3, Color.BLUE, 2)
+        if game.game_status.state==1:
+            cv2.putText(VideoHandler.frame, "state of game: judging the current point",
+                        (700, 100), cv2.FONT_HERSHEY_PLAIN,  2, Color.RED, 2)
+        else:
+            cv2.putText(VideoHandler.frame, f"state of game: between points",
+                        (1300, 100), cv2.FONT_HERSHEY_PLAIN, 2, Color.BLACK, 2)
 
-        cv2.putText(VideoHandler.frame, f"state: {game.game_status.state}",
-                    (700, 100), cv2.FONT_HERSHEY_PLAIN,  2, Color.RED, 2)
+        cv2.putText(VideoHandler.frame, f"Reason for last point: {Constants.WON_REASON}",
+                    (1300, 130), cv2.FONT_HERSHEY_PLAIN,  2, Color.BLACK, 2)
 
-        cv2.putText(VideoHandler.frame, f"state: {Constants.WON_REASON}",
-                    (1600, 100), cv2.FONT_HERSHEY_PLAIN,  2, Color.RED, 2)
-
-        cv2.putText(VideoHandler.frame, f"right: {game.ball.right_counter}",
-                    (1400, 250), cv2.FONT_HERSHEY_PLAIN,  2, Color.RED, 2)
-        cv2.putText(VideoHandler.frame, f"left: {game.ball.left_counter}",
-                    (100, 250), cv2.FONT_HERSHEY_PLAIN,  2, Color.RED, 2)
-        cv2.putText(VideoHandler.frame, f"last hit: {game.last_side_hitter}",
-                    (1150, 250), cv2.FONT_HERSHEY_PLAIN, 2, Color.RED, 2)
 
     def write_video(self):
         self.out.write(VideoHandler.frame)
@@ -104,11 +101,8 @@ class VideoHandler:
                 cv2.line(VideoHandler.frame, (pos.x, pos.y), (tmp_positions[i - 1].x, tmp_positions[i - 1].y),
                          Color.BLACK,
                          2)
-        if len(game.ball.speeds):
-            # cv2.putText(self.frame, f"the speed is {game.ball.speeds[-1]}", (pos.x + 10, pos.y),
-            #             cv2.FONT_HERSHEY_SIMPLEX, 0.5, Color.CYAN, 2)
-            cv2.putText(self.frame, f"the speed is {game.ball.speeds[-1]}", (90, 90),
-                        cv2.FONT_HERSHEY_SIMPLEX, 4, Color.CYAN, 3)
+        print(" i am hereeeeeee")
+
 
     def paint_all(self, x1, y1, x2, y2, result, confidence):
         # Shows confidence with 2 decimal places
