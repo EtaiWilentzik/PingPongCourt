@@ -8,13 +8,13 @@ const authorizeGameAccess = async (req, res, next) => {
     const authenticatedUserId = req.user.userId;
 
     // Fetch the game from the database
-    const game = await gameSchema.Game.findById(gameId);
+    const game = await gameSchema.Game2.findById(gameId);
     if (!game) {
       return res.status(404).json({ message: "Game not found." });
     }
 
-    const player1Id = game.scores.player1.toString();
-    const player2Id = game.scores.player2.toString();
+    const player1Id = game.players.playerLeft.userId.toString();
+    const player2Id = game.players.playerRight.userId.toString();
 
     // Check if the authenticated user is a participant in the game
     if (authenticatedUserId !== player1Id && authenticatedUserId !== player2Id) {

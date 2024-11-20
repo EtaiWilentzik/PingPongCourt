@@ -39,7 +39,6 @@ const gameSchema = new mongoose.Schema({
 });
 
 const statsSchema = new Schema({
-  longestGameInTime: { type: Number },
   maxHitsInGame: { type: Number, default: 0 },
   averageHitsInGame: { type: Number, default: 0 },
 });
@@ -48,18 +47,8 @@ const playerStatsSchema = new Schema({
   faults: { type: [Number], default: [0, 0, 0] },
   aces: { type: Number, default: 0 },
   averageSpeed: { type: Number, default: 0 },
-  depthOfHits: { type: [Number], default: [0, 0] },
+  depthOfHits: { type: [Number], default: [0, 0, 0, 0, 0, 0, 0, 0] },
 });
-
-// const gameSchema2 = new mongoose.Schema({
-//   datePlayed: { type: Date, default: Date.now },
-//   video: { type: videoSchema, default: () => ({}) },
-//   players: {
-//     player1: { type: Schema.ObjectId, ref: User },
-//     player2: { type: Schema.ObjectId, ref: User },
-//   },
-//   stats: { type: stats, default: () => ({}) },
-// });
 
 const gameSchema2 = new Schema({
   datePlayed: { type: Date, default: Date.now },
@@ -69,17 +58,17 @@ const gameSchema2 = new Schema({
     duration: { type: Number, default: 0 },
   },
   players: {
-    player1: {
+    playerLeft: {
       userId: { type: Schema.ObjectId, ref: "User" },
       stats: { type: playerStatsSchema, default: () => ({}) },
     },
-    player2: {
+    playerRight: {
       userId: { type: Schema.ObjectId, ref: "User" },
       stats: { type: playerStatsSchema, default: () => ({}) },
     },
   },
   stats: { type: statsSchema, default: () => ({}) },
 });
-const Game = mongoose.model("Game", gameSchema);
-const Game2 = mongoose.model("Game2", gameSchema2);
-module.exports = { Game, Game2 };
+// const Game = mongoose.model("Game", gameSchema);
+const Game2 = mongoose.model("Game", gameSchema2);
+module.exports = { Game2 };
