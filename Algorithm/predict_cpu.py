@@ -4,6 +4,7 @@ import torch
 from ultralytics import YOLO
 from Ball import Ball
 from Table import Table
+import sys
 from Game import Game
 from Constants import Constants
 from video_handler_cpu import VideoHandler
@@ -52,13 +53,6 @@ def process_game_frames():
                     best_score_ball = score
                     best_ball_y_center = y_center
                     best_ball_x_center = x_center
-
-                # game.ball.set_coordinates(x_center, y_center)
-                # game.ball.set_speed()
-                # video_handler.paint_ball_movement(game)
-                # Test game rules and update scores
-                # game.test_frame(video_handler.get_frame(),
-                #                 Constants.counterUntilFrame)
             elif class_id == Constants.Hand_ID_NEW_TRAIN:
                 # Process hand detections
                 # if there were many hands if we saw one hand in left side it will be true.
@@ -70,57 +64,49 @@ def process_game_frames():
                                 bottom_y, results.names[int(class_id)], score)
     if (best_score_ball != 0):
         game.ball.set_coordinates(best_ball_x_center, best_ball_y_center)
-        game.ball.set_speed()
     check_hands.update(left_side, right_side)
 
 
-print("start running the code")
-video_handler = VideoHandler()
-# create mini_court draw
-mini_court = MiniCourt(VideoHandler.frame)
-model_path = os.path.join('.', 'Algorithm', 'train9',
-                          'weights', 'last.pt')  # get the training set
-# use cuda if possible
-device = 'cuda' if torch.cuda.is_available() else 'cpu'
-print(f'Using device: {device}')
-# do it only for etai
-if torch.cuda.is_available():
-    torch.cuda.set_device(0)
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python script.py <video_name>")
+        sys.exit(1)
 
-model = YOLO(model_path)  # load a custom model
+    video_name = sys.argv[1]  # Get the video name directly from the command-line argument
+    print("start running the code")
+    video_handler = VideoHandler(video_name)  # Pass the video name to VideoHandler
+    mini_court = MiniCourt(VideoHandler.frame)
+    model_path = os.path.join('.', 'train9', 'weights', 'last.pt')
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    print(f'Using device: {device}')
+    if torch.cuda.is_available():
+        torch.cuda.set_device(0)
 
-model.to(device=device)
-check_hands = gestureFrameCounter()
-game = Game(check_hands, ("Etai", "Daniel"))
+    model = YOLO(model_path)
+    model.to(device=device)
+    check_hands = gestureFrameCounter()
+    game = Game(check_hands, ("Etai", "Daniel"))
 
+    for i in range(2 * Constants.FPS):
+        process_initial_frames()
 
-for i in range(2*Constants.FPS):
-    process_initial_frames()
+    model_path = os.path.join('.', 'train13', 'weights', 'last.pt')
+    model = YOLO(model_path)
+    game.set_game_constants()
 
-model_path = os.path.join('.', 'Algorithm', 'train13',
-                          'weights', 'last.pt')
-model = YOLO(model_path)  # load a custom model
+    while video_handler.get_ret() and game.is_alive():
+        results = model.predict(video_handler.get_frame())[0]
+        process_game_frames()
+        game.judge(VideoHandler.frame, Constants.counterUntilFrame)
+        video_handler.paint_ball_movement(game)
+        video_handler.paint_two_sides_and_zones(game)
+        mini_court.draw_mini_court(VideoHandler.frame, game)
+        video_handler.paint_frame_counter()
+        video_handler.paint_score(game)
+        video_handler.write_video()
+        Constants.counterUntilFrame += 1
+        video_handler.read_next_frame()
 
-game.set_game_constants()
-
-
-while video_handler.get_ret() and game.is_alive():
-    results = model.predict(video_handler.get_frame())[0]
-    process_game_frames()
-    game.judge(VideoHandler.frame, Constants.counterUntilFrame)
-    video_handler.paint_ball_movement(game)
-    # * this need to be last because at the end there is self.out.write(self.frame)
-    video_handler.paint_two_sides_and_zones(game)
-
-    # * drawing the mini court inside the frame.
-    mini_court.draw_mini_court(VideoHandler.frame, game)
-    # * drawing the frame counter at the top left corner.
-    video_handler.paint_frame_counter()
-    video_handler.paint_score(game)
-
-    video_handler.write_video()
-
-    Constants.counterUntilFrame += 1
-    video_handler.read_next_frame()
-game.game_stats.end_of_game_statistics(game.track_score)
-video_handler.release()
+    game.game_stats.end_of_game_statistics(game.track_score, game.ball,video_name)
+    print("the table size is", Constants.TABLE_SIZE)
+    video_handler.release()

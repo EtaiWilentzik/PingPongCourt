@@ -2,7 +2,6 @@ import cv2
 import numpy as np
 
 import Constants
-from video_handler import VideoWriter
 from Constants import Color
 from formulas import *
 
