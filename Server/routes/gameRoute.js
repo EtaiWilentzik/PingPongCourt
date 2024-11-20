@@ -67,4 +67,7 @@ gameRouter.get("/history", authenticateToken, gameController.getHistory);
 gameRouter.get("/history/against-player", authenticateToken, gameController.getHistoryAgainstPlayer);
 
 gameRouter.post("/stats", gameController.createGameAtEnd);
+
+gameRouter.get("/:gameId", authenticateToken, authorizeGameAccess, gameController.getGame);
+
 module.exports = { gameRouter };

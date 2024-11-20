@@ -34,7 +34,11 @@ const getHistoryAgainstPlayer = async (req, res) => {
 };
 
 const createGameAtEnd = async (req, res) => {
-  console.log(req.body);
   result = await gameServices.createGameAtEnd(req.body);
+  //!WE DO'NT DO RES.SOOTHING BECAME WE GOT THIS PATH FROM THE ALGORITHM
 };
-module.exports = { createGame, updateGame, getHistory, getHistoryAgainstPlayer, createGameAtEnd };
+
+const getGame = async (req, res) => {
+  result = await gameServices.getGame(req.game);
+};
+module.exports = { createGame, updateGame, getHistory, getHistoryAgainstPlayer, createGameAtEnd, getGame };

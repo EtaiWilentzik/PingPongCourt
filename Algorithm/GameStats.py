@@ -19,6 +19,7 @@ class GameStats:
 
     def send_to_server(self):
         data = self.to_dict()
+        print("the data is "+data)
         response = requests.post(self.url, json=data)
         # Check the response
         if response.status_code == 200:
@@ -75,9 +76,14 @@ class GameStats:
 
     def set_areas_of_hits(self, last_hitter, last_hit_x, ranges):
         zone_num = 0
+
         for i, (start, end) in enumerate(ranges):
             if start <= last_hit_x <= end:
                 zone_num = i
+        print(zone_num)
+        print(last_hit_x)
+        print(ranges)
+
         if last_hitter == Constants.LEFT_PLAYER:
             self.player_left.depth_of_hits[zone_num] += 1
         if last_hitter == Constants.RIGHT_PLAYER:
@@ -91,7 +97,7 @@ class GameStats:
         self.player_left.points = track_score.left_player
         self.player_right.points = track_score.right_player
         self.print_all_statistics()
-        # self.send_to_server()
+        self.send_to_server()
 
     def print_all_statistics(self):
         print("the left player win_point_reason")
@@ -117,7 +123,7 @@ class GameStats:
 
     def send_to_server(self):
         data = self.to_dict()
-        response = requests.post(url, json=data)
+        response = requests.post(self.url, json=data)
 
         # Check the response
         if response.status_code == 200:
@@ -131,8 +137,18 @@ class PlayerStats:
     def __init__(self, player_name):
         self.name = player_name
         # in place [0] is double bounce in your table,[1] is player miss i.e doing "out". [2] the ball jump in your side and the player din't  react to it .
-        self.faults = [0]*3
+        self.win_reasons = [0]*3
         self.aces = 0
         self.bad_serves = 0
         self.average_speed = 0
-        self.depth_of_hits = [0]*2
+        self.depth_of_hits = [0]*8
+    #! i didnt enterd the bad serve to the sserver.
+
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "faults": self.win_reasons,
+            "aces": self.aces,
+            "average_speed": self.average_speed,
+            "depth_of_hits": self.depth_of_hits
+        }

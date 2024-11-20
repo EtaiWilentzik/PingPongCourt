@@ -1,14 +1,19 @@
-
+/////// content type must come one line after the post if no the req.body will be null!
 
 @host=http://localhost:3000
-@token1=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6IkV0YWkiLCJ1c2VySWQiOiI2NzFlMjk2NDY2NzdlYWY2ODRjNTM2ZjYiLCJpYXQiOjE3MzAwMjk5NDl9.6X1eJM7uSo2BNaIAljE70sDrv5GcUZ8Ed5O4MXUo2-E
-@token2=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6Ikd1eSIsInVzZXJJZCI6IjY3MWUyOWI4NjY3N2VhZjY4NGM1MzZmYiIsImlhdCI6MTczMDAzMDAxMX0.YAJabkJAbEEDLBzbgt8PEeiWUSX_3JvEPXGYXITuIjc
+@token1=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6IkV0YWkiLCJ1c2VySWQiOiI2NzNhMTYwZGE2Y2MyZDBjZTMwZmFhMzIiLCJpYXQiOjE3MzE4NjA4NDB9.faDOPT-eG3XACQ6SpxdeGrgKCDZli7jwCZLJqvIdHWY
+@token2=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6IkRhbmllbCIsInVzZXJJZCI6IjY3M2ExZTE2ZThhZGNmOWE0MzVlNThlZCIsImlhdCI6MTczMTg2MjA5Mn0.fAXrzFTP8n2TVbUd2pe4cCWSBio_OLBl0685GJCUciQ
 @player1="Etai"
-@player2="Guy"
-@player2WithoutQuoutes=Guy
+@player2="Daniel"
+@player2WithoutQuoutes=Daniel
 
-@user1id=671e29646677eaf684c536f6
-@gameid=6720a8e4f598e95b54f82913
+@user1id=673a160da6cc2d0ce30faa32
+@user2id=673a1e16e8adcf9a435e58ed
+
+@user1idasString="673a160da6cc2d0ce30faa32"
+@user2idasString="673a1e16e8adcf9a435e58ed"
+
+@gameid=673a1e88e8adcf9a435e58f4
 get http://localhost:3000/
 
 ###
@@ -16,7 +21,7 @@ POST {{host}}/users/register/
 Content-Type: application/json
 
 {
-    "userName":{{player1}},
+    "userName":{{player2}},
       "password":"abc"
 }
 ###
@@ -25,20 +30,20 @@ post {{host}}/users/login/
 Content-Type: application/json
 
 {
-    "userName":{{player1}},
+    "userName":{{player2}},
       "password":"abc"
 }
 
 
 ###
-GET {{host}}/users/{{user1id}}/stats/
-Authorization: Bearer {{token1}}
+GET {{host}}/users/{{user2id}}/stats/
+Authorization: Bearer {{token2}}
 
 
 
 ###
 // i'm making it as i need to verify the jwt of player 1. i,e player 1 want to crate the gmae
-#TODO: i dont think we need game number in game table .
+#TODO: untill we dont have websockets i dont need this endpoint
 post {{host}}/games/create
 Authorization: Bearer {{token1}}
 Content-Type: application/json
@@ -49,6 +54,7 @@ Content-Type: application/json
 }
 
 ###
+#TODO: untill we dont have websockets i dont need this endpoint
 //this route is to update the score a single game given by the game id param
 put {{host}}/games/{{gameid}}
 Authorization: Bearer {{token1}}
@@ -59,34 +65,51 @@ Content-Type: application/json
         "player2Score": 5
 }
 ###
+
+
 get {{host}}/games/history
 Authorization: Bearer {{token1}}
 ###
 
 
 ### 
-post {{host}}/gaems/Stats
-
+post {{host}}/games/stats
 Content-Type: application/json
+
 {
-  "longest_games_in_time": 0,
-  "max_hits_in_game": 0,
-  "average_hits_in_game": 0,
+  "max_hits_in_game": 11,
+  "average_hits_in_game": 7,
   "player_left": {
-    "name": "Etai",
-    "faults": [0, 0, 0],
+    "name": {{user1idasString}},
+    "faults": [1, 1, 1],
     "aces": 0,
     "average_speed": 0,
-    "depth_of_hits": [0, 0]
+    "depth_of_hits": [0, 0, 1, 1, 1, 10, 2, 0]
   },
   "player_right": {
-    "name": "Daniel",
-    "faults": [0, 0, 0],
+    "name": {{user2idasString}},
+    "faults": [0, 1, 0],
     "aces": 0,
     "average_speed": 0,
-    "depth_of_hits": [0, 0]
+    "depth_of_hits": [0, 1, 1, 1, 1, 5, 5, 1]
   }
 }
+
+###
+//! gameid is a path parms 
+get {{host}}/games/{{gameid}}
+Authorization: Bearer {{token1}}
+####
+
+
+
+
+
+
+
+
+
+
 
 ###
 get {{host}}/games//history/against-player?player_name={{player2WithoutQuoutes}}
