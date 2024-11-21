@@ -66,6 +66,11 @@ const Nav = () => {
                                 <Link to="/statistics" className="nav-link active">Statistics</Link>
                             </li>
 
+                            <li className="nav-item">
+                                {/*<a className="nav-link active" href="#">Pricing</a>*/}
+                                <Link to="/allGames" className="nav-link active">My Games</Link>
+                            </li>
+
                         </ul>
                     </div>
                 </div>

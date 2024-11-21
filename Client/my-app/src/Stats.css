@@ -1,159 +1,63 @@
-/* Body Styling */
-body {
-    overflow: hidden;
-    margin: 0;
-    font-family: Arial, sans-serif;
-}
-
-/* Stats Layout */
 .stats {
-    display: grid;
-    grid-template-rows: 50% 50%;
-    height: 100vh;
-    padding: 30px;
-    margin: 20px;
-}
+    overflow: hidden;
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+    /*background-color: #f5f5f5;*/
+    font-family: Arial, sans-serif;
+    color: #333;
 
-.stats-row {
-    display: grid;
-    grid-template-columns: 50% 50%;
-    height: 100%;
-    margin-top: 30px;
-    /*margin-bottom: 30px;*/
+    /*margin: 20px auto;*/
+    /*margin-top: 5%;*/
+    /*padding-top: 40px;*/
+    /*margin-top: 40px;*/
+
+    margin-top: 80px;
+    text-align: center;
 }
 
 .stats-column {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 2rem;
-    font-weight: bold;
-    height: 90%;
-    margin-right: 30px;
-}
-
-/* PieChart Styling */
-.pie-charts {
-    display: flex;
-    justify-content: space-around; /* Space between the charts */
-    align-items: center;
-    width: 100%; /* Ensure it spans the column width */
-}
-
-.pie-chart {
-    width: 100%;
-    height: auto;
-}
-
-/* Navigable Chart */
-.navigable-chart {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    gap: 15px;
-    position: relative;
-    width: 100%;
-}
-
-.arrow {
-    background-color: transparent;
-    border: none;
-    color: yellow;
-    font-size: 2rem;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
-.arrow:hover {
-    color: orange;
-}
-
-/* BarChart Styling */
-.bar-chart {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    height: 100%;
-    width: 40%;
-}
-
-.bar-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
-}
-
-.bar {
-    width: 20px;
-    background-color: yellow;
-    transition: height 0.7s ease;
-}
-
-.bar-label {
-    color: yellow;
-    font-size: 40px;
+    padding: 20px;
+    vertical-align: middle;
+    text-align: center;
+    width: 50%;
 }
 
 h2 {
-    font-size: 1.5rem;
-    text-align: center;
+    font-size: 1.8rem;
+    color: #4CAF50;
     margin-bottom: 10px;
-    color: #444;
 }
 
-/* GameInfo Component Styling */
-.top-right-component {
-    display: grid;
-    grid-template-rows: 50% 50%;
-    height: 100%;
-    width: 100%;
-    gap: 10px;
+h1 {
+    color: #4CAF50;
 }
 
-.game-stats, .player-stats {
+.pie-charts {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    gap: 20px; /* Space between pie charts */
+}
+
+.navigable-chart {
+    display: flex;
     justify-content: center;
     align-items: center;
-    text-align: center;
+    margin: 0 auto;
 }
 
-.game-stats h3, .player-stats h3 {
-    margin: 0;
-    font-size: 1.5rem;
-    color: #fff;
+/*video {*/
+/*    display: block;*/
+/*    margin: 0 auto;*/
+/*}*/
+
+table {
+    margin: 0 auto; /* Centers the table */
+    width: 80%; /* Adjusts width for better layout */
+    height: 80%;
 }
 
-.game-stats p, .player-stats p {
-    margin: 5px 0;
-    color: gray;
-    font-size: 1rem;
-}
+tr {
+    vertical-align: top; /* Aligns all cells consistently */
 
-/* Video Section Styling */
-.video-container {
-    text-align: center;
-    width: 100%;
-}
-
-video {
-    max-width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .arrow {
-        font-size: 1.5rem;
-    }
-
-    .navigable-chart {
-        gap: 10px;
-    }
-
-    h2 {
-        font-size: 1.2rem;
-    }
 }

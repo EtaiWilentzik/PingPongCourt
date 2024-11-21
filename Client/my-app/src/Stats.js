@@ -3,7 +3,6 @@ import { PieChart } from "./Charts/PieChart";
 import { BarChart } from "./Charts/BarChart";
 import { GameInfo } from "./Charts/GameInfo";
 import "./Stats.css";
-import Video from "./Video";
 
 const NavigableChart = ({ dataSets, children }) => {
     const [currentStatIndex, setCurrentStatIndex] = useState(0);
@@ -44,44 +43,57 @@ export function Stats() {
         {
             avgSpeed: "25 km/h",
             longestPointsRally: "15 shots",
-            // Add more metrics as needed
         },
         {
             avgSpeed: "23 km/h",
             longestPointsRally: "12 shots",
-            // Add more metrics as needed
         },
     ];
 
     return (
         <div className="stats">
-            <div className="stats-row">
-                <div className="stats-column">
-                    <div className="pie-charts">
-                        <PieChart values={[15,20,30]} labels={['hit floor first', 'double bounce', '2 seconds']}/>
-                        <PieChart values={[40,10,3]} labels={['stat1', 'stats2', 'stats3']}/>
-                    </div>
-                </div>
-                <div className="stats-column">
-                    <GameInfo gameStats={gameStats} playerStats={playerStatsData} />;
-                </div>
-            </div>
-            <div className="stats-row">
-                <div className="stats-column">
-                    <NavigableChart dataSets={barChartData}>
-                        <BarChart />
-                    </NavigableChart>
-                </div>
-                <div className="stats-column">
-                    <div>
-                        <h2>My Video</h2>
-                        <video controls width="600">
-                            <source src="video.mp4" type="video/mp4"/>
-                            Your browser does not support the video tag.
-                        </video>
-                    </div>
-                </div>
-            </div>
+            <table>
+                <thead>
+                    <h1>
+                        score 2:2
+                    </h1>
+                </thead>
+                <tbody>
+                <tr>
+                    <td className="stats-column">
+                        <h2>Headline 1</h2>
+                        <div className="pie-charts">
+                            <PieChart values={[15, 20, 30]} labels={['hit floor first', 'double bounce', '2 seconds']}/>
+                            <PieChart values={[40, 10, 3]} labels={['stat1', 'stats2', 'stats3']}/>
+                        </div>
+                    </td>
+                    <td className="stats-column">
+                        <h2>Headline 2</h2>
+                        <GameInfo gameStats={gameStats} playerStats={playerStatsData}/>
+                    </td>
+                </tr>
+                <tr>
+                    <td className="stats-column">
+                        <h2>Headline 3</h2>
+                        <NavigableChart dataSets={barChartData}>
+                            <BarChart/>
+                        </NavigableChart>
+                    </td>
+                    <td className="stats-column">
+                        <h2>Headline 4</h2>
+                        <div>
+                            <h2>My Video</h2>
+                            <video controls width="600">
+                                <source src="video.mp4" type="video/mp4"/>
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+
+
+            </table>
         </div>
     );
 }

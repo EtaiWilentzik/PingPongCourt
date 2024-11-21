@@ -13,6 +13,7 @@ function App() {
                 <Route path="/start" element={<Screen screenType={SCREEN_TYPE.START} />} />
                 <Route path="/score" element={<Screen screenType={SCREEN_TYPE.SCORE} />} />
                 <Route path="/statistics" element={<Screen screenType={SCREEN_TYPE.STATISTICS} />} />
+                <Route path="/allGames" element={<Screen screenType={SCREEN_TYPE.ALL_GAMES} />} />
                 <Route path="/*" element={<Screen screenType={SCREEN_TYPE.ERROR} />} />
             </Routes>
         </>
