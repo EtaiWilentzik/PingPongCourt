@@ -60,10 +60,10 @@ const login = async ({ userName, password }) => {
 };
 
 const getUserStats = async ({ userName }) => {
-  // ? i dont think i need here the try catch because of the the 2 middlewares before. the first verify that its correct token ant the second is that
+  // ? i do'nt think i need here the try catch because of the the 2 middlewares before. the first verify that its correct token ant the second is that
   //? the url is for the correct user.
   const user = await userSchema.User.findById(userName);
-  const statsObj = user.stats.toObject(); //i need this line becuase without it the stats object contain the id of the stats reference table.
+  const statsObj = user.stats.toObject(); //i need this line because without it the stats object contain the id of the stats reference table.
   const { totalWins, totalLosses, totalGames, winLossRatio } = statsObj;
   const data = { totalWins, totalLosses, totalGames, winLossRatio };
   return Respond.createResponse(true, 200, data, "return stats correctly");
