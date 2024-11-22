@@ -5,7 +5,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Tooltip, Lege
 // Register necessary components
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
-const labels = ['Net', '', '', 'Middle', '', '', 'Deep'];
+const labels = ['Net', '', '', 'Middle', 'Middle','', '', 'Deep'];
 
 export const BarChart = ({ values }) => {
     const data = {
