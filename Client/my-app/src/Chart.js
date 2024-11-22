@@ -1,54 +1,30 @@
-import React, { useEffect, useRef } from 'react';
-import './Chart.css';
+import React from 'react';
+import { Pie } from 'react-chartjs-2';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 
+// Register necessary components
+ChartJS.register(ArcElement, Tooltip, Legend);
 
+export const PieChart = () => {
+  const data = {
+    labels: ['hit table first', 'double bounce', 'miss the ball'],
+    datasets: [
+      {
+        data: [30, 20, 50], // Static data
+        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+      },
+    ],
+  };
 
-const Chart = () => {
-  const circle1Ref = useRef(null);
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+    },
+  };
 
-
-  useEffect(() => {
-    const circle = circle1Ref.current;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          // When the circle becomes visible
-          circle.classList.add('visible');
-          circle.classList.remove('hidden');
-        } else {
-          // When the circle becomes invisible
-          circle.classList.add('hidden');
-          circle.classList.remove('visible');
-        }
-      }
-    );
-
-    if (circle) {
-      observer.observe(circle);
-    }
-
-    return () => {
-      if (circle) {
-        observer.unobserve(circle);
-      }
-    };
-  }, []);
-
-
-  return (
-    <div>
-      <svg width="158" height="158">
-        <circle
-          ref={circle1Ref}
-          className="circle"
-          cx="79"
-          cy="79"
-          r="44"
-        />
-      </svg>
-    </div>
-  );
+  return <Pie data={data} options={options} />;
 };
-
-export default Chart;

@@ -1,0 +1,27 @@
+/* Overall container for the screen */
+.screen-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Full viewport height */
+    overflow: hidden;
+}
+
+/* Navbar section */
+.nav-bar {
+    height: calc(100vh / 12); /* Navbar height is 1/12 of the viewport */
+    flex-shrink: 0;
+    background-color: #333; /* Example background color */
+}
+
+/* Content section */
+.screen-content {
+    flex-grow: 1; /* Occupies the remaining space */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    width: 100%;
+    /*background-color: #f4f4f4; !* Example background for content *!*/
+    /*padding: 1rem; !* Adds padding around the content *!*/
+}
