@@ -1,0 +1,62 @@
+/* AddGame Styling */
+.user-component {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    font-size: large;
+}
+
+.settings-form {
+    background-color: #2c2c3d;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+}
+
+.settings-info p {
+    margin: 10px 0;
+}
+
+.settings-actions button,
+.send-button {
+    margin: 10px 10px 0 0;
+    padding: 10px 15px;
+    background-color: #3e3e4f;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.settings-actions button:hover,
+.send-button:hover {
+    background-color: #4e4e6f;
+}
+
+.file-upload {
+    margin: 20px 0;
+}
+
+.file-upload label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.file-upload input {
+    padding: 5px;
+    font-size: 1em;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .settings-form {
+        padding: 15px;
+    }
+
+    .settings-actions button,
+    .send-button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}

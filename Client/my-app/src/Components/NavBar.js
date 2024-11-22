@@ -1,7 +1,7 @@
 import './NavBar.css';
 import { Link } from "react-router-dom";
 import { useContext } from 'react';
-import { AuthContext } from './AuthContext';
+import { AuthContext } from '../App/AuthContext';
 
 const Nav = () => {
     const { isLoggedIn, logout } = useContext(AuthContext);
@@ -35,9 +35,16 @@ const Nav = () => {
                                 <li className="nav-item">
                                     <Link to="/allGames" className="nav-link">My Games</Link>
                                 </li>
+
+                                <li className="nav-item">
+                                    <Link to="/addGame" className="nav-link">Add Game</Link>
+                                </li>
+
                                 <li className="nav-item">
                                     <button onClick={logout} className="btn btn-danger">Logout</button>
                                 </li>
+
+
                             </>
                         )}
                     </ul>
@@ -47,4 +54,4 @@ const Nav = () => {
     );
 };
 
-export { Nav };
+export {Nav};

@@ -1,6 +1,6 @@
 import "./StartGame.css"
 import {Link} from "react-router-dom";
-import {ScoreBoard} from "./ScoreBoard";
+import {ScoreBoard} from "../nothing/ScoreBoard";
 const StartGame = () => {
     return (
         <div className="game-container">

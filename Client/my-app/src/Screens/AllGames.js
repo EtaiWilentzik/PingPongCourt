@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "./AuthContext";
+import { AuthContext } from "../App/AuthContext";
+import { GamesList } from "../Components/GamesList";
+import './AllGames.css';
 
-const GamesList = () => {
-    const navigate = useNavigate();
+const AllGames = () => {
     const { token } = useContext(AuthContext); // Access the token from AuthContext
     const [games, setGames] = useState([]);
     const [filteredGames, setFilteredGames] = useState([]);
@@ -24,7 +24,6 @@ const GamesList = () => {
                         "Accept-Encoding": "gzip, deflate",
                     },
                 });
-
 
                 if (response.ok) {
                     const data = await response.json();
@@ -61,13 +60,8 @@ const GamesList = () => {
         }
     };
 
-    // Navigate to specific game details
-    const handleGameClick = (gameId) => {
-        navigate(`/allGames/${gameId}`);
-    };
-
     return (
-        <div className="games-list-container">
+        <div className="all-games-page games-list-container center">
             <h1>Games List</h1>
             <div>
                 <label htmlFor="playerFilter">Filter by Player: </label>
@@ -79,21 +73,9 @@ const GamesList = () => {
                     placeholder="Enter player name"
                 />
             </div>
-            <ul>
-                {filteredGames.map((game) => (
-                    <li key={game.gameId} onClick={() => handleGameClick(game.gameId)}>
-                        <strong>Game ID:</strong> {game.gameId}
-                        <br />
-                        <strong>Date Played:</strong> {new Date(game.datePlayed).toLocaleString()}
-                        <br />
-                        <strong>Player Left Score:</strong> {game.playerLeft.score}
-                        <br />
-                        <strong>Player Right Score:</strong> {game.playerRight.score}
-                    </li>
-                ))}
-            </ul>
+            <GamesList list={filteredGames} />
         </div>
     );
 };
 
-export default GamesList;
+export default AllGames;

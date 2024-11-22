@@ -1,5 +1,5 @@
 /* Container styling */
-.games-list-container {
+.all-games-page .games-list-container {
     background-color: #1e1e2f; /* Dark background */
     border-radius: 10px;
     padding: 20px;
@@ -12,15 +12,36 @@
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
 }
 
+/* Centering text in the table and headlines */
+.all-games-page table {
+    width: 100%; /* Adjust to your preference */
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.all-games-page th, .all-games-page td {
+    text-align: center; /* Centers both header and cell text */
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.all-games-page th {
+    font-weight: bold;
+    background-color: #12b7f3; /* Optional: Adjust for headline styling */
+    color: rgba(255, 255, 255, 0.77);
+}
+
+
+
 /* Header styling */
-.games-list-container h1 {
+.all-games-page .games-list-container h1 {
     font-size: 2em;
     margin-bottom: 20px;
     color: #f39c12;
 }
 
 /* Filter input styling */
-#playerFilter {
+.all-games-page #playerFilter {
     width: 80%;
     padding: 10px;
     font-size: 1em;
@@ -31,18 +52,18 @@
     transition: border-color 0.3s;
 }
 
-#playerFilter:focus {
+.all-games-page #playerFilter:focus {
     border-color: #f39c12;
 }
 
 /* List styling */
-ul {
+.all-games-page ul {
     width: 100%;
     padding: 0;
     margin: 0;
 }
 
-li {
+.all-games-page li {
     padding: 15px;
     margin: 10px 0;
     border: 1px solid #ccc;
@@ -52,8 +73,10 @@ li {
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
 }
-
-li:hover {
+.games-list-container {
+    text-align: center;
+}
+.all-games-page li:hover {
     background-color: #f39c12;
     color: #1e1e2f;
     transform: scale(1.02);
@@ -61,11 +84,16 @@ li:hover {
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .games-list-container {
+    .all-games-page .games-list-container {
         width: 90%;
     }
 
-    #playerFilter {
+    .all-games-page #playerFilter {
         width: 95%;
     }
+}
+
+
+.all-games-page label {
+    color: white;
 }

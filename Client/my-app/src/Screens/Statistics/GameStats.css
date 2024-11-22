@@ -46,10 +46,6 @@ h1 {
     margin: 0 auto;
 }
 
-/*video {*/
-/*    display: block;*/
-/*    margin: 0 auto;*/
-/*}*/
 
 table {
     margin: 0 auto; /* Centers the table */
@@ -60,4 +56,10 @@ table {
 tr {
     vertical-align: top; /* Aligns all cells consistently */
 
+}
+
+thead {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }

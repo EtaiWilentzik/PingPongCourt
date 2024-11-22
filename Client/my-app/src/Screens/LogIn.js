@@ -1,6 +1,6 @@
 import "./LogIn.css";
 import { useContext, useState } from "react";
-import { AuthContext } from "./AuthContext";
+import { AuthContext } from "../App/AuthContext";
 import { useNavigate } from "react-router-dom";
 const F=()=>{
     console.log(window.innerWidth);  // Logs the current width of the browser window
