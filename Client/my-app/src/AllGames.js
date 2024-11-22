@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import { AuthContext } from "./AuthContext";
+import {GamesList} from "./Charts/GamesList";
 
-const GamesList = () => {
-    const navigate = useNavigate();
+const AllGames = () => {
     const { token } = useContext(AuthContext); // Access the token from AuthContext
     const [games, setGames] = useState([]);
     const [filteredGames, setFilteredGames] = useState([]);
@@ -61,10 +60,6 @@ const GamesList = () => {
         }
     };
 
-    // Navigate to specific game details
-    const handleGameClick = (gameId) => {
-        navigate(`/allGames/${gameId}`);
-    };
 
     return (
         <div className="games-list-container">
@@ -79,21 +74,10 @@ const GamesList = () => {
                     placeholder="Enter player name"
                 />
             </div>
-            <ul>
-                {filteredGames.map((game) => (
-                    <li key={game.gameId} onClick={() => handleGameClick(game.gameId)}>
-                        <strong>Game ID:</strong> {game.gameId}
-                        <br />
-                        <strong>Date Played:</strong> {new Date(game.datePlayed).toLocaleString()}
-                        <br />
-                        <strong>Player Left Score:</strong> {game.playerLeft.score}
-                        <br />
-                        <strong>Player Right Score:</strong> {game.playerRight.score}
-                    </li>
-                ))}
-            </ul>
+            <GamesList list={filteredGames} />
+
         </div>
     );
 };
 
-export default GamesList;
+export default AllGames;

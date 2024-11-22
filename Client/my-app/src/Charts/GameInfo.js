@@ -17,30 +17,26 @@ const PlayerStats = ({ dataSets }) => {
             <div className="navigable-chart">
                 <button className="arrow" onClick={() => navigatePlayer('left')}>{"<"}</button>
                 <div>
-                    <h3>Player {currentPlayerIndex + 1} Stats</h3>
-                    <p>Average Speed: {dataSets[currentPlayerIndex].avgSpeed}</p>
-                    <p>Longest Points Rally: {dataSets[currentPlayerIndex].longestPointsRally}</p>
-                    {/* Add more player-specific metrics here */}
+                    <h3>{dataSets[currentPlayerIndex].name} Stats</h3>
+                    <p>Points: {dataSets[currentPlayerIndex].points}</p>
+                    <p>Aces: {dataSets[currentPlayerIndex].aces}</p>
+                    <p>Fastest Ball Speed: {dataSets[currentPlayerIndex].fastestBallSpeed} km/h</p>
                 </div>
-
                 <button className="arrow" onClick={() => navigatePlayer('right')}>{">"}</button>
             </div>
         </div>
     );
 };
 
-export const GameInfo = ({gameStats, playerStats}) => {
+export const GameInfo = ({ gameStats, playerStats }) => {
     return (
         <div className="top-right-component">
             <div className="game-stats">
                 <h3>Game Statistics</h3>
-                <p>Longest Rally: {gameStats.longestRally}</p>
-                <p>Number of Points: {gameStats.numberOfPoints}</p>
-                <p>Result: {gameStats.result}</p>
-                <p>Time: {gameStats.time}</p>
+                <p>Max Hits in Game: {gameStats.maxHitsInGame}</p>
+                <p>Average Hits in Game: {gameStats.averageHitsInGame}</p>
             </div>
             <PlayerStats dataSets={playerStats} />
         </div>
     );
 };
-
