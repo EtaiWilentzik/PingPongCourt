@@ -1,26 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "./AuthContext";
 
 const GamesList = () => {
     const navigate = useNavigate();
-
-    // Dummy Data
-    const dummyGames = Array.from({ length: 20 }, (_, index) => ({
-        id: index + 1,
-        name: `Game ${index + 1}`,
-        date: `2024-11-${(index % 30) + 1}`, // Spread dates across the month
-        players: [
-            "Alice",
-            "Bob",
-            "Charlie",
-            "David",
-            "Eve",
-        ].slice(0, (index % 5) + 1), // Vary number of players per game
-    }));
-
-    const [games] = useState(dummyGames);
-    const [filteredGames, setFilteredGames] = useState(dummyGames);
+    const { token } = useContext(AuthContext); // Access the token from AuthContext
+    const [games, setGames] = useState([]);
+    const [filteredGames, setFilteredGames] = useState([]);
     const [playerFilter, setPlayerFilter] = useState("");
+
+    useEffect(() => {
+        const fetchGames = async () => {
+            if (!token) {
+                console.error("No token available");
+                return;
+            }
+
+            try {
+                const response = await fetch("http://localhost:3000/games/allGames", {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Accept-Encoding": "gzip, deflate",
+                    },
+                });
+
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setGames(data.data); // Assuming `data` contains the games array
+                    setFilteredGames(data.data);
+                } else {
+                    console.error("Failed to fetch games", response.status);
+                }
+            } catch (error) {
+                console.error("Error fetching games:", error);
+            }
+        };
+
+        fetchGames();
+    }, [token]);
 
     // Filter games by player
     const handleFilterChange = (e) => {
@@ -32,9 +51,11 @@ const GamesList = () => {
         } else {
             setFilteredGames(
                 games.filter((game) =>
-                    game.players.some((player) =>
-                        player.toLowerCase().includes(playerName.toLowerCase())
-                    )
+                    Object.values(game.playerLeft)
+                        .concat(Object.values(game.playerRight))
+                        .some((player) =>
+                            String(player).toLowerCase().includes(playerName.toLowerCase())
+                        )
                 )
             );
         }
@@ -46,7 +67,7 @@ const GamesList = () => {
     };
 
     return (
-        <div className="games-list-container" style={{ padding: "20px",color:'white' , width: '60%', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+        <div className="games-list-container">
             <h1>Games List</h1>
             <div>
                 <label htmlFor="playerFilter">Filter by Player: </label>
@@ -58,22 +79,16 @@ const GamesList = () => {
                     placeholder="Enter player name"
                 />
             </div>
-            <ul style={{ listStyle: "none", padding: 0 }}>
+            <ul>
                 {filteredGames.map((game) => (
-                    <li
-                        key={game.id}
-                        onClick={() => handleGameClick(game.id)}
-                        style={{
-                            padding: "10px",
-                            margin: "5px 0",
-                            border: "1px solid #ccc",
-                            borderRadius: "5px",
-                            cursor: "pointer",
-                        }}
-                    >
-                        <strong>{game.name}</strong> - {game.date}
+                    <li key={game.gameId} onClick={() => handleGameClick(game.gameId)}>
+                        <strong>Game ID:</strong> {game.gameId}
                         <br />
-                        Players: {game.players.join(", ")}
+                        <strong>Date Played:</strong> {new Date(game.datePlayed).toLocaleString()}
+                        <br />
+                        <strong>Player Left Score:</strong> {game.playerLeft.score}
+                        <br />
+                        <strong>Player Right Score:</strong> {game.playerRight.score}
                     </li>
                 ))}
             </ul>
