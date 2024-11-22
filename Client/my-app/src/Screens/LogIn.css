@@ -2,8 +2,8 @@
 /*  !*background-color: blanchedalmond;*!*/
 
 /*}*/
-.aaaa{
-    /*background-color: blanchedalmond;*/
+.aaaa {
+  /*background-color: blanchedalmond;*/
 }
 
 /*#right {*/
@@ -15,19 +15,14 @@
   padding-top: 10rem;
 }
 
-
 /*.full-img {*/
 /*height: auto;*/
 /*  !*width: 100%;*!*/
 /*  !*object-fit: cover; !* Ensures the image covers the entire div without distortion *!*!*/
 /*}*/
 
-
-
-
-
-body{
-  background-color:#040426;
+body {
+  background-color: #040426;
 }
 
 .neon-div-2 {
@@ -39,12 +34,12 @@ body{
 
   /* Neon Glow Effect with Futuristic Colors */
   box-shadow:
-      0 0 15px rgba(0, 255, 255, 0.7),  /* Neon cyan */
-      0 0 30px rgba(0, 255, 255, 0.7),  /* Neon cyan */
-      0 0 45px rgba(255, 0, 255, 0.7),  /* Neon magenta */
-      0 0 60px rgba(0, 255, 0, 0.7),    /* Neon green */
-      0 0 80px rgba(255, 0, 255, 0.8),  /* Stronger neon magenta */
-      0 0 100px rgba(0, 0, 255, 0.7);   /* Neon blue */
+    0 0 15px rgba(0, 255, 255, 0.7),
+    /* Neon cyan */ 0 0 30px rgba(0, 255, 255, 0.7),
+    /* Neon cyan */ 0 0 45px rgba(255, 0, 255, 0.7),
+    /* Neon magenta */ 0 0 60px rgba(0, 255, 0, 0.7),
+    /* Neon green */ 0 0 80px rgba(255, 0, 255, 0.8),
+    /* Stronger neon magenta */ 0 0 100px rgba(0, 0, 255, 0.7); /* Neon blue */
 
   /* Pulsing Neon Animation */
   animation: futuristic-glow-2 2.5s ease-in-out infinite alternate;

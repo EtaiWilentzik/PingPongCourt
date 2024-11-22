@@ -1,26 +1,28 @@
 /* Container to center the text horizontally and vertically */
 .moving-text-container {
-    display: flex;
-    justify-content: center;  /* Center horizontally */
-    align-items: center;      /* Center vertically */
-    font-size: 5rem;
-    overflow: hidden;         /* Hide overflow */
-    position: relative;       /* Ensure container stays in place */
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  font-size: 5rem;
+  overflow: hidden; /* Hide overflow */
+  position: relative; /* Ensure container stays in place */
 }
 
 /* The text itself */
 .moving-text {
-    white-space: nowrap;      /* Prevent text from wrapping */
-    display: inline-block;
-    animation: marquee 100s linear infinite;  /* Apply the marquee effect */
+  white-space: nowrap; /* Prevent text from wrapping */
+  display: inline-block;
+  animation: marquee 100s linear infinite; /* Apply the marquee effect */
 }
 
 /* Animation that moves the text */
 @keyframes marquee {
-    from {
-        transform: translateX(100%);  /* Start from the right edge of the container */
-    }
-    to {
-        transform: translateX(-50%); /* Move to the left edge and beyond */
-    }
+  from {
+    transform: translateX(
+      100%
+    ); /* Start from the right edge of the container */
+  }
+  to {
+    transform: translateX(-50%); /* Move to the left edge and beyond */
+  }
 }

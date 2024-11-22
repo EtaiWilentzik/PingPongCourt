@@ -1,33 +1,33 @@
 .bar-chart {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    /*height: 200px;*/
-    /*background-color: white;*/
-    /*padding: 10px;*/
-    /*border: 1px solid black;*/
-    height: 100%;
-    width: 40%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  /*height: 200px;*/
+  /*background-color: white;*/
+  /*padding: 10px;*/
+  /*border: 1px solid black;*/
+  height: 100%;
+  width: 40%;
 }
 
 .bar-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
 }
 
 .bar {
-    width: 20px;
-    background-color: yellow;
-    transition: height 0.7s ease;
+  width: 20px;
+  background-color: yellow;
+  transition: height 0.7s ease;
 }
 
 .bar-label {
-    /*margin-top: 5px;*/
-    color: yellow;
-    font-size: 40px;
+  /*margin-top: 5px;*/
+  color: yellow;
+  font-size: 40px;
 }
 h2 {
-    color: yellow;
+  color: yellow;
 }
