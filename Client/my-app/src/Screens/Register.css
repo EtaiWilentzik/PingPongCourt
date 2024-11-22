@@ -7,11 +7,11 @@
 
   /* Neon Glow Effect with Mixed Colors */
   box-shadow:
-      0 0 10px rgba(0, 255, 255, 0.7),  /* Neon blue glow */
-      0 0 20px rgba(0, 255, 255, 0.7),  /* Neon blue glow */
-      0 0 40px rgba(0, 255, 0, 0.7),    /* Neon green glow */
-      0 0 80px rgba(255, 165, 0, 0.7),  /* Neon orange glow */
-      0 0 100px rgba(255, 165, 0, 0.8); /* Stronger neon orange glow */
+    0 0 10px rgba(0, 255, 255, 0.7),
+    /* Neon blue glow */ 0 0 20px rgba(0, 255, 255, 0.7),
+    /* Neon blue glow */ 0 0 40px rgba(0, 255, 0, 0.7),
+    /* Neon green glow */ 0 0 80px rgba(255, 165, 0, 0.7),
+    /* Neon orange glow */ 0 0 100px rgba(255, 165, 0, 0.8); /* Stronger neon orange glow */
 
   /* Pulsing Neon Animation */
   animation: neon-glow 2s ease-in-out infinite alternate;
@@ -63,17 +63,14 @@
   border-radius: 0 20px 20px 0; /* Apply rounding to the input field */
 }
 
-#register{
+#register {
   color: white;
 }
 
 .center-content {
-    width: 75%; /* Adjusted width */
-    margin-left: 10%;
-
-
+  width: 75%; /* Adjusted width */
+  margin-left: 10%;
 }
-
 
 /*#right{*/
 /*  height:50vh;*/

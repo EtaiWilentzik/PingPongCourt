@@ -1,14 +1,14 @@
 #notfound {
-    background-image: url("../../public/ErrorRoute.jpg"); /* Adjust the path as needed */
-    background-size: cover; /* Ensures the image covers the entire div */
-    background-position: center; /* Centers the background image */
-    position: fixed; /* Uses fixed positioning relative to the viewport */
-    top: 25%; /* Centers the div vertically */
-    left: 25%; /* Centers the div horizontally */
-    height: 50vh; /* 50% of the viewport height */
-    width: 50vw; /* 50% of the viewport width */
-    display: flex;
-    justify-content: center; /* Center content horizontally */
-    align-items: center; /* Center content vertically */
-    text-align: center; /* Ensures text within is centered */
+  background-image: url("../../public/ErrorRoute.jpg"); /* Adjust the path as needed */
+  background-size: cover; /* Ensures the image covers the entire div */
+  background-position: center; /* Centers the background image */
+  position: fixed; /* Uses fixed positioning relative to the viewport */
+  top: 25%; /* Centers the div vertically */
+  left: 25%; /* Centers the div horizontally */
+  height: 50vh; /* 50% of the viewport height */
+  width: 50vw; /* 50% of the viewport width */
+  display: flex;
+  justify-content: center; /* Center content horizontally */
+  align-items: center; /* Center content vertically */
+  text-align: center; /* Ensures text within is centered */
 }

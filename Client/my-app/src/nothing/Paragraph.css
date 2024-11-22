@@ -12,9 +12,9 @@
   width: 100%;
   z-index: 101; /* Ensure the fixed element stays on top */
 }
-#scrollspyHeading3{
+#scrollspyHeading3 {
   color: gold;
-    position: relative;
+  position: relative;
   z-index: 1; /* Set a higher z-index than the video */
 }
 /*.av {*/
@@ -27,5 +27,4 @@
   position: relative;
   z-index: 2; /* Make sure the text is above the video */
   padding-left: 10vh;
-
 }

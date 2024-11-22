@@ -1,99 +1,99 @@
 /* Container styling */
 .all-games-page .games-list-container {
-    background-color: #1e1e2f; /* Dark background */
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px auto;
-    width: 60%;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+  background-color: #1e1e2f; /* Dark background */
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px auto;
+  width: 60%;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 /* Centering text in the table and headlines */
 .all-games-page table {
-    width: 100%; /* Adjust to your preference */
-    text-align: center;
-    border-collapse: collapse;
+  width: 100%; /* Adjust to your preference */
+  text-align: center;
+  border-collapse: collapse;
 }
 
-.all-games-page th, .all-games-page td {
-    text-align: center; /* Centers both header and cell text */
-    padding: 10px;
-    border: 1px solid #ccc;
+.all-games-page th,
+.all-games-page td {
+  text-align: center; /* Centers both header and cell text */
+  padding: 10px;
+  border: 1px solid #ccc;
 }
 
 .all-games-page th {
-    font-weight: bold;
-    background-color: #12b7f3; /* Optional: Adjust for headline styling */
-    color: rgba(255, 255, 255, 0.77);
+  font-weight: bold;
+  background-color: #12b7f3; /* Optional: Adjust for headline styling */
+  color: rgba(255, 255, 255, 0.77);
 }
-
-
 
 /* Header styling */
 .all-games-page .games-list-container h1 {
-    font-size: 2em;
-    margin-bottom: 20px;
-    color: #f39c12;
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: #f39c12;
 }
 
 /* Filter input styling */
 .all-games-page #playerFilter {
-    width: 80%;
-    padding: 10px;
-    font-size: 1em;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    outline: none;
-    transition: border-color 0.3s;
+  width: 80%;
+  padding: 10px;
+  font-size: 1em;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  outline: none;
+  transition: border-color 0.3s;
 }
 
 .all-games-page #playerFilter:focus {
-    border-color: #f39c12;
+  border-color: #f39c12;
 }
 
 /* List styling */
 .all-games-page ul {
-    width: 100%;
-    padding: 0;
-    margin: 0;
+  width: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 .all-games-page li {
-    padding: 15px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #2c2c3d;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
+  padding: 15px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #2c2c3d;
+  color: white;
+  cursor: pointer;
+  transition:
+    background-color 0.3s,
+    transform 0.2s;
 }
 .games-list-container {
-    text-align: center;
+  text-align: center;
 }
 .all-games-page li:hover {
-    background-color: #f39c12;
-    color: #1e1e2f;
-    transform: scale(1.02);
+  background-color: #f39c12;
+  color: #1e1e2f;
+  transform: scale(1.02);
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
-    .all-games-page .games-list-container {
-        width: 90%;
-    }
+  .all-games-page .games-list-container {
+    width: 90%;
+  }
 
-    .all-games-page #playerFilter {
-        width: 95%;
-    }
+  .all-games-page #playerFilter {
+    width: 95%;
+  }
 }
 
-
 .all-games-page label {
-    color: white;
+  color: white;
 }

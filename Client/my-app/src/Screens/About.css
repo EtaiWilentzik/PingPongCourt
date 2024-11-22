@@ -3,25 +3,27 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+  /*background: linear-gradient(135deg, #0d0d0d, #1a1a1a);*/
   color: #fff;
   padding: 20px;
 }
-
+.input-group {
+  justify-content: center;
+}
 /*.about-content {*/
 /*  max-width: 800px;*/
 /*  text-align: center;*/
 
 /*}*/
 
-.Header{
+.Header {
   z-index: 2;
-   font-family: "Major Mono Display", serif;
-   font-size: 3rem;
+  font-family: "Major Mono Display", serif;
+  font-size: 3rem;
   padding-top: 20rem;
   color: white;
 }
-header{
+header {
   /*background: linear-gradient(135deg, rgba(65, 105, 225, 0.7), rgba(0, 0, 0, 0.9));*/
   height: 100vh;
 }
@@ -29,7 +31,11 @@ header{
   font-size: 3rem;
   font-weight: bold;
   color: #00ffcc;
-  text-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc, 0 0 20px #00ffcc, 0 0 30px #00ffcc;
+  text-shadow:
+    0 0 5px #00ffcc,
+    0 0 10px #00ffcc,
+    0 0 20px #00ffcc,
+    0 0 30px #00ffcc;
   margin-bottom: 20px;
 }
 
@@ -41,18 +47,22 @@ header{
 .highlight {
   color: #ff4df6;
   font-weight: bold;
-  text-shadow: 0 0 5px #ff4df6, 0 0 10px #ff4df6;
+  text-shadow:
+    0 0 5px #ff4df6,
+    0 0 10px #ff4df6;
 }
 
 .about-content:hover .neon-title {
-  text-shadow: 0 0 15px #00ffcc, 0 0 25px #00ffcc, 0 0 40px #00ffcc;
+  text-shadow:
+    0 0 15px #00ffcc,
+    0 0 25px #00ffcc,
+    0 0 40px #00ffcc;
 }
 
 /*@media (max-width: 768px) {*/
 /*  .neon-title {*/
 /*    font-size: 2.5rem;*/
 /*  }*/
-  .about-text {
-    font-size: 1rem;
-  }
-
+.about-text {
+  font-size: 1rem;
+}
