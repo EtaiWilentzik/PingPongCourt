@@ -118,8 +118,21 @@ Authorization: Bearer {{token1}}
 get {{host}}/games//history/against-player?player_name={{player2WithoutQuoutes}}
 Authorization: Bearer {{token1}}
 ####
+post {{host}}/games/startGame
+Authorization: Bearer {{token1}}
+Content-Type: application/json
+
+{
+        "playerLeft" : {{player1}},
+        "playerRight": {{player2}},
+        "starter":
+
+}
 
 
+
+
+### 
 ###
 # {
 #     "scores": {
