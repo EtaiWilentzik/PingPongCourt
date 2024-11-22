@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { PieChart } from "./Charts/PieChart";
-import { BarChart } from "./Charts/BarChart";
-import { GameInfo } from "./Charts/GameInfo";
+import { PieChart } from "../../Components/PieChart";
+import { BarChart } from "../../Components/BarChart";
+import { GameInfo } from "../../Components/GameInfo";
 import "./GameStats.css";
-import { AuthContext } from "./AuthContext";
+import { AuthContext } from "../../App/AuthContext";
 
-const NavigableChart = ({ dataSets, children }) => {
+const NavigableChart = ({ dataSets, playerNames, children }) => {
     const [currentStatIndex, setCurrentStatIndex] = useState(0);
 
     const navigate = (direction) => {
@@ -19,6 +19,7 @@ const NavigableChart = ({ dataSets, children }) => {
     return (
         <div className="navigable-chart">
             <button className="arrow" onClick={() => navigate('left')}>{"<"}</button>
+            <h2>{playerNames[currentStatIndex]}</h2>
             <>
                 {React.cloneElement(children, { values: dataSets[currentStatIndex] })}
             </>
@@ -72,13 +73,13 @@ export function GameStats({ gameId }) {
 
     const playerStatsData = [
         {
-            name: "Player Left",
+            name: gameData.player_left_name,
             points: gameData.player_left.points,
             aces: gameData.player_left.aces,
             fastestBallSpeed: gameData.player_left.fastestBallSpeed,
         },
         {
-            name: "Player Right",
+            name: gameData.player_right_name,
             points: gameData.player_right.points,
             aces: gameData.player_right.aces,
             fastestBallSpeed: gameData.player_right.fastestBallSpeed,
@@ -87,17 +88,13 @@ export function GameStats({ gameId }) {
 
     return (
         <div className="stats">
+            <h1>
+                {gameData.player_left_name} {gameData.player_left.points} : {gameData.player_right.points} {gameData.player_right_name}
+            </h1>
             <table>
-                <thead>
-                <h1>
-                    {gameData.player_left_name } {gameData.player_left.points} : {gameData.player_right.points} {gameData.player_right_name}
-                </h1>
-                </thead>
-
                 <tbody>
                 <tr>
                     <td className="stats-column">
-                        <h2>Headline 1</h2>
                         <div className="pie-charts">
                             <PieChart
                                 name={gameData.player_left_name}
@@ -112,26 +109,23 @@ export function GameStats({ gameId }) {
                         </div>
                     </td>
                     <td className="stats-column">
-                        <h2>Headline 2</h2>
-                        <GameInfo gameStats={gameStats} playerStats={playerStatsData}/>
+                            <GameInfo gameStats={gameStats} playerStats={playerStatsData} />
                     </td>
                 </tr>
                 <tr>
                     <td className="stats-column">
-                        <h2>Headline 3</h2>
                         <NavigableChart
                             dataSets={[gameData.player_left.depthOfHits, gameData.player_right.depthOfHits]}
+                            playerNames={[gameData.player_left_name, gameData.player_right_name]}
                         >
-                            <BarChart/>
+                            <BarChart />
                         </NavigableChart>
                     </td>
                     <td className="stats-column">
-                        <h2>Headline 4</h2>
                         <div>
                             <h2>My Video</h2>
-                            <video controls width="600">
-                                <source src="video.mp4" type="video/mp4"/>
-                                Your browser does not support the video tag.
+                            <video id="videoPlayer" width="650" controls muted="muted" autoPlay>
+                                <source src={`http://localhost:3000/games/video/${gameId}`} type="video/mp4" />
                             </video>
                         </div>
                     </td>
