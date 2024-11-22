@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import { AuthContext } from "./AuthContext";
-import { GamesList } from "./Charts/GamesList";
+import { AuthContext } from "../App/AuthContext";
+import { GamesList } from "../Components/GamesList";
 import './AllGames.css';
 
 const AllGames = () => {

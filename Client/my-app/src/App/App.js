@@ -16,6 +16,7 @@ function App() {
                 <Route path="/score" element={<Screen screenType={SCREEN_TYPE.SCORE} />} />
                 <Route path="/statistics" element={<PrivateRoute><Screen screenType={SCREEN_TYPE.STATISTICS} /></PrivateRoute>} />
                 <Route path="/allGames" element={<PrivateRoute><Screen screenType={SCREEN_TYPE.ALL_GAMES} /></PrivateRoute>} />
+                <Route path="/addGame" element={<PrivateRoute><Screen screenType={SCREEN_TYPE.ADD_GAME} /></PrivateRoute>} />
                 <Route
                     path="/allGames/:gameId"
                     element={

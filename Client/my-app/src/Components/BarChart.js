@@ -32,7 +32,6 @@ export const BarChart = ({ values }) => {
 
     return (
         <>
-            <h2>Ball Depth</h2>
             <Bar data={data} options={options} />
         </>
     );

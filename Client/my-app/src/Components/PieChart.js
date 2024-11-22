@@ -6,6 +6,9 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export const PieChart = ({ name, values, labels }) => {
+    // Correctly initialize the headline
+    const [headline, setHead] = React.useState(name ? `${name}'s faults` : 'My faults');
+
     const data = {
         labels: labels,
         datasets: [
@@ -28,7 +31,7 @@ export const PieChart = ({ name, values, labels }) => {
 
     return (
         <div className="chart-container">
-            <h2>{name}</h2>
+            <h2>{headline}</h2>
             <Pie data={data} options={options} />
         </div>
     );

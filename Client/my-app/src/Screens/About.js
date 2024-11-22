@@ -1,5 +1,5 @@
 import "./About.css";
-import {Nav} from "./NavBar";
+import {Nav} from "../Components/NavBar";
 import { motion } from 'framer-motion';
 
 const About = () => {

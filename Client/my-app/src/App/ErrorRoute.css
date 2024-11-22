@@ -1,5 +1,5 @@
 #notfound {
-    background-image: url("../public/ErrorRoute.jpg"); /* Adjust the path as needed */
+    background-image: url("../../public/ErrorRoute.jpg"); /* Adjust the path as needed */
     background-size: cover; /* Ensures the image covers the entire div */
     background-position: center; /* Centers the background image */
     position: fixed; /* Uses fixed positioning relative to the viewport */

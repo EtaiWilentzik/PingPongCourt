@@ -2,11 +2,15 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import './GamesList.css';
 
-export function GamesList({ list }) {
+export function GamesList({ list, isRest = false }) {
     const navigate = useNavigate();
 
     const handleGameClick = (gameId) => {
         navigate(`/allGames/${gameId}`);
+    };
+
+    const handleAllGamesClick = () => {
+        navigate('/allGames');
     };
 
     return (
@@ -34,6 +38,16 @@ export function GamesList({ list }) {
                     <td className="games-list-cell">{game.playerRight.name}</td>
                 </tr>
             ))}
+            {isRest && (
+                <tr
+                    className="games-list-row all-games-row"
+                    onClick={handleAllGamesClick}
+                >
+                    <td className="games-list-cell" colSpan="5">
+                        To all games
+                    </td>
+                </tr>
+            )}
             </tbody>
         </table>
     );
