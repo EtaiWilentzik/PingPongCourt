@@ -1,32 +1,33 @@
 .top-right-component {
-    grid-template-rows: auto auto; /* Allows flexible sizing */
-    gap: 5px; /* Reduce spacing */
+  grid-template-rows: auto auto; /* Allows flexible sizing */
+  gap: 5px; /* Reduce spacing */
 }
 
-.game-stats, .player-stats {
-    padding: 5px; /* Reduce padding */
-    font-size: 1rem; /* Adjust font size for better fit */
+.game-stats,
+.player-stats {
+  padding: 5px; /* Reduce padding */
+  font-size: 1rem; /* Adjust font size for better fit */
 }
 
-
-.game-stats h3, .player-stats h3 {
-    margin: 0;
-    font-size: 1.5rem;
-    color: #fff;
+.game-stats h3,
+.player-stats h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #fff;
 }
 
-.game-stats p, .player-stats p {
-    margin: 5px 0;
-    /*color: yellow;*/
+.game-stats p,
+.player-stats p {
+  margin: 5px 0;
+  /*color: yellow;*/
 }
 
 .player-stats .navigable-chart {
-    width: 100%;
+  width: 100%;
 }
-.game-stats p, .player-stats p {
-    margin: 5px 0;
-    /*color: yellow;*/
-    font-size: 1rem; /* Adjust as needed */
+.game-stats p,
+.player-stats p {
+  margin: 5px 0;
+  /*color: yellow;*/
+  font-size: 1rem; /* Adjust as needed */
 }
-
-

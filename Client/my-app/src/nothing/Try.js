@@ -1,5 +1,5 @@
-import React from 'react';
-import './Try.css'; // Ensure to create this CSS file
+import React from "react";
+import "./Try.css"; // Ensure to create this CSS file
 
 const Try = () => {
   return (

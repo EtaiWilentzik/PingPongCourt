@@ -13,7 +13,8 @@
 /*    7px 7px 0px rgba(0, 0, 0, 0.2);*/
 /*}*/
 h1 {
-  font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;
+  font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic,
+    "AppleGothic", sans-serif;
   font-size: 92px;
   padding: 80px 50px;
   text-align: center;
@@ -23,7 +24,7 @@ h1 {
   &.elegantshadow {
     color: #131313;
     background-color: #e7e5e4;
-    letter-spacing: .15em;
+    letter-spacing: 0.15em;
     text-shadow:
       1px -1px 0 #767676,
       -1px 2px 1px #737272,
@@ -58,7 +59,7 @@ h1 {
   &.deepshadow {
     color: #e0dfdc;
     background-color: #333;
-    letter-spacing: .1em;
+    letter-spacing: 0.1em;
     text-shadow:
       0 -1px 0 #fff,
       0 1px 0 #2e2e2e,
@@ -81,7 +82,7 @@ h1 {
   &.insetshadow {
     color: #202020;
     background-color: #2d2d2d;
-    letter-spacing: .1em;
+    letter-spacing: 0.1em;
     text-shadow:
       -1px -1px 1px #111,
       2px 2px 1px #363636;
@@ -89,14 +90,12 @@ h1 {
   &.retroshadow {
     color: #2c2c2c;
     background-color: #d5d5d5;
-    letter-spacing: .05em;
+    letter-spacing: 0.05em;
     text-shadow:
       4px 4px 0px #d5d5d5,
       7px 7px 0px rgba(0, 0, 0, 0.2);
   }
 }
-
-
 
 /*this is another one */
 body {
