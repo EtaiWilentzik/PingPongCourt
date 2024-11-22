@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "./AuthContext";
-import {GamesList} from "./Charts/GamesList";
+import { GamesList } from "./Charts/GamesList";
+import './AllGames.css';
 
 const AllGames = () => {
     const { token } = useContext(AuthContext); // Access the token from AuthContext
@@ -23,7 +24,6 @@ const AllGames = () => {
                         "Accept-Encoding": "gzip, deflate",
                     },
                 });
-
 
                 if (response.ok) {
                     const data = await response.json();
@@ -60,9 +60,8 @@ const AllGames = () => {
         }
     };
 
-
     return (
-        <div className="games-list-container">
+        <div className="all-games-page games-list-container center">
             <h1>Games List</h1>
             <div>
                 <label htmlFor="playerFilter">Filter by Player: </label>
@@ -75,7 +74,6 @@ const AllGames = () => {
                 />
             </div>
             <GamesList list={filteredGames} />
-
         </div>
     );
 };

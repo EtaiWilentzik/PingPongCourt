@@ -24,9 +24,11 @@
 }
 
 .games-list-row:hover {
-    /*background-color: #f39c12;*/
-    transform: scale(1.02);
+    background-color: #3e3e4f; /* Slightly different shade */
+    transform: scale(1.05); /* Slightly larger scale */
+    transition: background-color 0.3s, transform 0.2s;
 }
+
 
 .games-list-cell {
     padding: 10px;
