@@ -97,3 +97,7 @@
 .all-games-page label {
   color: white;
 }
+
+.filter-label {
+  margin-right: 15px;
+}

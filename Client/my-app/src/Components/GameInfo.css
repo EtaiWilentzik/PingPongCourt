@@ -1,18 +1,21 @@
 .top-right-component {
   grid-template-rows: auto auto; /* Allows flexible sizing */
   gap: 5px; /* Reduce spacing */
+  font-size: 60px;
 }
-
+h3 {
+  font-size: 80px;
+}
 .game-stats,
 .player-stats {
   padding: 5px; /* Reduce padding */
-  font-size: 1rem; /* Adjust font size for better fit */
+  /*font-size: 1rem; !* Adjust font size for better fit *!*/
 }
 
 .game-stats h3,
 .player-stats h3 {
   margin: 0;
-  font-size: 1.5rem;
+  /*font-size: 1.5rem;*/
   color: #fff;
 }
 
@@ -29,5 +32,5 @@
 .player-stats p {
   margin: 5px 0;
   /*color: yellow;*/
-  font-size: 1rem; /* Adjust as needed */
+  /*font-size: 1rem; !* Adjust as needed *!*/
 }

@@ -141,8 +141,8 @@ export function GameStats({ gameId }) {
             <td className="stats-column">
               <div>
                 <video
+                  className="large-video"
                   id="videoPlayer"
-                  width="650"
                   controls
                   muted="muted"
                   autoPlay

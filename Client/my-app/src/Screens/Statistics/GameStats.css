@@ -61,3 +61,8 @@ thead {
   align-items: center;
   text-align: center;
 }
+.large-video {
+  width: 100%; /* Makes the video responsive */
+  max-width: 1000px; /* Set a maximum width */
+  height: auto; /* Keeps the aspect ratio intact */
+}

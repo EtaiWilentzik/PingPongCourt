@@ -6,10 +6,13 @@
   /*background-color: #f5f5f5;*/
   font-family: Arial, sans-serif;
   color: rgba(255, 255, 255, 0.96);
-  margin-top: 80px;
+  margin-top: 60px;
   text-align: center;
+  /*margin-bottom: 60px;*/
 }
-
+.headline {
+  margin-bottom: 50px;
+}
 .stats-column {
   padding: 20px;
   vertical-align: middle;
