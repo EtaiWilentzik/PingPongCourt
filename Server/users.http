@@ -4,7 +4,7 @@
 @token1=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6IkV0YWkiLCJ1c2VySWQiOiI2NzNkZjM2M2RmNmJkMjI5MTU4MDYzMmMiLCJpYXQiOjE3MzIxMTMyOTJ9.kFcLUpKElfgc-tYtqecofdL1sosaMD3zvkNeB5TJoog
 @token2=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6IkRhbmllbCIsInVzZXJJZCI6IjY3M2RmMzc1ZGY2YmQyMjkxNTgwNjMyZiIsImlhdCI6MTczMjExMzMxNH0.YoUlHbaaK1r8Pmhm1WGEMGfjxuqGh6_2OFMY_iZl-7A
 @player1="Etai"
-@player2="Daniel"
+@player2="Adi"
 @player2WithoutQuoutes=Daniel
 
 @user1id=673df363df6bd2291580632c
@@ -107,6 +107,10 @@ Authorization: Bearer {{token1}}
 get {{host}}/games/allGames
 Authorization: Bearer {{token1}}
 
+
+###
+get {{host}}/users/otherUsers
+Authorization: Bearer {{token1}}
 
 
 

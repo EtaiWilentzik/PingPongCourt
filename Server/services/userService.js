@@ -68,4 +68,30 @@ const getUserStats = async ({ userName }) => {
   const data = { totalWins, totalLosses, totalGames, winLossRatio };
   return Respond.createResponse(true, 200, data, "return stats correctly");
 };
-module.exports = { register, login, getUserStats };
+const otherUsers = async (currentUserid) => {
+  try {
+    const otherUsers = await userSchema.User.find({ _id: { $ne: currentUserid } });
+
+    // Map over the users to extract and transform the necessary fields
+    const x = otherUsers.map((user) => {
+      const userName = user.name; // Extract user name
+      const userId = user._id; // Extract user ID
+      return {
+        userName,
+        userId,
+      };
+    });
+
+    console.log(x); // Log the transformed users array
+
+    // Return a success response with the transformed users
+    return Respond.createResponse(true, 200, x, "success");
+  } catch (error) {
+    console.error("Error in otherUsers function:", error);
+
+    // Return an error response if something goes wrong
+    return Respond.createResponse(false, 500, null, "other users function has a problem");
+  }
+};
+
+module.exports = { register, login, getUserStats, otherUsers };
