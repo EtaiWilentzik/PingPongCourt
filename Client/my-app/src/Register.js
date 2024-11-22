@@ -1,7 +1,9 @@
 import "./Register.css";
 import { useState } from "react";
+import {useNavigate, useNavigation} from "react-router-dom";
 
 const Register = () => {
+    const navigation = useNavigate()
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -20,8 +22,10 @@ const Register = () => {
 
             const data = await response.json();
             if (response.ok) {
-                setMessage("Registration successful! You can now log in.");
+                navigation("/login");
+                // setMessage("Registration successful! You can now log in.");
                 setError("");
+
             } else {
                 setError(data.message || "Failed to register.");
             }

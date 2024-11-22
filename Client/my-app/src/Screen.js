@@ -9,7 +9,7 @@ import { Nav } from "./NavBar";
 import { ErrorRoute } from "./ErrorRoute";
 import { StartGame } from "./StartGame";
 import { Stats } from "./Stats";
-import GamesList from "./GamesList";
+import AllGames from "./AllGames";
 import "./Screen.css";
 
 export const SCREEN_TYPE = Object.freeze({
@@ -40,7 +40,7 @@ export function Screen({ screenType, gameId }) {
                 {screenType === SCREEN_TYPE.START && <StartGame />}
                 {screenType === SCREEN_TYPE.STATISTICS && <Stats />}
                 {screenType === SCREEN_TYPE.ERROR && <ErrorRoute />}
-                {screenType === SCREEN_TYPE.ALL_GAMES && <GamesList />}
+                {screenType === SCREEN_TYPE.ALL_GAMES && <AllGames />}
                 {screenType === SCREEN_TYPE.GAME_STATS && <GameStats gameId={gameId} />}
             </div>
         </div>
