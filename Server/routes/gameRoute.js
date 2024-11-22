@@ -70,6 +70,7 @@ gameRouter.get("/history/against-player", authenticateToken, gameController.getH
 gameRouter.get("/allGames", authenticateToken, gameController.allGames);
 gameRouter.post("/stats", gameController.createGameAtEnd);
 gameRouter.get("/video", gameController.video);
+gameRouter.get("/personalStatistics", authenticateToken, gameController.personalStatistics);
 gameRouter.get("/:gameId", authenticateToken, authorizeGameAccess, gameController.getGame);
 gameRouter.post("/startGame", createServerFolder, uploadSingleVideo, addAbsolutePath, gameController.startGame);
 

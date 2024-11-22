@@ -189,6 +189,105 @@ const getGame = async (gameId) => {
   }
 };
 
+// const personalStatistics = async (userId) => {
+//   try {
+//     const user = await userSchema.User.findById(userId);
+//     const totalPoints = await getUserWinLoseScores(user._id);
+//     if (!totalPoints.success) {
+//       return totalPoints;
+//     }
+//     const return_obj = {
+//       stats: user.stats,
+//       totalWinPoints: totalPoints.data.totalWinPoints,
+//       totalLossPoints: totalPoints.data.totalLosePoints,
+//       lossReasonsSum: totalPoints.data.lossReasonsSum,
+//       depthOfHits: totalPoints.data.depthOfHits,
+//       lastFiveGames: totalPoints.data.lastFiveGames,
+//     };
+//     console.log("the return obj is ", return_obj);
+//     // }
+//     return Respond.createResponse(true, 200, return_obj, "successfully");
+//   } catch (error) {
+//     return error;
+//   }
+// };
+// const getUserWinLoseScores = async (userId) => {
+//   try {
+//     // Return all the games where the user participates
+//     const games = await gameSchema.Game.find({
+//       $or: [{ "players.playerLeft.userId": userId }, { "players.playerRight.userId": userId }],
+//     })
+//       .populate("players.playerLeft.userId", "name") // Populate left player's name
+//       .populate("players.playerRight.userId", "name") // Populate right player's name
+//       .sort({ datePlayed: -1 }); // Sort from newest to oldest.
+//     const lastFiveGames = getLastGames(games.slice(0, 5));
+//     if (games.length === 0) {
+//       return Respond.createResponse(false, 404, null, "No games found for the user");
+//     }
+//     let totalWinPoints = 0;
+//     let totalLosePoints = 0;
+//     let lossReasonsSum = [0, 0, 0, 0];
+//     let depthOfHits = [0, 0, 0, 0, 0, 0, 0, 0];
+//     let playerLossReason = [];
+//     let playerDepthOfHits = [];
+
+//     games.forEach((game) => {
+//       const leftPlayer = game.players.playerLeft;
+//       const rightPlayer = game.players.playerRight;
+//       const leftScore = leftPlayer.playerStats.points;
+//       const rightScore = rightPlayer.playerStats.points;
+//       const userIsLeft = leftPlayer.userId.toString() === userId.toString();
+//       const userIsRight = rightPlayer.userId.toString() === userId.toString();
+
+//       if (userIsLeft) {
+//         playerLossReason = leftPlayer.playerStats.lossReasons;
+//         playerDepthOfHits = leftPlayer.playerStats.depthOfHits;
+//       } else if (userIsRight) {
+//         playerLossReason = rightPlayer.playerStats.lossReasons;
+//         playerDepthOfHits = rightPlayer.playerStats.depthOfHits;
+//       }
+
+//       // Sum the player's loss_reason array
+//       playerLossReason.forEach((value, index) => {
+//         lossReasonsSum[index] += value;
+//       });
+//       playerDepthOfHits.forEach((value, index) => {
+//         depthOfHits[index] += value;
+//       });
+
+//       // Update scores based on the game result
+//       if (leftScore > rightScore) {
+//         if (userIsLeft) {
+//           totalWinPoints += leftScore;
+//           totalLosePoints += rightScore; // Adding opponent points as loss points
+//         } else if (userIsRight) {
+//           totalWinPoints += rightScore;
+//           totalLosePoints += leftScore;
+//         }
+//       } else if (rightScore > leftScore) {
+//         if (userIsRight) {
+//           totalWinPoints += rightScore;
+//           totalLosePoints += leftScore;
+//         } else if (userIsLeft) {
+//           totalWinPoints += leftScore;
+//           totalLosePoints += rightScore;
+//         }
+//       }
+//     });
+
+//     // Return the raw total scores
+//     return Respond.createResponse(
+//       true,
+//       200,
+//       { totalWinPoints, totalLosePoints, lossReasonsSum, depthOfHits, lastFiveGames },
+//       "Fetched user's win and lose scores successfully"
+//     );
+//   } catch (error) {
+//     console.error(error);
+//     return Respond.createResponse(false, 500, null, "An error occurred while fetching user scores");
+//   }
+// };
+
 const personalStatistics = async (userId) => {
   try {
     const user = await userSchema.User.findById(userId);
@@ -213,26 +312,36 @@ const personalStatistics = async (userId) => {
 };
 const getUserWinLoseScores = async (userId) => {
   try {
-    // Return all the games where the user participates
+    // Fetch games and populate user names
     const games = await gameSchema.Game.find({
       $or: [{ "players.playerLeft.userId": userId }, { "players.playerRight.userId": userId }],
-    }).sort({ datePlayed: -1 }); // Sort from the newest to the oldest.
+    })
+      .populate("players.playerLeft.userId", "name")
+      .populate("players.playerRight.userId", "name")
+      .sort({ datePlayed: -1 });
+
     const lastFiveGames = getLastGames(games.slice(0, 5));
+
     if (games.length === 0) {
       return Respond.createResponse(false, 404, null, "No games found for the user");
     }
+
     let totalWinPoints = 0;
     let totalLosePoints = 0;
     let lossReasonsSum = [0, 0, 0, 0];
     let depthOfHits = [0, 0, 0, 0, 0, 0, 0, 0];
 
     games.forEach((game) => {
+      let playerLossReason = [];
+      let playerDepthOfHits = [];
       const leftPlayer = game.players.playerLeft;
       const rightPlayer = game.players.playerRight;
       const leftScore = leftPlayer.playerStats.points;
       const rightScore = rightPlayer.playerStats.points;
-      const userIsLeft = leftPlayer.userId.toString() === userId.toString();
-      const userIsRight = rightPlayer.userId.toString() === userId.toString();
+
+      // Adjusted comparison using _id
+      const userIsLeft = leftPlayer.userId._id.toString() === userId.toString();
+      const userIsRight = rightPlayer.userId._id.toString() === userId.toString();
 
       if (userIsLeft) {
         playerLossReason = leftPlayer.playerStats.lossReasons;
@@ -246,6 +355,8 @@ const getUserWinLoseScores = async (userId) => {
       playerLossReason.forEach((value, index) => {
         lossReasonsSum[index] += value;
       });
+
+      // Sum the player's depthOfHits array
       playerDepthOfHits.forEach((value, index) => {
         depthOfHits[index] += value;
       });
@@ -254,7 +365,7 @@ const getUserWinLoseScores = async (userId) => {
       if (leftScore > rightScore) {
         if (userIsLeft) {
           totalWinPoints += leftScore;
-          totalLosePoints += rightScore; // Adding opponent points as loss points
+          totalLosePoints += rightScore;
         } else if (userIsRight) {
           totalWinPoints += rightScore;
           totalLosePoints += leftScore;
@@ -270,7 +381,6 @@ const getUserWinLoseScores = async (userId) => {
       }
     });
 
-    // Return the raw total scores
     return Respond.createResponse(
       true,
       200,
@@ -285,8 +395,8 @@ const getUserWinLoseScores = async (userId) => {
 
 const getLastGames = (games) => {
   return games.map((game) => {
-    const leftPlayerName = game.players.playerLeft.name;
-    const rightPlayerName = game.players.playerRight.name;
+    const leftPlayerName = game.players.playerLeft.userId.name;
+    const rightPlayerName = game.players.playerRight.userId.name;
     const leftPlayerScore = game.players.playerLeft.playerStats.points;
     const rightPlayerScore = game.players.playerRight.playerStats.points;
 
@@ -302,10 +412,16 @@ const getLastGames = (games) => {
 const allGames = async (userId) => {
   try {
     const user = await userSchema.User.findById(userId);
-
     const games = await gameSchema.Game.find({
-      $or: [{ "players.playerLeft.userId": user._id }, { "players.playerRight.userId": user._id }],
-    }).sort({ datePlayed: -1 });
+      $or: [{ "players.playerLeft.userId": userId }, { "players.playerRight.userId": userId }],
+    })
+      .populate("players.playerLeft.userId", "name") // Populate left player's name
+      .populate("players.playerRight.userId", "name") // Populate right player's name
+      .sort({ datePlayed: -1 });
+
+    // Log games to debug
+    console.log("Fetched Games:", JSON.stringify(games, null, 2));
+
     console.log(games);
     data = getLastGames(games);
     console.log(data);
