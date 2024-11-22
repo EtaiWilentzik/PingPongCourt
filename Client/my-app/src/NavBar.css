@@ -8,6 +8,7 @@
 #nav{
     background-color: black;
     height: 4rem;
+    margin-bottom: 30px;
 }
 #navbar {
     z-index: 1;
