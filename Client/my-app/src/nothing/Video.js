@@ -1,5 +1,5 @@
 import "./Video.css";
-import { Nav } from "../Components/NavBar";
+
 const Video = () => {
   return (
     <>
