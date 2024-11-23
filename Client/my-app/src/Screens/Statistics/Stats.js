@@ -69,6 +69,19 @@ export function Stats({ gameId }) {
                     name={undefined}
                     values={data.lossReasonsSum}
                     miss={true}
+                    options={{
+                      plugins: {
+                        legend: {
+                          labels: {
+                            font: {
+                              size: 12,
+                            },
+                          },
+                        },
+                      },
+                      maintainAspectRatio: false,
+                      aspectRatio: 1.5,
+                    }}
                   />
                 </div>
                 <div className="chart-container">
@@ -77,6 +90,19 @@ export function Stats({ gameId }) {
                     values={[data.stats.totalWins, data.stats.totalLosses]}
                     miss={false}
                     labels={["Wins", "Loses"]}
+                    options={{
+                      plugins: {
+                        legend: {
+                          labels: {
+                            font: {
+                              size: 12,
+                            },
+                          },
+                        },
+                      },
+                      maintainAspectRatio: false,
+                      aspectRatio: 1.5,
+                    }}
                   />
                 </div>
               </div>
@@ -98,8 +124,17 @@ export function Stats({ gameId }) {
                   The last bar shows your deepest shots.
                 </span>
               </h2>
-              <BarChart values={data.depthOfHits} />
+              <div className="bar-chart-container">
+                <BarChart
+                  values={data.depthOfHits}
+                  options={{
+                    maintainAspectRatio: false,
+                    responsive: true,
+                  }}
+                />
+              </div>
             </td>
+
             <td className="stats-column">
               <h2 className="last-games-headline">Last 5 games</h2>
               <div>

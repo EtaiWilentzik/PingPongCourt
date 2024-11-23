@@ -3,15 +3,8 @@
   display: table;
   width: 100%;
   border-collapse: collapse;
-  /*background-color: #f5f5f5;*/
   font-family: Arial, sans-serif;
   color: #333;
-
-  /*margin: 20px auto;*/
-  /*margin-top: 5%;*/
-  /*padding-top: 40px;*/
-  /*margin-top: 40px;*/
-
   margin-top: 80px;
   text-align: center;
 }
@@ -25,16 +18,12 @@
 
 h2 {
   font-size: 1.8rem;
-  /*color: #4caf50;*/
-
   margin-bottom: 10px;
 }
 
 h1 {
-  /*color: #4caf50;*/
   font-weight: bold;
-  font-size: 80px;
-
+  font-size: 2rem;
 }
 
 .pie-charts {
@@ -48,6 +37,11 @@ h1 {
   justify-content: center;
   align-items: center;
   margin: 0 auto;
+}
+
+.bar-chart {
+  transform: scale(0.8); /* Scale down the bar chart to 80% */
+  transform-origin: center; /* Ensure the scaling is centered */
 }
 
 table {
@@ -65,9 +59,9 @@ thead {
   align-items: center;
   text-align: center;
 }
+
 .large-video {
   width: 100%; /* Makes the video responsive */
   max-width: 1000px; /* Set a maximum width */
   height: auto; /* Keeps the aspect ratio intact */
-
 }
