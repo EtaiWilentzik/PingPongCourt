@@ -96,3 +96,28 @@ thead {
   opacity: 1;
   font-size: large;
 }
+
+.pie-charts {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+.last-games-headline {
+  font-size: 4rem;
+  color: #61dafb;
+}
+  .chart-container {
+    flex: 1; /* Ensures both charts take up equal width */
+    max-width: 400px; /* Set a maximum width to standardize size */
+    height: 400px; /* Fix the height for consistency */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 30px;
+  }
+  .chart-headline {
+    font-size: 24px;
+    color: #12b7f3; /* Matches other headlines */
+    margin-bottom: 10px; /* Space between the headline and the chart */
+    text-align: center; /* Center aligns the headline above the chart */
+  }

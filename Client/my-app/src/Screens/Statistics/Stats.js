@@ -64,18 +64,21 @@ export function Stats({ gameId }) {
           <tr>
             <td className="stats-column">
               <div className="pie-charts">
-                <PieChart
-                  name={undefined}
-                  values={data.lossReasonsSum}
-                  miss={true}
-                />
-
-                <PieChart
-                  name={undefined}
-                  values={[data.stats.totalWins, data.stats.totalLosses]}
-                  miss={false}
-                  labels={["Wins", "Loses"]}
-                />
+                <div className="chart-container">
+                  <PieChart
+                    name={undefined}
+                    values={data.lossReasonsSum}
+                    miss={true}
+                  />
+                </div>
+                <div className="chart-container">
+                  <PieChart
+                    name={undefined}
+                    values={[data.stats.totalWins, data.stats.totalLosses]}
+                    miss={false}
+                    labels={["Wins", "Loses"]}
+                  />
+                </div>
               </div>
             </td>
             <td className="stats-column">
@@ -98,7 +101,7 @@ export function Stats({ gameId }) {
               <BarChart values={data.depthOfHits} />
             </td>
             <td className="stats-column">
-              <h2>Last 5 games</h2>
+              <h2 className="last-games-headline">Last 5 games</h2>
               <div>
                 <GamesList list={data.lastFiveGames} isRest={true} />
               </div>
