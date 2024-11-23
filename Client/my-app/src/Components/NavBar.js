@@ -11,7 +11,6 @@ const Nav = () => {
       <div className="container-fluid" id="nav">
         <Link to="/" className="navbar-brand">
           <img src="/logo.jpg" alt="Logo" style={{ height: "3rem" }} />
-
         </Link>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
@@ -54,7 +53,7 @@ const Nav = () => {
                 </li>
 
                 <li className="nav-item">
-                  <button onClick={logout} className="btn btn-danger">
+                  <button onClick={logout} className="btn btn-primary">
                     Logout
                   </button>
                 </li>

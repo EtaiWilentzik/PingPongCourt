@@ -68,7 +68,7 @@ const Register = () => {
       </div>
       {error && <p className="text-danger">{error}</p>}
       {message && <p className="text-success">{message}</p>}
-      <button onClick={handleRegister} className="btn btn-danger mb-5">
+      <button onClick={handleRegister} className="btn btn-primary mb-5 buttons">
         Register
       </button>
     </div>
@@ -83,11 +83,7 @@ const Reg = () => {
           <Register />
         </div>
         <div className="col-12 col-md-8 order-1 order-md-2" id="right">
-          <img
-            src="/picture1.jpg"
-            alt="ping pong paddles"
-            className="img-fluid full-img"
-          />
+          <img src="/picture1.jpg" alt="ping pong paddles" className="img-fluid full-img" />
         </div>
       </div>
     </div>

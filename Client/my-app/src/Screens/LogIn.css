@@ -24,10 +24,13 @@
 body {
   background-color: #040426;
 }
+.head{
+  color:#ffffff;
+}
 
 .neon-div-2 {
   background-color: #141414; /* Dark background to highlight the neon effect */
-  color: yellowgreen;
+  color: #000000;
   padding: 20px;
   border-radius: 10px;
   text-align: center;

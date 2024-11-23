@@ -38,7 +38,7 @@ const LogIn = () => {
   return (
     <>
       <div className="d-flex align-items-center flex-column change">
-        <h2 className="display-4 mb-5">Log in</h2>
+        <h2 className="display-4 mb-5 head">Log In</h2>
         <div className="input-group mb-5">
           <span className="input-group-text">
             <i className="bi bi-person"></i>
@@ -72,8 +72,8 @@ const LogIn = () => {
           </div>
         </div>
         {error && <p className="text-danger">{error}</p>}
-        <button onClick={handleLogin} className="mb-5 btn btn-primary">
-          Log in
+        <button onClick={handleLogin} className="mb-5 btn btn-primary buttons">
+          Log In
         </button>
       </div>
     </>
@@ -89,11 +89,7 @@ const Log = () => {
             <LogIn />
           </div>
           <div className="col-md-7" id="right">
-            <img
-              src="/picture2.jpg"
-              alt="ping pong paddles"
-              className="img-fluid full-img "
-            />
+            <img src="/picture2.jpg" alt="ping pong paddles" className="img-fluid full-img " />
           </div>
         </div>
       </div>
