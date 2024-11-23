@@ -4,9 +4,11 @@ const gameController = require("../controllers/gameController");
 const authorization = require("../middleware/authenticateMiddleware");
 const gameSchema = require("../models/gameModel");
 const userSchema = require("../models/userModel");
-
+const { uploadSingleVideo, addAbsolutePath } = require("../middleware/uploadMiddleware"); // Adjust path as needed
 const { authenticateToken } = require("../middleware/authenticateMiddleware");
 const { authorizeGameAccess } = require("../middleware/authorizeGame");
+const { createServerFolder } = require("../utils/helpers"); // Import this
+
 // Apply express.json() middleware to the router
 // gameRouter.use(express.json());
 
@@ -65,9 +67,11 @@ gameRouter.post("/create", authenticateToken, gameController.createGame);
 gameRouter.put("/:gameId", authenticateToken, authorizeGameAccess, gameController.updateGame);
 gameRouter.get("/history", authenticateToken, gameController.getHistory);
 gameRouter.get("/history/against-player", authenticateToken, gameController.getHistoryAgainstPlayer);
-
+gameRouter.get("/allGames", authenticateToken, gameController.allGames);
 gameRouter.post("/stats", gameController.createGameAtEnd);
-
+gameRouter.get("/video", gameController.video);
+gameRouter.get("/personalStatistics", authenticateToken, gameController.personalStatistics);
 gameRouter.get("/:gameId", authenticateToken, authorizeGameAccess, gameController.getGame);
+gameRouter.post("/startGame", createServerFolder, uploadSingleVideo, addAbsolutePath, gameController.startGame);
 
 module.exports = { gameRouter };

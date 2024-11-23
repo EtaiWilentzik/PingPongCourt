@@ -64,7 +64,10 @@ const AllGames = () => {
     <div className="all-games-page games-list-container center">
       <h1>Games List</h1>
       <div>
-        <label htmlFor="playerFilter">Filter by Player: </label>
+        <label className="filter-label" htmlFor="playerFilter">
+          Filter by Player:{" "}
+        </label>
+
         <input
           id="playerFilter"
           type="text"

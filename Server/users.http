@@ -1,19 +1,19 @@
 /////// content type must come one line after the post if no the req.body will be null!
 
 @host=http://localhost:3000
-@token1=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6IkV0YWkiLCJ1c2VySWQiOiI2NzNhMTYwZGE2Y2MyZDBjZTMwZmFhMzIiLCJpYXQiOjE3MzE4NjA4NDB9.faDOPT-eG3XACQ6SpxdeGrgKCDZli7jwCZLJqvIdHWY
-@token2=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6IkRhbmllbCIsInVzZXJJZCI6IjY3M2ExZTE2ZThhZGNmOWE0MzVlNThlZCIsImlhdCI6MTczMTg2MjA5Mn0.fAXrzFTP8n2TVbUd2pe4cCWSBio_OLBl0685GJCUciQ
+@token1=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6IkV0YWkiLCJ1c2VySWQiOiI2NzNkZjM2M2RmNmJkMjI5MTU4MDYzMmMiLCJpYXQiOjE3MzIxMTMyOTJ9.kFcLUpKElfgc-tYtqecofdL1sosaMD3zvkNeB5TJoog
+@token2=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6IkRhbmllbCIsInVzZXJJZCI6IjY3M2RmMzc1ZGY2YmQyMjkxNTgwNjMyZiIsImlhdCI6MTczMjExMzMxNH0.YoUlHbaaK1r8Pmhm1WGEMGfjxuqGh6_2OFMY_iZl-7A
 @player1="Etai"
-@player2="Daniel"
+@player2="Adi"
 @player2WithoutQuoutes=Daniel
 
-@user1id=673a160da6cc2d0ce30faa32
-@user2id=673a1e16e8adcf9a435e58ed
+@user1id=673df363df6bd2291580632c
+@user2id=673df375df6bd2291580632f
 
-@user1idasString="673a160da6cc2d0ce30faa32"
-@user2idasString="673a1e16e8adcf9a435e58ed"
+@user1idasString="673df363df6bd2291580632c"
+@user2idasString="673df375df6bd2291580632f"
 
-@gameid=673a1e88e8adcf9a435e58f4
+@gameid=673df418df6bd2291580633e
 get http://localhost:3000/
 
 ###
@@ -34,11 +34,9 @@ Content-Type: application/json
       "password":"abc"
 }
 
-
 ###
 GET {{host}}/users/{{user2id}}/stats/
 Authorization: Bearer {{token2}}
-
 
 
 ###
@@ -66,44 +64,53 @@ Content-Type: application/json
 }
 ###
 
-
 get {{host}}/games/history
 Authorization: Bearer {{token1}}
 ###
-
 
 ### 
 post {{host}}/games/stats
 Content-Type: application/json
 
 {
-  "max_hits_in_game": 11,
-  "average_hits_in_game": 7,
+  "max_hits_in_game": 1,
+  "average_hits_in_game": 2,
+  "hits_in_game": [1, 2, 3, 4],
   "player_left": {
     "name": {{user1idasString}},
-    "faults": [1, 1, 1],
+    "points": 11,
+    "fastest_ball_speed": 3.2,
+    "loss_reasons": [3, 1, 1, 1],
     "aces": 0,
-    "average_speed": 0,
-    "depth_of_hits": [0, 0, 1, 1, 1, 10, 2, 0]
+    "depth_of_hits": [0, 0, 0, 0, 0, 0, 7, 8]
   },
   "player_right": {
     "name": {{user2idasString}},
-    "faults": [0, 1, 0],
-    "aces": 0,
-    "average_speed": 0,
-    "depth_of_hits": [0, 1, 1, 1, 1, 5, 5, 1]
+    "points": 5,
+    "fastest_ball_speed": 11,
+    "loss_reasons": [0, 2, 0, 0],
+    "aces": 3,
+    "depth_of_hits": [0, 0, 0, 0, 0, 0, 0, 0]
   }
 }
-
 ###
 //! gameid is a path parms 
 get {{host}}/games/{{gameid}}
 Authorization: Bearer {{token1}}
 ####
 
+###
+get {{host}}/games/personalStatistics
+Authorization: Bearer {{token1}}
+
+###
+get {{host}}/games/allGames
+Authorization: Bearer {{token1}}
 
 
-
+###
+get {{host}}/users/otherUsers
+Authorization: Bearer {{token1}}
 
 
 
@@ -115,9 +122,21 @@ Authorization: Bearer {{token1}}
 get {{host}}/games//history/against-player?player_name={{player2WithoutQuoutes}}
 Authorization: Bearer {{token1}}
 ####
+post {{host}}/games/startGame
+Authorization: Bearer {{token1}}
+Content-Type: application/json
+
+{
+        "playerLeft" : {{player1}},
+        "playerRight": {{player2}},
+        "starter":
+
+}
 
 
 
+
+### 
 ###
 # {
 #     "scores": {
@@ -133,24 +152,4 @@ Authorization: Bearer {{token1}}
 #         "duration": 360
 #     }
 # }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

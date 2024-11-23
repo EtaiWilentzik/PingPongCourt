@@ -59,6 +59,13 @@ header {
     0 0 40px #00ffcc;
 }
 
+.about-content {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+}
+
 /*@media (max-width: 768px) {*/
 /*  .neon-title {*/
 /*    font-size: 2.5rem;*/

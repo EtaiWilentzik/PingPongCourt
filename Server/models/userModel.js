@@ -13,12 +13,14 @@ const Schema = mongoose.Schema;
 //     "winLossRatio": 3.0
 //   }
 
-const userStats = new Schema({
-  totalWins: { type: Number, default: 0 },
-  totalLosses: { type: Number, default: 0 },
-  totalGames: { type: Number, default: 0 },
-  winLossRatio: { type: Number, default: 0 },
-});
+const userStats = new Schema(
+  {
+    totalWins: { type: Number, default: 0 },
+    totalLosses: { type: Number, default: 0 },
+    totalGames: { type: Number, default: 0 },
+  },
+  { _id: false }
+);
 
 const userSchema = new mongoose.Schema({
   name: {

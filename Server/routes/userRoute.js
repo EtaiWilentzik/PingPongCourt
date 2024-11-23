@@ -7,7 +7,6 @@ const { authorizeUser } = require("../middleware/authorizeUser");
 // TODO: https://express-validator.github.io/docs/guides/validation-chain used this for validation and sanitize the input
 
 userRouter.post("/register", userController.register);
-
 userRouter.post("/login", userController.login);
 
 // userRouter.get(
@@ -17,6 +16,12 @@ userRouter.post("/login", userController.login);
 //   }),
 //   userController.getUserStats
 // );
-userRouter.get("/:id/stats", authenticateToken, authorizeUser, userController.getUserStats);
+userRouter.get("/otherUsers", authenticateToken, userController.otherUsers);
+userRouter.get(
+  "/:id/stats",
+  authenticateToken,
+  authorizeUser,
+  userController.getUserStats,
+);
 
 module.exports = { userRouter };

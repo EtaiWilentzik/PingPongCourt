@@ -26,7 +26,8 @@ const AddGame = () => {
 
         if (response.ok) {
           const data = await response.json();
-          setUsers(data); // Assume the API returns an array of users
+          setUsers(data.data); // Assume the API returns an array of users
+
         } else {
           const error = await response.json();
           console.error("Error fetching users:", error);
@@ -78,7 +79,8 @@ const AddGame = () => {
 
     const formData = new FormData();
     formData.append("video", file);
-    formData.append("opponentId", selectedUser.id);
+    formData.append("opponentId", selectedUser.userId);
+
     formData.append("isCurrentInLeft", imOnLeft ? 0 : 1);
     formData.append("starter", imServer ? 0 : 1);
 
@@ -117,11 +119,12 @@ const AddGame = () => {
             <tbody>
               {users.map((user) => (
                 <tr
-                  key={user.id}
+                  key={user.userId}
                   className="games-list-row"
                   onClick={() => handleUserClick(user)}
                 >
-                  <td className="games-list-cell">{user.name}</td>
+                  <td className="games-list-cell">{user.userName}</td>
+
                 </tr>
               ))}
             </tbody>
@@ -133,20 +136,23 @@ const AddGame = () => {
           <div className="settings-info">
             {imOnLeft && (
               <p>
-                <strong>Sides: </strong>Me (left) : {selectedUser.name}(right)
+                <strong>Sides: </strong>Me (left) : {selectedUser.userName}
+                (right)
+
               </p>
             )}
             {!imOnLeft && (
               <p>
                 <strong>Sides: </strong>
-                {selectedUser.name} (left) : Me(right)
+                {selectedUser.userName} (left) : Me(right)
               </p>
             )}
             <p>
-              <strong>Chosen User:</strong> {selectedUser.name}
+              <strong>Chosen User:</strong> {selectedUser.userName}
             </p>
             <p>
-              <strong>Server:</strong> {imServer ? "Me" : selectedUser.name}
+              <strong>Server:</strong> {imServer ? "Me" : selectedUser.userName}
+
             </p>
           </div>
           <div className="settings-actions">

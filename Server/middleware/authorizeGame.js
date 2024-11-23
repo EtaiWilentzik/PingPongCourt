@@ -8,7 +8,7 @@ const authorizeGameAccess = async (req, res, next) => {
     const authenticatedUserId = req.user.userId;
 
     // Fetch the game from the database
-    const game = await gameSchema.Game2.findById(gameId);
+    const game = await gameSchema.Game.findById(gameId);
     if (!game) {
       return res.status(404).json({ message: "Game not found." });
     }

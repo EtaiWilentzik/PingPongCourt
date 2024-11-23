@@ -4,13 +4,18 @@
   flex-direction: column;
   height: 100vh; /* Full viewport height */
   overflow: hidden;
+  background-color: #040426;
+
 }
 
 /* Navbar section */
 .nav-bar {
   height: calc(100vh / 12); /* Navbar height is 1/12 of the viewport */
   flex-shrink: 0;
-  background-color: #333; /* Example background color */
+  margin-top: 0px;
+  padding-top: 0px  ;
+  /*background-color: #333; !* Example background color *!*/
+
 }
 
 /* Content section */
