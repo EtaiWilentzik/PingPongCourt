@@ -16,7 +16,12 @@ userRouter.post("/login", userController.login);
 //   }),
 //   userController.getUserStats
 // );
-userRouter.get("/otherUsers", authenticateToken, authorizeUser, userController.otherUsers);
-userRouter.get("/:id/stats", authenticateToken, authorizeUser, userController.getUserStats);
+userRouter.get("/otherUsers", authenticateToken, userController.otherUsers);
+userRouter.get(
+  "/:id/stats",
+  authenticateToken,
+  authorizeUser,
+  userController.getUserStats,
+);
 
 module.exports = { userRouter };
