@@ -366,8 +366,8 @@ const getUserWinLoseScores = async (userId) => {
       const rightPlayer = game.players.playerRight;
       const leftScore = leftPlayer.playerStats.points;
       const rightScore = rightPlayer.playerStats.points;
-      const userIsLeft = leftPlayer.userId.toString() === userId.toString();
-      const userIsRight = rightPlayer.userId.toString() === userId.toString();
+      const userIsLeft = leftPlayer.userId._id.toString() === userId.toString();
+      const userIsRight = rightPlayer.userId._id.toString() === userId.toString();
       if (userIsLeft) {
         playerLossReason = leftPlayer.playerStats.lossReasons;
         playerDepthOfHits = leftPlayer.playerStats.depthOfHits;
