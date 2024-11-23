@@ -67,6 +67,7 @@ const AllGames = () => {
         <label className="filter-label" htmlFor="playerFilter">
           Filter by Player:{" "}
         </label>
+
         <input
           id="playerFilter"
           type="text"

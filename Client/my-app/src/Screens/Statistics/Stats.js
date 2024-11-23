@@ -58,6 +58,7 @@ export function Stats({ gameId }) {
   return (
     <div className="stats">
       <h1 className="headline">My statistics</h1>
+
       <table>
         <tbody>
           <tr>

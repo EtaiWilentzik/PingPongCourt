@@ -143,6 +143,7 @@ export function GameStats({ gameId }) {
                 <video
                   className="large-video"
                   id="videoPlayer"
+
                   controls
                   muted="muted"
                   autoPlay
