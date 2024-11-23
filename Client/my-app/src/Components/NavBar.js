@@ -10,7 +10,7 @@ const Nav = () => {
     <nav className="navbar navbar-expand-lg navbar-light" id="navbar">
       <div className="container-fluid" id="nav">
         <Link to="/" className="navbar-brand">
-          <img src="logo.jpg" alt="Logo" style={{ height: "3rem" }} />
+          <img src="/logo.jpg" alt="Logo" style={{ height: "3rem" }} />
         </Link>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">

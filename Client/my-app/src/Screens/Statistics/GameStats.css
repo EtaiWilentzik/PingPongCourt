@@ -25,12 +25,14 @@
 
 h2 {
   font-size: 1.8rem;
-  color: #4caf50;
+  /*color: #4caf50;*/
   margin-bottom: 10px;
 }
 
 h1 {
-  color: #4caf50;
+  /*color: #4caf50;*/
+  font-weight: bold;
+  font-size: 80px;
 }
 
 .pie-charts {
