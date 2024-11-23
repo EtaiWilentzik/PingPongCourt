@@ -44,7 +44,6 @@ export const PieChart = ({ name, values, labels, miss }) => {
             size: 18, // Increased font size
           },
           color: "#FFFFFF", // Set font color to white
-
         },
       },
       tooltip: {
@@ -56,7 +55,6 @@ export const PieChart = ({ name, values, labels, miss }) => {
         },
         callbacks: {
           labelTextColor: () => "#FFFFFF", // Set tooltip font color to white
-
         },
       },
     },
@@ -64,9 +62,7 @@ export const PieChart = ({ name, values, labels, miss }) => {
 
   return (
     <div className="chart-container">
-      <h2 style={{ fontSize: "24px", color: "#000" }}>{headline}</h2>{" "}
-      {/* Headline remains black */}
-
+      <h2 className="chart-headline">{headline}</h2>
       <Pie data={data} options={options} />
     </div>
   );
