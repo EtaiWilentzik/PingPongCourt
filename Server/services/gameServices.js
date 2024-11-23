@@ -74,42 +74,75 @@ const getHistoryAgainstPlayer = async (currentUserId, friend) => {
 };
 
 const createGameAtEnd = async (data) => {
-  //! think what to do about the video
   try {
+    // Fetch the game using its ID
+    const game = await gameSchema.Game.findById(data.game_id);
+
+    if (!game) {
+      return Respond.createResponse(false, 404, null, "Game not found");
+    }
+    game.video.url = data.video_name;
+    // Update game stats
+    game.stats.maxHitsInGame = data.max_hits_in_game;
+    game.stats.averageHitsInGame = data.average_hits_in_game;
+    game.stats.hitsInGame = data.hits_in_game;
+
+    // Update left player's stats
+    game.players.playerLeft.userId = data.player_left.name;
+    game.players.playerLeft.playerStats = {
+      points: data.player_left.points,
+      fastestBallSpeed: data.player_left.fastest_ball_speed,
+      lossReasons: data.player_left.loss_reasons,
+      aces: data.player_left.aces,
+      depthOfHits: data.player_left.depth_of_hits,
+    };
+
+    // Update right player's stats
+    game.players.playerRight.userId = data.player_right.name;
+    game.players.playerRight.playerStats = {
+      points: data.player_right.points,
+      fastestBallSpeed: data.player_right.fastest_ball_speed,
+      lossReasons: data.player_right.loss_reasons,
+      aces: data.player_right.aces,
+      depthOfHits: data.player_right.depth_of_hits,
+    };
+
+    // Save the updated game
+    const updatedGame = await game.save();
+
+    // Update user stats (assumes you have an `updateUserStats` function)
+    await updateUserStats(data.player_left, data.player_right);
+
+    // Return a success response
+    return Respond.createResponse(true, 200, updatedGame, "Game updated successfully");
+  } catch (error) {
+    console.error("Error updating game:", error);
+
+    // Return a response indicating failure
+    return Respond.createResponse(false, 500, null, "Failed to update game");
+  }
+};
+
+const createDefaultGame = async (leftPlayerId, rightPlayerId) => {
+  try {
+    // Create a new game instance
     const newGame = new gameSchema.Game({
-      stats: {
-        maxHitsInGame: data.max_hits_in_game,
-        averageHitsInGame: data.average_hits_in_game,
-      },
       players: {
         playerLeft: {
-          userId: data.player_left.name,
-          playerStats: {
-            points: data.player_left.points,
-            fastestBallSpeed: data.player_left.fastest_ball_speed,
-            lossReasons: data.player_left.loss_reasons,
-            aces: data.player_left.aces,
-            depthOfHits: data.player_left.depth_of_hits,
-          },
+          userId: leftPlayerId,
         },
         playerRight: {
-          userId: data.player_right.name,
-          playerStats: {
-            points: data.player_right.points,
-            fastestBallSpeed: data.player_right.fastest_ball_speed,
-            lossReasons: data.player_right.loss_reasons,
-            aces: data.player_right.aces,
-            depthOfHits: data.player_right.depth_of_hits,
-          },
+          userId: rightPlayerId,
         },
       },
     });
 
-    await newGame.save();
-    await updateUserStats(data.player_left, data.player_right);
-    return Respond.createResponse(true, 200, newGame, "created game ");
+    // Save the game to the database
+    const savedGame = await newGame.save();
+    console.log("New game created with default values:", savedGame);
+    return savedGame;
   } catch (error) {
-    console.error("Error creating game:", error);
+    console.error("Error creating default game:", error);
     throw error;
   }
 };
@@ -312,37 +345,29 @@ const personalStatistics = async (userId) => {
 };
 const getUserWinLoseScores = async (userId) => {
   try {
-    // Fetch games and populate user names
+    // Return all the games where the user participates
     const games = await gameSchema.Game.find({
       $or: [{ "players.playerLeft.userId": userId }, { "players.playerRight.userId": userId }],
     })
-      .populate("players.playerLeft.userId", "name")
-      .populate("players.playerRight.userId", "name")
-      .sort({ datePlayed: -1 });
-
+      .populate("players.playerLeft.userId", "name") // Populate playerLeft user name
+      .populate("players.playerRight.userId", "name") // Populate playerRight user name
+      .sort({ datePlayed: -1 }); // Sort from newest to oldest
     const lastFiveGames = getLastGames(games.slice(0, 5));
-
     if (games.length === 0) {
       return Respond.createResponse(false, 404, null, "No games found for the user");
     }
-
     let totalWinPoints = 0;
     let totalLosePoints = 0;
     let lossReasonsSum = [0, 0, 0, 0];
     let depthOfHits = [0, 0, 0, 0, 0, 0, 0, 0];
 
     games.forEach((game) => {
-      let playerLossReason = [];
-      let playerDepthOfHits = [];
       const leftPlayer = game.players.playerLeft;
       const rightPlayer = game.players.playerRight;
       const leftScore = leftPlayer.playerStats.points;
       const rightScore = rightPlayer.playerStats.points;
-
-      // Adjusted comparison using _id
-      const userIsLeft = leftPlayer.userId._id.toString() === userId.toString();
-      const userIsRight = rightPlayer.userId._id.toString() === userId.toString();
-
+      const userIsLeft = leftPlayer.userId.toString() === userId.toString();
+      const userIsRight = rightPlayer.userId.toString() === userId.toString();
       if (userIsLeft) {
         playerLossReason = leftPlayer.playerStats.lossReasons;
         playerDepthOfHits = leftPlayer.playerStats.depthOfHits;
@@ -350,22 +375,18 @@ const getUserWinLoseScores = async (userId) => {
         playerLossReason = rightPlayer.playerStats.lossReasons;
         playerDepthOfHits = rightPlayer.playerStats.depthOfHits;
       }
-
       // Sum the player's loss_reason array
       playerLossReason.forEach((value, index) => {
         lossReasonsSum[index] += value;
       });
-
-      // Sum the player's depthOfHits array
       playerDepthOfHits.forEach((value, index) => {
         depthOfHits[index] += value;
       });
-
       // Update scores based on the game result
       if (leftScore > rightScore) {
         if (userIsLeft) {
           totalWinPoints += leftScore;
-          totalLosePoints += rightScore;
+          totalLosePoints += rightScore; // Adding opponent points as loss points
         } else if (userIsRight) {
           totalWinPoints += rightScore;
           totalLosePoints += leftScore;
@@ -380,7 +401,7 @@ const getUserWinLoseScores = async (userId) => {
         }
       }
     });
-
+    // Return the raw total scores
     return Respond.createResponse(
       true,
       200,
@@ -440,4 +461,5 @@ module.exports = {
   getGame,
   personalStatistics,
   allGames,
+  createDefaultGame,
 };

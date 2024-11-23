@@ -51,7 +51,7 @@ const playerStatsSchema = new Schema(
   {
     points: { type: Number, default: 0 },
     fastestBallSpeed: { type: Number, default: 0 },
-    lossReasons: { type: [Number], default: [0, 0, 0] },
+    lossReasons: { type: [Number], default: [0, 0, 0, 0] },
     aces: { type: Number, default: 0 },
     depthOfHits: { type: [Number], default: [0, 0, 0, 0, 0, 0, 0, 0] },
   },

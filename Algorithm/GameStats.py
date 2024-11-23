@@ -6,7 +6,7 @@ import os
 
 class GameStats:
 
-    def __init__(self, player_names):
+    def __init__(self, player_names, game_id):
 
         self.player_names = player_names
         self.longest_games_in_time = 0
@@ -20,10 +20,11 @@ class GameStats:
         self.player_left = PlayerStats(player_names[0])
         self.player_right = PlayerStats(player_names[1])
         self.url = "http://localhost:3000/games/stats"
+        self.game_id = game_id
 
-    def send_to_server(self):
+    def send_to_server(self, video_name):
         data = self.to_dict()
-        print("the data is "+data)
+        data["video_name"] = video_name
         response = requests.post(self.url, json=data)
         # Check the response
         if response.status_code == 200:
@@ -51,7 +52,8 @@ class GameStats:
         return {
             "max_hits_in_game": self.max_hits_in_game,
             "average_hits_in_game": self.average_hits_in_game,
-            "hits_in_game_stats": self.hits_in_game,
+            "hits_in_game": self.hits_in_game,
+            "game_id": self.game_id,
             "player_left": self.player_left.to_dict(),
             "player_right": self.player_right.to_dict()}
 
@@ -135,8 +137,8 @@ class GameStats:
         self.player_right.points = track_score.right_player
         self.print_all_statistics()
         print(self.to_dict())
-        self.save_to_csv(self.to_dict(), video_name)
-        # self.send_to_server()
+        # self.save_to_csv(self.to_dict(), video_name)
+        self.send_to_server(video_name)
 
     def print_all_statistics(self):
         print("the left player loss_point_reason")
@@ -162,7 +164,8 @@ class PlayerStats:
         self.points = 0
         self.fastest_ball_speed = 0.0
         self.fastest_ball_frame = 0
-        # in place [0] is double bounce on your table,[1] is miss i.e doing "out". [2] opopnent hits yours dide and oy ucan not rspond [3] is bad serve
+
+        # in place [0] is double bounce on your table,[1] is miss i.e doing "out". [2] opponent hits table and you didnt rescan not rspond [3] is bad serve
         self.loss_reasons = [0] * 4
         self.aces = 0
         self.bad_serves = 0
@@ -174,7 +177,7 @@ class PlayerStats:
         return {
             "name": self.name,
             "points": self.points,
-            "faults": self.loss_reasons,
+            "loss_reasons": self.loss_reasons,
             "aces": self.aces,
             "fastest_ball_speed": self.fastest_ball_speed,
             "bad_serves": self.bad_serves,

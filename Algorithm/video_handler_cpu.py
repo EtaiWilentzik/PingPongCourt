@@ -8,29 +8,38 @@ class VideoHandler:
     # change frame to static variable because we dont need to create object for him in mini court to just get the frame.
     frame = None
 
-    def __init__(self,video_path):
-        self.VIDEOS_DIR = os.path.join('.', 'videos')
-        # get the video from the folder
-        self.video_path = os.path.join(self.VIDEOS_DIR, f"{video_path}.mp4")
-        self.video_path_out = '{}_out.mp4'.format(
-            self.video_path)  # create ending name for output file
-        # input source for cv2 library
+    def __init__(self, video_path):
+        # Absolute path is directly used
+        self.video_path = video_path
+        # Output file with `_out` appended
+        self.video_path_out = f"{os.path.splitext(self.video_path)[0]}_out.mp4"
+
+        # Open video using cv2
         self.cap = cv2.VideoCapture(self.video_path)
+        if not self.cap.isOpened():
+            raise ValueError(
+                f"Failed to open video at path: {self.video_path}. Please check the video path.")
+
+        # Get FPS from video
         Constants.FPS = int(self.cap.get(cv2.CAP_PROP_FPS))
-        print("the fps is", Constants.FPS)
-        # ret - boolean (next frame exist), frame - encoding of current frame
-        self.ret,  self.frame = self.cap.read()
-        # height, width, _ (of the frame)
+        print("The FPS is", Constants.FPS)
+
+        # Read the first frame
+        self.ret, self.frame = self.cap.read()
         if self.ret:
             VideoHandler.frame = self.frame  # Update static frame
             self.H, self.W, _ = self.frame.shape  # Dimensions of the frame
         else:
             raise ValueError(
-                "Failed to read the video. Please check the video path.")
+                "Failed to read the first frame. Please check the video file.")
 
-        # output frame after writing on  it
-        self.out = cv2.VideoWriter(self.video_path_out, cv2.VideoWriter_fourcc(*'mp4v'),
-                                   int(self.cap.get(cv2.CAP_PROP_FPS)), (self.W, self.H))
+        # Prepare output writer
+        self.out = cv2.VideoWriter(
+            self.video_path_out,
+            cv2.VideoWriter_fourcc(*'H264'),
+            Constants.FPS,
+            (self.W, self.H)
+        )
 
     def get_ret(self):
         return self.ret
@@ -66,7 +75,7 @@ class VideoHandler:
     def paint_score(self, game):
         cv2.putText(VideoHandler.frame, f"Score: {game.track_score.get_score()}",
                     (100, 100), cv2.FONT_HERSHEY_PLAIN,  3, Color.BLUE, 2)
-        if game.game_status.state==1:
+        if game.game_status.state == 1:
             cv2.putText(VideoHandler.frame, "state of game: judging the current point",
                         (700, 100), cv2.FONT_HERSHEY_PLAIN,  2, Color.RED, 2)
         else:
@@ -75,7 +84,6 @@ class VideoHandler:
 
         cv2.putText(VideoHandler.frame, f"Reason for last point: {Constants.WON_REASON}",
                     (1300, 130), cv2.FONT_HERSHEY_PLAIN,  2, Color.BLACK, 2)
-
 
     def write_video(self):
         self.out.write(VideoHandler.frame)
@@ -102,7 +110,6 @@ class VideoHandler:
                          Color.BLACK,
                          2)
         print(" i am hereeeeeee")
-
 
     def paint_all(self, x1, y1, x2, y2, result, confidence):
         # Shows confidence with 2 decimal places

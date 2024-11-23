@@ -2,10 +2,10 @@ from Constants import Constants
 
 
 class TrackScore:
-    def __init__(self):
+    def __init__(self, starter):
         self.right_player = 0
         self.left_player = 0
-        self.server = Constants.LEFT_PLAYER
+        self.server = starter
         self.serve_count = 0
 
     def get_server(self):

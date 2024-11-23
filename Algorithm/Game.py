@@ -19,19 +19,18 @@ from GameStats import GameStats
 
 
 class Game:
-    def __init__(self, check_hands: gestureFrameCounter, player_names):
+    def __init__(self, check_hands: gestureFrameCounter, player_names, starter, game_id):
         self.min_height = 0  # put zero because its the maximum i.e the top of the frame
         self.ball = Ball()
         self.table = Table()
-        self.game_stats = GameStats(player_names)
-        self.track_score = TrackScore()
+        self.track_score = TrackScore(starter)
         self.check_hands = check_hands
         self.legal_serve = True
         self.last_frame_ball_seen_bounce = 0
         self.game_status = GameStatus(self.wait_for_hand, self.wait_for_fault)
         self.last_judge_point = None
         self.last_side_hitter = Constants.LEFT_PLAYER
-        self.game_stats = GameStats(player_names)
+        self.game_stats = GameStats(player_names, game_id)
 
         # self.min_duration = 20
         # self.starting_point = None
@@ -51,7 +50,7 @@ class Game:
             return False,
         #  checks that the second last is the minimum of its neighbors (y coordinate only)
         if (self.ball.positions[-1].y < self.ball.positions[-2].y and self.ball.positions[-2].y > self.ball.positions
-            [-3].y):
+                [-3].y):
             # checks if x coordinate is in the left table
             left_table_x = (
                 self.table.left_table[2] > self.ball.positions[-2].x > self.table.left_table[0])
@@ -67,15 +66,15 @@ class Game:
                 )
                 self.game_stats.set_areas_of_hits(
                     self.last_side_hitter, self.ball.positions[-2].x, self.table.quarters_intervals)
-                self.last_frame_ball_seen_bounce = Constants.counterUntilFrame -1
-                    # because we find the "min" one frame after
+                self.last_frame_ball_seen_bounce = Constants.counterUntilFrame - 1
+                # because we find the "min" one frame after
 
                 self.ball.left_counter += 1  # ball hits left table one more time
 
                 # ball hits twice in the same table - means losing the game
                 if self.ball.left_counter > 1:
                     cv2.putText(frame, f" player right won and the counter is {counter}", (int(
-                        100), int(500)), cv2.FONT_HERSHEY_SIMPLEX, 1.0, Color.BLUE,  3, cv2.LINE_AA ,)
+                        100), int(500)), cv2.FONT_HERSHEY_SIMPLEX, 1.0, Color.BLUE,  3, cv2.LINE_AA,)
                     Constants.R_RESULT += 1
                     return (True, Constants.RIGHT_PLAYER)
             # checks if x coordinate is in the right table
@@ -83,7 +82,8 @@ class Game:
                 self.table.right_table[2] > self.ball.positions[-2].x > self.table.right_table[0])
             # checks if y coordinate is the same as height of the table
             right_on_table_y = (
-                self.table.right_table[1] - Constants.EPSILON < self.ball.positions[-2].y < self.table.right_table
+                self.table.right_table[1] -
+                Constants.EPSILON < self.ball.positions[-2].y < self.table.right_table
                 [3])
             if right_table_x and right_on_table_y:  # if ball hits right table
                 # indicates ball hits table
@@ -93,14 +93,14 @@ class Game:
                     (self.ball.positions[-2].x, self.ball.positions[-2].y))
                 self.game_stats.set_areas_of_hits(self.last_side_hitter, self.ball.positions[-2].x,
                                                   self.table.quarters_intervals)
-                self.last_frame_ball_seen_bounce = Constants.counterUntilFrame -1
+                self.last_frame_ball_seen_bounce = Constants.counterUntilFrame - 1
                 self.ball.right_counter += 1  # ball hits right table one more time
                 # self.check_last_ball_seen = Constants.counterUntilFrame
 
                 # ball hits twice in the same table - means losing the game
                 if (self.ball.right_counter > 1):
                     cv2.putText(frame, f" player left won and the counter is {counter}", (int(
-                        800), int(800)), cv2.FONT_HERSHEY_SIMPLEX, 1.0, Color.RED, 2, cv2.LINE_AA ,)
+                        800), int(800)), cv2.FONT_HERSHEY_SIMPLEX, 1.0, Color.RED, 2, cv2.LINE_AA,)
                     print(f"______________ player left won {counter}")
                     Constants.L_RESULT += 1
                     return (True, Constants.LEFT_PLAYER)
@@ -204,7 +204,7 @@ class Game:
         if self.ball.bounce_horizontal(self.last_side_hitter, self.table.quarters_intervals):
             # this change to the other player.
             self.game_stats.curr_mini_game_hits += 1
-            self.last_side_hitter = (self.last_side_hitter +1) % 2
+            self.last_side_hitter = (self.last_side_hitter + 1) % 2
 
         # this is the functions that judge the game
         htp = self.hit_table_point(frame)
@@ -228,7 +228,7 @@ class Game:
             self.game_stats.set_after_double_bounce(db[1])
             return self.track_score.update_score(db[1])
         boss = None
-        if self.game_stats.curr_mini_game_hits==1:
+        if self.game_stats.curr_mini_game_hits == 1:
             boss = self.bounce_on_serve_side()
             if boss[0]:
                 Constants.WON_REASON = "Bad Serve"
@@ -236,7 +236,6 @@ class Game:
                 self.game_stats.set_after_double_bounce(boss[1])
                 return self.track_score.update_score(boss[1])
         return (False,)
-
 
     def bounce_on_serve_side(self):
         if len(self.ball.get_hit_positions()) == 1:
@@ -252,9 +251,6 @@ class Game:
             if self.track_score.get_server() == Constants.RIGHT_PLAYER and in_left_side:
                 return True, Constants.LEFT_PLAYER
         return (False,)
-
-
-
 
     def test_right_hand(self, left_point, right_point):
         x_center = (left_point[0] + right_point[0]) / 2
@@ -293,7 +289,7 @@ class Game:
 
     def check_last_ball_seen(self):
         # if there is more 2 seconds from the last we saw the ball and its a fault so we need to update the score.
-        if (Constants.counterUntilFrame -self.last_frame_ball_seen_bounce > 2.5 *Constants.FPS):
+        if (Constants.counterUntilFrame - self.last_frame_ball_seen_bounce > 2.5 * Constants.FPS):
             if len(self.ball.get_hit_positions()) == 0:
                 return (False,)
             x_coordinate = self.ball.get_hit_positions()[-1][0]

@@ -69,9 +69,16 @@ gameRouter.get("/history", authenticateToken, gameController.getHistory);
 gameRouter.get("/history/against-player", authenticateToken, gameController.getHistoryAgainstPlayer);
 gameRouter.get("/allGames", authenticateToken, gameController.allGames);
 gameRouter.post("/stats", gameController.createGameAtEnd);
-gameRouter.get("/video", gameController.video);
+gameRouter.get("/video/:id", gameController.video); //the id here is id of game
 gameRouter.get("/personalStatistics", authenticateToken, gameController.personalStatistics);
 gameRouter.get("/:gameId", authenticateToken, authorizeGameAccess, gameController.getGame);
-gameRouter.post("/startGame", createServerFolder, uploadSingleVideo, addAbsolutePath, gameController.startGame);
+gameRouter.post(
+  "/startGame",
+  authenticateToken,
+  createServerFolder,
+  uploadSingleVideo,
+  addAbsolutePath,
+  gameController.startGame
+);
 
 module.exports = { gameRouter };
