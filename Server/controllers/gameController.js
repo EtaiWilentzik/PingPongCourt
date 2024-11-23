@@ -65,7 +65,7 @@ const video = async (req, res) => {
   //* to do it with try and catch now im lazy
   const videoPath = game.video.url;
 
-  console.log(videoPath);
+  // console.log(videoPath);
 
   /// this is the real path "C:\Users\etaiw\Code\Table_Tenis_VScode\TableTenis\Server\uploads\v1_short-1732359194499-261342016_out.mp4"
   // this is from mongodb  C:\Users\etaiw\Code\Table_Tenis_VScode\TableTenis\Server\uploads\v1_short-1732359194499-261342016_out.mp4
