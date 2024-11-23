@@ -1,10 +1,10 @@
 .top-right-component {
   grid-template-rows: auto auto; /* Allows flexible sizing */
   gap: 5px; /* Reduce spacing */
-  font-size: 40px;
+  font-size: 1rem;
 }
 h3 {
-  font-size: 60px;
+  font-size: 2rem;
 }
 .game-stats,
 .player-stats {

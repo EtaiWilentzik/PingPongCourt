@@ -1,6 +1,6 @@
 .nav-link:hover {
-  background-color: gray;
-  color: red !important;
+  /*background-color: gray;*/
+  color: #309d97 !important;
   transition: background-color 0.3s ease;
 }
 #nav {

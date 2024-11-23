@@ -26,9 +26,7 @@ const NavigableChart = ({ dataSets, playerNames, children }) => {
         {"<"}
       </button>
       <h2>{playerNames[currentStatIndex]}</h2>
-      <>
-        {React.cloneElement(children, { values: dataSets[currentStatIndex] })}
-      </>
+      {React.cloneElement(children, { values: dataSets[currentStatIndex] })}
       <button className="arrow" onClick={() => navigate("right")}>
         {">"}
       </button>
@@ -37,7 +35,7 @@ const NavigableChart = ({ dataSets, playerNames, children }) => {
 };
 
 export function GameStats({ gameId }) {
-  const { token } = useContext(AuthContext); // Use token from context
+  const { token } = useContext(AuthContext);
   const [gameData, setGameData] = useState(null);
   const [error, setError] = useState(null);
 
@@ -56,7 +54,7 @@ export function GameStats({ gameId }) {
         }
 
         const result = await response.json();
-        setGameData(result.data); // Assuming `data` contains the game stats
+        setGameData(result.data);
       } catch (err) {
         setError(err.message);
       }
@@ -73,7 +71,6 @@ export function GameStats({ gameId }) {
     return <div>Loading...</div>;
   }
 
-  // Map data
   const gameStats = {
     maxHitsInGame: gameData.shared_stats.maxHitsInGame,
     averageHitsInGame: gameData.shared_stats.averageHitsInGame,
@@ -109,13 +106,11 @@ export function GameStats({ gameId }) {
                   name={gameData.player_left_name}
                   values={gameData.player_left.lossReasons}
                   miss={true}
-                  // labels={['Hit floor first', 'Double bounce', '2 seconds', '4th reason']}
                 />
                 <PieChart
                   name={gameData.player_right_name}
                   values={gameData.player_right.lossReasons}
                   miss={true}
-                  // labels={['Hit floor first', 'Double bounce', '2 seconds', '4th reason']}
                 />
               </div>
             </td>
@@ -135,7 +130,7 @@ export function GameStats({ gameId }) {
                   gameData.player_right_name,
                 ]}
               >
-                <BarChart />
+                <BarChart className="bar-chart" />
               </NavigableChart>
             </td>
             <td className="stats-column">
@@ -143,7 +138,6 @@ export function GameStats({ gameId }) {
                 <video
                   className="large-video"
                   id="videoPlayer"
-
                   controls
                   muted="muted"
                   autoPlay

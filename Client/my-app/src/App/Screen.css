@@ -3,28 +3,29 @@
   display: flex;
   flex-direction: column;
   height: 100vh; /* Full viewport height */
-  overflow: hidden;
+  /*overflow: hidden;*/
   background-color: #040426;
-
 }
 
 /* Navbar section */
 .nav-bar {
-  height: calc(100vh / 12); /* Navbar height is 1/12 of the viewport */
-  flex-shrink: 0;
-  margin-top: 0px;
-  padding-top: 0px  ;
-  /*background-color: #333; !* Example background color *!*/
-
+  height: calc(100vh / 16); /* Navbar height is 1/16 of the viewport */
+  flex-shrink: 0; /* Prevents the navbar from shrinking */
+  width: 100%; /* Full width */
+  margin: 0; /* No margins */
+  padding: 0; /* No paddings */
 }
 
 /* Content section */
 .screen-content {
-  flex-grow: 1; /* Occupies the remaining space */
+  flex-grow: 1; /* Ensures it takes up remaining space */
+  /*height: calc(100vh * 15 / 16); !* Content height is 15/16 of the viewport *!*/
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  overflow: auto;
-  width: 100%;
+  /*overflow: auto; !* Allows scrolling if necessary *!*/
+  overflow: hidden;
+  width: 100%; /* Full width */
+
 }
