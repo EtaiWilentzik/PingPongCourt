@@ -68,15 +68,31 @@ def process_game_frames():
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
+    if len(sys.argv) != 6:
         print("Usage: python script.py <video_name>")
         sys.exit(1)
 
-    video_name = sys.argv[1]  # Get the video name directly from the command-line argument
+    # Get the video name directly from the command-line argument
+    video_path = sys.argv[1]
+    left_player_id = sys.argv[2]
+    right_player_id = sys.argv[3]
+    # * starter need to be zero or 1 0 is left player and 1 is right player.
+    starter = int(sys.argv[4])
+    game_id = sys.argv[5]
+
+    print(video_path)
+    print(left_player_id)
+    print(right_player_id)
+    print(starter)
+    print(game_id)
+
     print("start running the code")
-    video_handler = VideoHandler(video_name)  # Pass the video name to VideoHandler
+    # Pass the video name to VideoHandler
+    video_handler = VideoHandler(video_path)
     mini_court = MiniCourt(VideoHandler.frame)
-    model_path = os.path.join('.', 'train9', 'weights', 'last.pt')
+    model_path = os.path.abspath(
+        './train9/weights/last.pt')  # Use an absolute path this run from Server!
+    print(f"the abs path is {model_path} ")
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     print(f'Using device: {device}')
     if torch.cuda.is_available():
@@ -85,12 +101,14 @@ if __name__ == "__main__":
     model = YOLO(model_path)
     model.to(device=device)
     check_hands = gestureFrameCounter()
-    game = Game(check_hands, ("Etai", "Daniel"))
+    game = Game(check_hands, (left_player_id,
+                right_player_id), starter, game_id)
 
     for i in range(2 * Constants.FPS):
         process_initial_frames()
 
-    model_path = os.path.join('.', 'train13', 'weights', 'last.pt')
+    model_path = os.path.abspath(
+        './train13/weights/last.pt')  # Use an absolute path
     model = YOLO(model_path)
     game.set_game_constants()
 
@@ -107,6 +125,17 @@ if __name__ == "__main__":
         Constants.counterUntilFrame += 1
         video_handler.read_next_frame()
 
-    game.game_stats.end_of_game_statistics(game.track_score, game.ball,video_name)
+    game.game_stats.end_of_game_statistics(
+        game.track_score, game.ball, video_handler.video_path_out)
     print("the table size is", Constants.TABLE_SIZE)
     video_handler.release()
+    print("finished")
+try:
+    os.remove(video_handler.video_path)
+    print("File successfully removed.")
+except FileNotFoundError:
+    print("The file does not exist.")
+except PermissionError:
+    print("Permission denied to remove the file.")
+except Exception as e:
+    print(f"An error occurred: {e}")
