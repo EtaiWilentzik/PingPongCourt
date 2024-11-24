@@ -133,7 +133,8 @@ const AddGame = () => {
     return (
       <Message
         headline="Video Sent"
-        content="Your video has been sent and is being judged. Please wait, this may take several minutes."
+        content="Your video has been sent and is  being analyzed and judged.
+         Please wait, this may take several minutes."
         showButton={true}
         btnText="Back to Home"
         onClick={() => navigate("/")}
