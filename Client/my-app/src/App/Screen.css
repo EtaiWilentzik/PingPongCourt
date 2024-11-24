@@ -1,31 +1,29 @@
 /* Overall container for the screen */
 .screen-container {
   display: flex;
-  flex-direction: column;
-  height: 100vh; /* Full viewport height */
-  /*overflow: hidden;*/
-  background-color: #040426;
+  flex-direction: column; /* Arrange children vertically */
+  height: 100vh; /* Full height of the viewport */
+  background-color: #040426; /* Background color for the container */
+  margin: 0; /* Remove any default margins */
+  padding: 0; /* Remove any default paddings */
 }
 
 /* Navbar section */
 .nav-bar {
-  height: calc(100vh / 16); /* Navbar height is 1/16 of the viewport */
-  flex-shrink: 0; /* Prevents the navbar from shrinking */
-  width: 100%; /* Full width */
-  margin: 0; /* No margins */
-  padding: 0; /* No paddings */
+  flex-shrink: 0; /* Prevent shrinking */
+  width: 100%; /* Full width of the container */
+  z-index: 10; /* Ensure it sits above the content */
+  box-sizing: border-box; /* Ensure padding/border doesn't add extra space */
+
 }
 
 /* Content section */
 .screen-content {
-  flex-grow: 1; /* Ensures it takes up remaining space */
-  /*height: calc(100vh * 15 / 16); !* Content height is 15/16 of the viewport *!*/
+  flex-grow: 1; /* Take up the remaining space after the navbar */
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  /*overflow: auto; !* Allows scrolling if necessary *!*/
-  overflow: hidden;
-  width: 100%; /* Full width */
-
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
+  width: 100%; /* Full width of the container */
+  overflow: auto; /* Add scroll if content overflows */
 }

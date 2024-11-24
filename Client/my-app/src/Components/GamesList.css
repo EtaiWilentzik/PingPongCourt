@@ -9,6 +9,17 @@
   border-radius: 5px; /* Optional: Rounded edges */
 }
 
+
+.games-list-header {
+  position: sticky; /* Make the header sticky */
+  top: 0; /* Stick to the top of the container */
+  z-index: 2; /* Ensure it stays above other rows */
+  background-color: #2c2c3d; /* Preserve the header's background color */
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1); /* Optional shadow for visual separation */
+  padding: 15px;
+  text-align: center;
+  font-weight: bold;
+}
 /* Table Styling */
 .games-list-table {
   width: 100%;

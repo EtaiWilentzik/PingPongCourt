@@ -12,7 +12,7 @@
 }
 #navbar {
   z-index: 1;
-  position: fixed;
+  /* position: fixed; //this is impotent  to remove  */
   top: 0px;
   width: 100%;
 }
