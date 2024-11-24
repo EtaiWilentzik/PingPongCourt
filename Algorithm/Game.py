@@ -1,4 +1,3 @@
-
 import cv2
 from GameStats import GameStats
 from gestureFrameCounter import gestureFrameCounter
@@ -8,7 +7,7 @@ from Ball import Ball
 from Table import Table
 from TrackScore import TrackScore
 from GameStats import GameStats
-# aaa
+
 
 ##! the convention is ({true- violation in the game or false- point still active without violation},{if there was violation who won it})
 ##! for example (true,left_player) , (false,)
@@ -16,7 +15,6 @@ from GameStats import GameStats
 
 # todo: ליצור פונקציה שבודקת אם הכדור נעלם למשך של יותר מ2 שניות אחרי פגיעה בשולחן מסוים זה אומר שהשחקן שהפגיעה האחרונה בשולחן שלו הפסיד
 # todo:     לטפל בכל מה שקשור לסרבים עשינו אבל לא בדקנו עם עובד עדיין
-
 
 class Game:
     def __init__(self, check_hands: gestureFrameCounter, player_names, starter, game_id):
@@ -26,6 +24,7 @@ class Game:
         self.track_score = TrackScore(starter)
         self.check_hands = check_hands
         self.legal_serve = True
+        self.game_ended = False
         self.last_frame_ball_seen_bounce = 0
         self.game_status = GameStatus(self.wait_for_hand, self.wait_for_fault)
         self.last_judge_point = None
@@ -181,7 +180,7 @@ class Game:
         # * if the length is zero we dont need to do anything so return false
         if len(self.ball.positions) == 0:
             return (False,)
-        self.ball.set_speed(Constants.counterUntilFrame)
+        self.ball.set_speed(int(Constants.counterUntilFrame), self.game_stats)
         # here we need to call check_last_ball_seen to check more than 2 *fps before checking if it is the same frame!!
 
         clbs = self.check_last_ball_seen()
@@ -240,7 +239,7 @@ class Game:
     def bounce_on_serve_side(self):
         if len(self.ball.get_hit_positions()) == 1:
             # comparing the x values from the get hits positions
-            print(f"___________________{self.ball.get_hit_positions()[0]}")
+            print(f"_{self.ball.get_hit_positions()[0]}")
             in_left_side = self.table.left_table[0] <= self.ball.get_hit_positions()[
                 0][0] <= self.table.left_table[2]
 
@@ -261,7 +260,7 @@ class Game:
             self.table.right_zone[0] <= x_center <= self.table.right_zone[2]
         ) and (self.table.right_zone[1] <= y_center <= self.table.right_zone[3])
         if (hands_in_right_side):
-            print("_________________________________inside test frame")
+            print("_inside test frame")
         return hands_in_right_side
 
     def test_left_hand(self, left_point, right_point):
@@ -274,7 +273,7 @@ class Game:
             self.table.left_zone[0] <= x_center <= self.table.left_zone[2]
         ) and (self.table.left_zone[1] <= y_center <= self.table.left_zone[3])
         if hands_in_left_side:
-            print("_________________________________inside test frame left")
+            print("_inside test frame left")
         return hands_in_left_side
 
     def wait_for_hand(self, frame, counter):
@@ -329,4 +328,4 @@ class Game:
         #             print("player right won ")
 
         #         elif self.count_right == 1:
-        #             print("player left won")
+        #             print("player left won")
