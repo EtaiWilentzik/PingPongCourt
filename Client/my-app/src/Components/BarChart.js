@@ -11,7 +11,16 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
 
-const labels = ["Net", "", "", "Middle", "Middle", "", "", "Deep"];
+const labels = [
+  "Close to me",
+  "",
+  "",
+  "Left of net",
+  "Right to net",
+  "",
+  "",
+  "Far from me",
+];
 
 export const BarChart = ({ values }) => {
   const data = {

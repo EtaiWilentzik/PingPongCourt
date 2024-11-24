@@ -1,5 +1,3 @@
-// GameStats.js
-
 import React, { useContext, useEffect, useState } from "react";
 import { PieChart } from "../../Components/PieChart";
 import { BarChart } from "../../Components/BarChart";
@@ -12,9 +10,13 @@ const NavigableChart = ({ dataSets, playerNames, options }) => {
 
   const navigate = (direction) => {
     if (direction === "left") {
-      setCurrentStatIndex((prev) => (prev > 0 ? prev - 1 : dataSets.length - 1));
+      setCurrentStatIndex((prev) =>
+        prev > 0 ? prev - 1 : dataSets.length - 1,
+      );
     } else if (direction === "right") {
-      setCurrentStatIndex((prev) => (prev < dataSets.length - 1 ? prev + 1 : 0));
+      setCurrentStatIndex((prev) =>
+        prev < dataSets.length - 1 ? prev + 1 : 0,
+      );
     }
   };
 
@@ -91,7 +93,6 @@ export function GameStats({ gameId }) {
     },
   ];
 
-  // Define common options for pie charts (same as in Stats.js)
   const pieChartOptions = {
     responsive: false,
     maintainAspectRatio: true,
@@ -118,7 +119,6 @@ export function GameStats({ gameId }) {
     },
   };
 
-  // Define common options for bar charts (same as in Stats.js)
   const barChartOptions = {
     maintainAspectRatio: false,
     responsive: false,
@@ -172,8 +172,8 @@ export function GameStats({ gameId }) {
   return (
     <>
       <h1 className="headline">
-        {gameData.player_left_name} {gameData.player_left.points} : {gameData.player_right.points}{" "}
-        {gameData.player_right_name}
+        {gameData.player_left_name} {gameData.player_left.points} :{" "}
+        {gameData.player_right.points} {gameData.player_right_name}
       </h1>
       <div className="stats">
         <table>
@@ -187,7 +187,7 @@ export function GameStats({ gameId }) {
                       values={gameData.player_left.lossReasons}
                       miss={true}
                       options={pieChartOptions}
-                      width={400} // Same size as in Stats.js
+                      width={400}
                       height={400}
                     />
                   </div>
@@ -209,27 +209,51 @@ export function GameStats({ gameId }) {
             </tr>
             <tr>
               <td className="stats-column">
-                <h2>
-                  Depth of the ball
-                  <span className="tooltip-icon">ℹ️</span>
-                  <span className="tooltip-text">
-                    The chart divides the table into 8 sections.
-                    <br />
-                    Each bar shows hits in an area.
-                    <br />
-                    The last bar shows your deepest shots.
-                  </span>
-                </h2>
+                <div className="tooltip-container">
+                  <h2 className="depth-of-ball">
+                    Depth of the ball <span className="tooltip-icon">ℹ️</span>
+                  </h2>
+                  <div className="tooltip-text">
+                    <span className="tooltip-text">
+                      The chart divides the table into 8 sections.
+                      <br />
+                      Each bar shows the number of ball hits in this area of the
+                      table,
+                      <br />
+                      corresponding to the shots made by the specific player
+                      whose name is mentioned.
+                      <br />
+                      The last bar shows your deepest shots, while the first bar
+                      shows the hits closest to you.
+                      <br />
+                    </span>
+                  </div>
+                </div>
                 <NavigableChart
-                  dataSets={[gameData.player_left.depthOfHits, gameData.player_right.depthOfHits]}
-                  playerNames={[gameData.player_left_name, gameData.player_right_name]}
-                  options={barChartOptions} // Pass the barChartOptions
+                  dataSets={[
+                    gameData.player_left.depthOfHits,
+                    gameData.player_right.depthOfHits,
+                  ]}
+                  playerNames={[
+                    gameData.player_left_name,
+                    gameData.player_right_name,
+                  ]}
+                  options={barChartOptions}
                 />
               </td>
               <td className="stats-column">
                 <div>
-                  <video className="large-video" id="videoPlayer" controls muted="muted" autoPlay>
-                    <source src={`http://localhost:3000/games/video/${gameId}`} type="video/mp4" />
+                  <video
+                    className="large-video"
+                    id="videoPlayer"
+                    controls
+                    muted="muted"
+                    autoPlay
+                  >
+                    <source
+                      src={`http://localhost:3000/games/video/${gameId}`}
+                      type="video/mp4"
+                    />
                   </video>
                 </div>
               </td>
