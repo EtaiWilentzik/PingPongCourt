@@ -328,13 +328,17 @@ const personalStatistics = async (userId) => {
     if (!totalPoints.success) {
       return totalPoints;
     }
+    if (totalPoints.statusCode === 204) {
+      return totalPoints;
+    }
+
     const return_obj = {
       stats: user.stats,
-      totalWinPoints: totalPoints.data.totalWinPoints,
-      totalLossPoints: totalPoints.data.totalLosePoints,
-      lossReasonsSum: totalPoints.data.lossReasonsSum,
-      depthOfHits: totalPoints.data.depthOfHits,
-      lastFiveGames: totalPoints.data.lastFiveGames,
+      totalWinPoints: totalPoints?.data?.totalWinPoints,
+      totalLossPoints: totalPoints?.data?.totalLosePoints,
+      lossReasonsSum: totalPoints?.data?.lossReasonsSum,
+      depthOfHits: totalPoints?.data?.depthOfHits,
+      lastFiveGames: totalPoints?.data?.lastFiveGames,
     };
     console.log("the return obj is ", return_obj);
     // }
@@ -352,10 +356,10 @@ const getUserWinLoseScores = async (userId) => {
       .populate("players.playerLeft.userId", "name") // Populate playerLeft user name
       .populate("players.playerRight.userId", "name") // Populate playerRight user name
       .sort({ datePlayed: -1 }); // Sort from newest to oldest
-    const lastFiveGames = getLastGames(games.slice(0, 5));
     if (games.length === 0) {
-      return Respond.createResponse(false, 404, null, "No games found for the user");
+      return Respond.createResponse(true, 204, null, "No games found for the user");
     }
+    const lastFiveGames = getLastGames(games.slice(0, 5));
     let totalWinPoints = 0;
     let totalLosePoints = 0;
     let lossReasonsSum = [0, 0, 0, 0];

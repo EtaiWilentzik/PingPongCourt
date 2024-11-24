@@ -115,14 +115,22 @@ const startGame = async (req, res) => {
     }
 
     //call for carateGame
-
+    //* starter is zero if current player is serving and isCurrentInLeft is zero is current in left side .
     // Extract details from the request
     const videoPath = req.file.path; //we got it from multer
     const currentPlayer = req.user.userId; //the current player who did the request
     const opponentId = req.body.opponentId;
-    let starter = req.body.starter; //who start serving
+    let starter = req.body.starter; //who start serving if its zero the player in the player conncted starting othewise 1
     let isCurrentInLeft = req.body.isCurrentInLeft; //who playing in the left sid
     let leftPlayerId, rightPlayerId;
+
+    //* if current user is starting and he is in the right side starter need to be 1.  starter need to be 1 if the serves start from right to left
+    if (starter === "0" && isCurrentInLeft === "1") {
+      starter = 1;
+      //* if current is not starting and he is in right side its mean that the opponnet start from left side.
+    } else if (starter === "1" && isCurrentInLeft === "1") {
+      starter = 0;
+    }
     if (isCurrentInLeft) {
       leftPlayerId = currentPlayer;
       rightPlayerId = opponentId;
