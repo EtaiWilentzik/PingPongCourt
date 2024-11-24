@@ -1,5 +1,4 @@
 /* Stats.css */
-
 .stats {
   overflow: hidden;
   display: flex;
@@ -42,7 +41,6 @@
 
 .pie-chart-wrapper {
   flex: 1;
- 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -50,7 +48,6 @@
 }
 
 .chart-container {
- 
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -87,35 +84,37 @@ h1 {
   font-size: 0.8rem !important;
 }
 
-.tooltip-icon {
+/* Tooltip Styles */
+.tooltip-container {
   position: relative;
+  display: inline-block;
+}
+
+.tooltip-icon {
   cursor: pointer;
-  margin-left: 5px;
-  font-size: 1.2rem;
-  color: #12b7f3;
+  font-size: 1.8rem;
+  margin-left: 8px;
 }
 
 .tooltip-text {
   visibility: hidden;
-  background-color: #555;
+  width: 300px; /* Increased width */
+  background-color: black;
   color: #fff;
-  text-align: center;
-  padding: 5px;
+  text-align: left; /* Align text to the left */
   border-radius: 5px;
+  padding: 15px; /* Increased padding for better spacing */
   position: absolute;
   z-index: 1;
-  bottom: 125%;
+  bottom: 100%;
   left: 50%;
-  transform: translateX(-50%);
+  margin-left: -150px; /* Centered the tooltip */
   opacity: 0;
   transition: opacity 0.3s;
-  width: 200px;
-  font-size: 0.9rem;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+  white-space: pre-line; /* Preserves line breaks from HTML */
 }
 
-.tooltip-icon:hover + .tooltip-text {
+.tooltip-container:hover .tooltip-text {
   visibility: visible;
   opacity: 1;
-  font-size: large;
 }

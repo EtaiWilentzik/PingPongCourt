@@ -3,6 +3,7 @@ import { AuthContext } from "../App/AuthContext.js";
 import "./AddGame.css";
 import "../Components/GamesList.css";
 import { useNavigate } from "react-router-dom";
+import Message from "../Components/Message"; // Import the Message component
 
 const AddGame = () => {
   const { token } = useContext(AuthContext);
@@ -12,10 +13,13 @@ const AddGame = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [imOnLeft, setImOnLeft] = useState(true);
   const [imServer, setImServer] = useState(true);
+  const [isLoading, setIsLoading] = useState(true); // Track loading state
+  const [error, setError] = useState(null); // Track error state
+  const [isProcessing, setIsProcessing] = useState(false); // Track processing state
 
   useEffect(() => {
-    // Fetch users when the component mounts
     const fetchUsers = async () => {
+      setIsLoading(true); // Start loading state
       try {
         const response = await fetch("http://localhost:3000/users/otherusers", {
           method: "GET",
@@ -27,22 +31,23 @@ const AddGame = () => {
         if (response.ok) {
           const data = await response.json();
           setUsers(data.data); // Assume the API returns an array of users
-
+          setIsLoading(false); // End loading state
         } else {
           const error = await response.json();
-          console.error("Error fetching users:", error);
-          alert(`Error fetching users: ${error.message}`);
+          setError(error.message); // Set the error message
+          setIsLoading(false); // End loading state
         }
       } catch (error) {
         console.error("Network or server error:", error);
-        alert("Network or server error while fetching users.");
+        setError("Network or server error while fetching users.");
+        setIsLoading(false); // End loading state
       }
     };
 
     if (token) {
       fetchUsers();
     }
-  }, [token]); // Dependency array ensures the fetch runs only when the token changes
+  }, [token]);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -80,9 +85,10 @@ const AddGame = () => {
     const formData = new FormData();
     formData.append("video", file);
     formData.append("opponentId", selectedUser.userId);
-
     formData.append("isCurrentInLeft", imOnLeft ? 0 : 1);
     formData.append("starter", imServer ? 0 : 1);
+
+    setIsProcessing(true); // Start processing state
 
     try {
       const response = await fetch("http://localhost:3000/games/startGame", {
@@ -102,8 +108,38 @@ const AddGame = () => {
     } catch (error) {
       console.error("Error sending payload:", error);
       alert("Network or server error.");
+    } finally {
+      setIsProcessing(false); // End processing state
     }
   };
+
+  // Display Message component when loading, no users, or error
+  if (isLoading) {
+    return (
+      <Message
+        content="Please wait while fetching the data."
+        showButton={false}
+        headline={"Loading..."}
+      />
+    );
+  }
+
+  if (error) {
+    return <Message content={"Error"} />;
+  }
+
+  // Display processing message if the video is being sent and judged
+  if (isProcessing) {
+    return (
+      <Message
+        headline="Video Sent"
+        content="Your video has been sent and is being judged. Please wait, this may take several minutes."
+        showButton={true}
+        btnText="Back to Home"
+        onClick={() => navigate("/")}
+      />
+    );
+  }
 
   return (
     <div className="user-component">
@@ -124,7 +160,6 @@ const AddGame = () => {
                   onClick={() => handleUserClick(user)}
                 >
                   <td className="games-list-cell">{user.userName}</td>
-
                 </tr>
               ))}
             </tbody>
@@ -138,7 +173,6 @@ const AddGame = () => {
               <p>
                 <strong>Sides: </strong>Me (left) : {selectedUser.userName}
                 (right)
-
               </p>
             )}
             {!imOnLeft && (
@@ -152,7 +186,6 @@ const AddGame = () => {
             </p>
             <p>
               <strong>Server:</strong> {imServer ? "Me" : selectedUser.userName}
-
             </p>
           </div>
           <div className="settings-actions">

@@ -1,0 +1,46 @@
+/* Message.css */
+.no-data-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+    background-color: #1f1f1f;
+    border-radius: 10px;
+    margin-top: 30px;
+    padding: 20px;
+    width: 90%;
+    max-width: 800px;
+    margin: auto;
+    text-align: center;
+}
+
+.no-data-message {
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+}
+
+.no-data-message h2 {
+    font-size: 2rem;
+    color: #12b7f3;
+}
+
+.no-data-message p {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.retry-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #12b7f3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.retry-button:hover {
+    background-color: #0a8bbf;
+}

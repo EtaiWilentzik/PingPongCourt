@@ -1,7 +1,6 @@
 /* GameStats.css */
 
 /* Match styles from Stats.css */
-
 .stats {
   overflow: hidden;
   display: flex;
@@ -85,4 +84,41 @@ h1 {
   width: 100%;
   max-width: 1000px;
   height: auto;
+}
+
+
+
+/* Tooltip Styles */
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-icon {
+  cursor: pointer;
+  font-size: 1.8rem;
+  margin-left: 8px;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  width: 300px; /* Increased width */
+  background-color: black;
+  color: #fff;
+  text-align: left; /* Align text to the left */
+  border-radius: 5px;
+  padding: 15px; /* Increased padding for better spacing */
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -150px; /* Centered the tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+  white-space: pre-line; /* Preserves line breaks from HTML */
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
 }
