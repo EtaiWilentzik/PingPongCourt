@@ -14,10 +14,7 @@ class Ball:
         self.opposite_direction_count = 0
         # maybe we will use it for statistics or max speed of interval something like that
         self.speeds = []
-        self.fastest_left_speed=0
-        self.fastest_left_frame=0
-        self.fastest_right_speed=0
-        self.fastest_right_frame=0
+        self.last_seen_frame = 0
 
     # add new coordinates of ball in new frame
     def set_coordinates(self, x, y):
@@ -28,23 +25,30 @@ class Ball:
     def calc_scaling_factor(self):
         print("calculating scaling factor")
 
-    def set_speed(self,frame):
+    def set_speed(self, frame, game_stats):
         if len(self.positions) < 2:
             return
+        print("the frame is", frame)
+        if frame != (self.last_seen_frame + 1):
+            self.last_seen_frame = frame
+            return
+        print("the frame is", frame, "the last frame is", self.last_seen_frame)
+        self.last_seen_frame = frame
         speed = (274 / Constants.TABLE_SIZE) * calculate_linear_distance(
             (self.positions[-1].x, self.positions[-1].y),
             (self.positions[-2].x, self.positions[-2].y))
-        speed *= Constants.FPS #how many cm/sec
+        speed *= Constants.FPS  # how many cm/sec
         speed *= 0.036
         speed /= 1000
-        if self.positions[-1].x>self.positions[-2].x:#means ball is moving from left to right
-            if speed > self.fastest_left_speed:
-                self.fastest_left_speed=speed
-                self.fastest_left_frame=frame
+        # means ball is moving from left to right
+        if self.positions[-1].x > self.positions[-2].x:
+            if speed > game_stats.player_left.fastest_ball_speed:
+                game_stats.player_left.fastest_ball_speed = speed
+                game_stats.player_left.fastest_ball_frame = frame
         else:
-            if speed > self.fastest_right_speed:
-                self.fastest_right_speed=speed
-                self.fastest_right_frame=frame
+            if speed > game_stats.player_right.fastest_ball_speed:
+                game_stats.player_right.fastest_ball_speed = speed
+                game_stats.player_right.fastest_ball_frame = frame
 
         print("the speed is", speed)
 

@@ -129,10 +129,6 @@ class GameStats:
         sum_points = track_score.right_player + track_score.left_player
         if self.sum_all_hits != 0:
             self.average_hits_in_game = self.sum_all_hits / sum_points
-        self.player_left.fastest_ball_speed = ball.fastest_left_speed
-        self.player_left.fastest_ball_frame = ball.fastest_left_frame
-        self.player_right.fastest_ball_speed = ball.fastest_right_speed
-        self.player_right.fastest_ball_frame = ball.fastest_right_frame
         self.player_left.points = track_score.left_player
         self.player_right.points = track_score.right_player
         self.print_all_statistics()

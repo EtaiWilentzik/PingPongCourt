@@ -1,12 +1,24 @@
+/* GameStats.css */
+
+/* Match styles from Stats.css */
+
 .stats {
   overflow: hidden;
-  display: table;
+  display: flex;
+  justify-content: center;
   width: 100%;
   border-collapse: collapse;
   font-family: Arial, sans-serif;
-  color: #333;
-  margin-top: 80px;
+  color: rgba(255, 255, 255, 0.96);
+  margin-top: 60px;
   text-align: center;
+}
+
+.headline {
+  margin-bottom: 10px;
+  font-size: 2.3rem;
+  font-weight: bold;
+  color: #12b7f3;
 }
 
 .stats-column {
@@ -16,20 +28,41 @@
   width: 50%;
 }
 
+.pie-charts {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.pie-chart-wrapper {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+.chart-headline {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #12b7f3;
+}
+
 h2 {
   font-size: 1.8rem;
-  margin-bottom: 10px;
+  color: #12b7f3;
 }
 
 h1 {
-  font-weight: bold;
-  font-size: 2rem;
-}
-
-.pie-charts {
-  display: flex;
-  justify-content: center;
-  gap: 20px; /* Space between pie charts */
+  color: #12b7f3;
 }
 
 .navigable-chart {
@@ -39,29 +72,17 @@ h1 {
   margin: 0 auto;
 }
 
-.bar-chart {
-  transform: scale(0.8); /* Scale down the bar chart to 80% */
-  transform-origin: center; /* Ensure the scaling is centered */
-}
-
-table {
-  margin: 0 auto; /* Centers the table */
-  width: 80%; /* Adjusts width for better layout */
-  height: 80%;
-}
-
-tr {
-  vertical-align: top; /* Aligns all cells consistently */
-}
-
-thead {
+.bar-chart-container {
+  width: 90%;
+  height: 90%;
+  margin: 0 auto;
+  display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
 }
 
 .large-video {
-  width: 100%; /* Makes the video responsive */
-  max-width: 1000px; /* Set a maximum width */
-  height: auto; /* Keeps the aspect ratio intact */
+  width: 100%;
+  max-width: 1000px;
+  height: auto;
 }
