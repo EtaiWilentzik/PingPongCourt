@@ -4,3 +4,7 @@ h2 {
 body {
   font-family: "Varela Round", sans-serif;
 }
+body {
+  margin: 0;
+  padding: 0;
+}

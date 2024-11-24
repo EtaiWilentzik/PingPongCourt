@@ -9,26 +9,11 @@ function App() {
     <AuthProvider>
       <Routes>
         <Route path="/" element={<Screen screenType={SCREEN_TYPE.MAIN} />} />
-        <Route
-          path="/register"
-          element={<Screen screenType={SCREEN_TYPE.REGISTER} />}
-        />
-        <Route
-          path="/login"
-          element={<Screen screenType={SCREEN_TYPE.LOGIN} />}
-        />
-        <Route
-          path="/about"
-          element={<Screen screenType={SCREEN_TYPE.ABOUT} />}
-        />
-        <Route
-          path="/start"
-          element={<Screen screenType={SCREEN_TYPE.START} />}
-        />
-        <Route
-          path="/score"
-          element={<Screen screenType={SCREEN_TYPE.SCORE} />}
-        />
+        <Route path="/register" element={<Screen screenType={SCREEN_TYPE.REGISTER} />} />
+        <Route path="/login" element={<Screen screenType={SCREEN_TYPE.LOGIN} />} />
+        <Route path="/about" element={<Screen screenType={SCREEN_TYPE.ABOUT} />} />
+        <Route path="/start" element={<Screen screenType={SCREEN_TYPE.START} />} />
+        <Route path="/score" element={<Screen screenType={SCREEN_TYPE.SCORE} />} />
         <Route
           path="/statistics"
           element={
