@@ -110,13 +110,13 @@ class Game:
         if len(self.ball.positions) < 3:
             return (False,)
         # this purpule line is where we put the min height param.
-        cv2.line(
-            frame,
-            (int(self.min_height), int(self.min_height)),
-            (int(self.min_height) + 500, int(self.min_height)),
-            Color.PURPLE,
-            2,
-        )
+        # cv2.line(
+        #     frame,
+        #     (int(self.min_height), int(self.min_height)),
+        #     (int(self.min_height) + 500, int(self.min_height)),
+        #     Color.PURPLE,
+        #     2,
+        # )
         # cv2.putText(
         #     frame,
         #     f" min height is {self.min_height}",
