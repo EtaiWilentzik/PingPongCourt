@@ -72,8 +72,8 @@ class Game:
 
                 # ball hits twice in the same table - means losing the game
                 if self.ball.left_counter > 1:
-                    cv2.putText(frame, f" player right won and the counter is {counter}", (int(
-                        100), int(500)), cv2.FONT_HERSHEY_SIMPLEX, 1.0, Color.BLUE,  3, cv2.LINE_AA,)
+                    # cv2.putText(frame, f" player right won and the counter is {counter}", (int(
+                    #     100), int(500)), cv2.FONT_HERSHEY_SIMPLEX, 1.0, Color.BLUE,  3, cv2.LINE_AA,)
                     Constants.R_RESULT += 1
                     return (True, Constants.RIGHT_PLAYER)
             # checks if x coordinate is in the right table
@@ -98,9 +98,9 @@ class Game:
 
                 # ball hits twice in the same table - means losing the game
                 if (self.ball.right_counter > 1):
-                    cv2.putText(frame, f" player left won and the counter is {counter}", (int(
-                        800), int(800)), cv2.FONT_HERSHEY_SIMPLEX, 1.0, Color.RED, 2, cv2.LINE_AA,)
-                    print(f"______________ player left won {counter}")
+                    # cv2.putText(frame, f" player left won and the counter is {counter}", (int(
+                    #     800), int(800)), cv2.FONT_HERSHEY_SIMPLEX, 1.0, Color.RED, 2, cv2.LINE_AA,)
+                    # print(f"______________ player left won {counter}")
                     Constants.L_RESULT += 1
                     return (True, Constants.LEFT_PLAYER)
         return (False,)
@@ -117,45 +117,45 @@ class Game:
             Color.PURPLE,
             2,
         )
-        cv2.putText(
-            frame,
-            f" min height is {self.min_height}",
-            (int(self.min_height - 10), int(self.min_height - 10)),
-            cv2.FONT_HERSHEY_SIMPLEX,
-            1.0,
-            Color.AQUA,
-            5,
-            cv2.LINE_AA,
-        )
+        # cv2.putText(
+        #     frame,
+        #     f" min height is {self.min_height}",
+        #     (int(self.min_height - 10), int(self.min_height - 10)),
+        #     cv2.FONT_HERSHEY_SIMPLEX,
+        #     1.0,
+        #     Color.AQUA,
+        #     5,
+        #     cv2.LINE_AA,
+        # )
 
         if self.ball.get_y() > self.min_height:
 
             # that mean that the last frame the ball is very low  we assume the other player cant touch it.
             if self.ball.left_counter > 0:
 
-                cv2.putText(
-                    frame,
-                    f" player right won in hit table point",
-                    (int(230), int(150)),
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    1.0,
-                    Color.MAGENTA,
-                    5,
-                    cv2.LINE_AA,
-                )
+                # cv2.putText(
+                #     frame,
+                #     f" player right won in hit table point",
+                #     (int(230), int(150)),
+                #     cv2.FONT_HERSHEY_SIMPLEX,
+                #     1.0,
+                #     Color.MAGENTA,
+                #     5,
+                #     cv2.LINE_AA,
+                # )
 
                 return (True, Constants.RIGHT_PLAYER)
             elif self.ball.right_counter > 0:
-                cv2.putText(
-                    frame,
-                    f" player left won in hit table point",
-                    (int(300), int(700)),
-                    cv2.FONT_HERSHEY_SIMPLEX,
-                    1.0,
-                    Color.MAGENTA,
-                    5,
-                    cv2.LINE_AA,
-                )
+                # cv2.putText(
+                #     frame,
+                #     f" player left won in hit table point",
+                #     (int(300), int(700)),
+                #     cv2.FONT_HERSHEY_SIMPLEX,
+                #     1.0,
+                #     Color.MAGENTA,
+                #     5,
+                #     cv2.LINE_AA,
+                # )
 
                 return (True, Constants.LEFT_PLAYER)
         return False,
@@ -181,12 +181,13 @@ class Game:
         # * if the length is zero we dont need to do anything so return false
         if len(self.ball.positions) == 0:
             return (False,)
-        self.ball.set_speed(int(Constants.counterUntilFrame), self.game_stats,self.table)
+        self.ball.set_speed(int(Constants.counterUntilFrame),
+                            self.game_stats, self.table)
         # here we need to call check_last_ball_seen to check more than 2 *fps before checking if it is the same frame!!
 
         clbs = self.check_last_ball_seen()
         if clbs[0]:
-            Constants.WON_REASON = "check_last_ball_seen in right table"
+            Constants.WON_REASON = "Ball out of zone"
             self.game_status.next_state()
             self.game_stats.set_after_ball_out_zone(
                 self.last_side_hitter, clbs[1])
@@ -209,7 +210,7 @@ class Game:
         # this is the functions that judge the game
         htp = self.hit_table_point(frame)
         if htp[0]:
-            Constants.WON_REASON = "hit table_point"
+            Constants.WON_REASON = "Hit table point"
             self.game_status.next_state()
             self.game_stats.set_after_ball_out_zone(
                 self.last_side_hitter, htp[1])
@@ -223,7 +224,7 @@ class Game:
         db = self.double_bounce(frame, counter)
 
         if db[0]:
-            Constants.WON_REASON = "double_bounce"
+            Constants.WON_REASON = "Double bounce"
             self.game_status.next_state()
             self.game_stats.set_after_double_bounce(db[1])
             return self.track_score.update_score(db[1])
