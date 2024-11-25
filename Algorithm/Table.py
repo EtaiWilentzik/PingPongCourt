@@ -7,6 +7,7 @@ class Table:
         self.left_table = [0.0, 0.0, 0.0, 0.0]
         self.right_table = [0.0, 0.0, 0.0, 0.0]
         self.counter = 0
+        self.length = 0
         self.counter_net = 0
         self.top_left = (0, 0)
         self.bottom_right = (0, 0)
@@ -56,21 +57,25 @@ class Table:
         self.set_top_left((self.list[0], self.list[1]))
         self.set_bottom_right((self.list[2], self.list[3]))
 
+    def set_length(self):
+        self.length = self.get_bottom_right()[0] - self.get_top_left()[0]
+        print(self.length)
+
     def set_touch_zones(self):
         # adding margin  to both sides
-        x_align_increment = (self.left_table[2]-self.left_table[0])/6
+        x_align_increment = (self.left_table[2] - self.left_table[0]) / 6
         small_epsilon = 20
         # left touch zones
         self.left_zone[0] = self.get_top_left()[0]
         self.left_zone[1] = self.get_top_left()[1]
-        self.left_zone[2] = self.get_top_left()[0]+x_align_increment
-        self.left_zone[3] = self.get_bottom_net()[1]+small_epsilon
+        self.left_zone[2] = self.get_top_left()[0] + x_align_increment
+        self.left_zone[3] = self.get_bottom_net()[1] + small_epsilon
 
         # right touch zones
-        self.right_zone[0] = self.get_bottom_right()[0]-x_align_increment
+        self.right_zone[0] = self.get_bottom_right()[0] - x_align_increment
         self.right_zone[1] = self.get_top_left()[1]
         self.right_zone[2] = self.get_bottom_right()[0]
-        self.right_zone[3] = self.get_bottom_net()[1]+small_epsilon
+        self.right_zone[3] = self.get_bottom_net()[1] + small_epsilon
 
     def set_coordinates_net(self):
         for i in range(len(self.netlist)):
@@ -79,7 +84,7 @@ class Table:
         self.set_bottom_net((self.netlist[2], self.netlist[3]))
         # add constant of x coordinate of net
         Constants.NET_X = self.netlist[0]
-        print(f"net is { Constants.NET_X }")
+        print(f"net is {Constants.NET_X}")
 
     def set_two_sides(self):
         # declare the left side of the table

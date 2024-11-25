@@ -166,6 +166,7 @@ class Game:
         self.table.set_two_sides()
         self.table.set_touch_zones()
         self.table.set_intervals()
+        self.table.set_length()
         # self.ball.net_x = self.table.netlist[0]
         # this is the minimum value that we expect someone to hit the ball. i.e lower than this is a point to the
         # opponent.
@@ -180,7 +181,7 @@ class Game:
         # * if the length is zero we dont need to do anything so return false
         if len(self.ball.positions) == 0:
             return (False,)
-        self.ball.set_speed(int(Constants.counterUntilFrame), self.game_stats)
+        self.ball.set_speed(int(Constants.counterUntilFrame), self.game_stats,self.table)
         # here we need to call check_last_ball_seen to check more than 2 *fps before checking if it is the same frame!!
 
         clbs = self.check_last_ball_seen()
