@@ -137,7 +137,7 @@ class GameStats:
             self.player_right.fastest_ball_speed, 3)
         self.print_all_statistics()
         print(self.to_dict())
-        # self.save_to_csv(self.to_dict(), video_name)
+        # self.save_to_csv(self.to_dict(), video_name) גss
         self.send_to_server(video_name)
 
     def print_all_statistics(self):
