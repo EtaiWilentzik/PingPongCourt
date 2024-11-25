@@ -131,11 +131,13 @@ class GameStats:
             self.average_hits_in_game = self.sum_all_hits / sum_points
         self.player_left.points = track_score.left_player
         self.player_right.points = track_score.right_player
-        self.player_left.fastest_ball_speed = round(self.player_left.fastest_ball_speed, 3)
-        self.player_right.fastest_ball_speed = round(self.player_left.fastest_ball_speed, 3)
+        self.player_left.fastest_ball_speed = round(
+            self.player_left.fastest_ball_speed, 3)
+        self.player_right.fastest_ball_speed = round(
+            self.player_right.fastest_ball_speed, 3)
         self.print_all_statistics()
         print(self.to_dict())
-        # self.save_to_csv(self.to_dict(), video_name)
+        # self.save_to_csv(self.to_dict(), video_name) גss
         self.send_to_server(video_name)
 
     def print_all_statistics(self):
