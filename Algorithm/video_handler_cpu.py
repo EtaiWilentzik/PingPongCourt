@@ -77,13 +77,13 @@ class VideoHandler:
                     (100, 100), cv2.FONT_HERSHEY_PLAIN,  3, Color.BLUE, 2)
         if game.game_status.state == 1:
             cv2.putText(VideoHandler.frame, "state of game: judging the current point",
-                        (700, 100), cv2.FONT_HERSHEY_PLAIN,  2, Color.RED, 2)
+                        (1200, 100), cv2.FONT_HERSHEY_PLAIN,  2, Color.BLACK, 2)
         else:
             cv2.putText(VideoHandler.frame, f"state of game: between points",
-                        (1300, 100), cv2.FONT_HERSHEY_PLAIN, 2, Color.BLACK, 2)
+                        (1200, 100), cv2.FONT_HERSHEY_PLAIN, 2, Color.BLACK, 2)
 
         cv2.putText(VideoHandler.frame, f"Reason for last point: {Constants.WON_REASON}",
-                    (1300, 130), cv2.FONT_HERSHEY_PLAIN,  2, Color.BLACK, 2)
+                    (1250, 130), cv2.FONT_HERSHEY_PLAIN,  2, Color.BLACK, 2)
 
     def write_video(self):
         self.out.write(VideoHandler.frame)

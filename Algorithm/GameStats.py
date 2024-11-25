@@ -131,6 +131,8 @@ class GameStats:
             self.average_hits_in_game = self.sum_all_hits / sum_points
         self.player_left.points = track_score.left_player
         self.player_right.points = track_score.right_player
+        self.player_left.fastest_ball_speed = round(self.player_left.fastest_ball_speed, 3)
+        self.player_right.fastest_ball_speed = round(self.player_left.fastest_ball_speed, 3)
         self.print_all_statistics()
         print(self.to_dict())
         # self.save_to_csv(self.to_dict(), video_name)
@@ -166,8 +168,9 @@ class PlayerStats:
         self.aces = 0
         self.bad_serves = 0
         self.average_speed = 0
-        self.depth_of_hits = [0]*8
-    #! i didnt enterd the bad serve to the sserver.
+        self.depth_of_hits = [0] * 8
+
+    # ! i didnt enterd the bad serve to the sserver.
 
     def to_dict(self):
         return {
