@@ -1,5 +1,3 @@
-const User = require("../models/userModel");
-
 const authorizeUser = async (req, res, next) => {
   try {
     const requestedUserId = req.params.id;
@@ -9,7 +7,6 @@ const authorizeUser = async (req, res, next) => {
     if (requestedUserId !== authenticatedUserId) {
       return res.status(403).json({ message: "Forbidden: Access denied." });
     }
-
     next();
   } catch (error) {
     res.status(500).json({ message: "Server Error: " + error.message });
