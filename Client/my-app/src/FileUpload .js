@@ -2,9 +2,13 @@ import React, { useState } from "react";
 
 const FileUpload = () => {
   const [file, setFile] = useState(null);
-  const [playerLeft, setPlayerLeft] = useState("");
-  const [playerRight, setPlayerRight] = useState("");
+  const [opponentId, setOpponentId] = useState("");
+  const [isCurrentInLeft, setisCurrentInLeft] = useState("");
   const [starter, setStarter] = useState("");
+
+  // Add your token here
+  const token =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6IkV0YWkiLCJ1c2VySWQiOiI2NzNkZjM2M2RmNmJkMjI5MTU4MDYzMmMiLCJpYXQiOjE3MzIxMTMyOTJ9.kFcLUpKElfgc-tYtqecofdL1sosaMD3zvkNeB5TJoog";
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -16,20 +20,23 @@ const FileUpload = () => {
   };
 
   const handleUpload = async () => {
-    if (!file || !playerLeft || !playerRight || !starter) {
+    if (!file || !opponentId || !isCurrentInLeft || !starter) {
       alert("All fields are required.");
       return;
     }
 
     const formData = new FormData();
     formData.append("video", file);
-    formData.append("playerLeft", playerLeft);
-    formData.append("playerRight", playerRight);
+    formData.append("opponentId", opponentId);
+    formData.append("isCurrentInLeft", isCurrentInLeft);
     formData.append("starter", starter);
 
     try {
       const response = await fetch("http://localhost:3000/games/startGame", {
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         body: formData,
       });
 
@@ -50,14 +57,19 @@ const FileUpload = () => {
     <div>
       <h1>Upload MP4 File</h1>
       <input type="file" accept="video/mp4" onChange={handleFileChange} />
-      <input type="text" placeholder="Player Left" value={playerLeft} onChange={(e) => setPlayerLeft(e.target.value)} />
       <input
         type="text"
-        placeholder="Player Right"
-        value={playerRight}
-        onChange={(e) => setPlayerRight(e.target.value)}
+        placeholder="Set Opponent"
+        value={opponentId}
+        onChange={(e) => setOpponentId(e.target.value)}
       />
-      <input type="text" placeholder="Starter" value={starter} onChange={(e) => setStarter(e.target.value)} />
+      <input
+        type="text"
+        placeholder="Am I on the left side?"
+        value={isCurrentInLeft}
+        onChange={(e) => setisCurrentInLeft(e.target.value)}
+      />
+      <input type="text" placeholder="Am I starting?" value={starter} onChange={(e) => setStarter(e.target.value)} />
       <button onClick={handleUpload} disabled={!file}>
         Upload
       </button>

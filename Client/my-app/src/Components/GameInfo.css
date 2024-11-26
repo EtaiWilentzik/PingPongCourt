@@ -1,7 +1,7 @@
 .top-right-component {
   grid-template-rows: auto auto; /* Allows flexible sizing */
   gap: 5px; /* Reduce spacing */
-  font-size: 1rem;
+  font-size: 2rem;
 }
 h3 {
   font-size: 2rem;
