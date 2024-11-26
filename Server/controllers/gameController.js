@@ -1,11 +1,9 @@
-const { response } = require("express");
 const gameServices = require("../services/gameServices");
 const Respond = require("../utils/helpers");
 const gameSchema = require("../models/gameModel");
 
 const createGame = async (req, res) => {
   const { player1, player2 } = req.body;
-  console.log(" in game controller ", player2);
   result = await gameServices.createGame(player1, player2);
   res.status(result.statusCode).json(result);
 };
@@ -34,8 +32,8 @@ const getHistoryAgainstPlayer = async (req, res) => {
   res.status(result.statusCode).json(result);
 };
 //! change this name to Update game in end ! because we create the game inside start game already
-const createGameAtEnd = async (req, res) => {
-  result = await gameServices.createGameAtEnd(req.body);
+const updateGameAtEnd = async (req, res) => {
+  result = await gameServices.updateGameAtEnd(req.body);
   res.status(result.statusCode).json(result);
 };
 
@@ -55,79 +53,62 @@ const allGames = async (req, res) => {
 const video = async (req, res) => {
   const fs = require("fs");
   const path = require("path");
-  const gameId = req.params.id;
-  const game = await gameSchema.Game.findById(gameId);
+  try {
+    const gameId = req.params.id;
+    const game = await gameSchema.Game.findById(gameId);
 
-  // console.log("Video streaming endpoint hit"); // Debug log
-  // console.log("Headers:", req.headers); // Log headers to debug the Range header
+    //* to do it with try and catch now im lazy
+    const videoPath = game.video.url;
+    if (!fs.existsSync(videoPath)) {
+      console.error("Video file not found at path:", videoPath);
+      return res.status(404).send("Video file not found.");
+    }
 
-  // const videoPath = path.resolve(__dirname, "./v2_short.mp4_out.mp4");
-  //* to do it with try and catch now im lazy
-  const videoPath = game.video.url;
+    const videoSize = fs.statSync(videoPath).size;
+    const range = req.headers.range;
 
-  // console.log(videoPath);
+    if (!range) {
+      res.writeHead(200, headers);
+      fs.createReadStream(videoPath).pipe(res);
+      return;
+    }
+    const CHUNK_SIZE = 10 ** 6; // 1MB chunks
+    const start = Number(range.replace(/\D/g, "")); //the starting number of the range.
+    const end = Math.min(start + CHUNK_SIZE, videoSize - 1); //the end of the range.
 
-  /// this is the real path "C:\Users\etaiw\Code\Table_Tenis_VScode\TableTenis\Server\uploads\v1_short-1732359194499-261342016_out.mp4"
-  // this is from mongodb  C:\Users\etaiw\Code\Table_Tenis_VScode\TableTenis\Server\uploads\v1_short-1732359194499-261342016_out.mp4
-  // const videoPath = path.resolve(__dirname, "./v2_short.mp4_out.mp4");
-  // Check if the video file exists
-  if (!fs.existsSync(videoPath)) {
-    console.error("Video file not found at path:", videoPath);
-    return res.status(404).send("Video file not found.");
+    const contentLength = end - start + 1;
+    const headers = {
+      "Content-Range": `bytes ${start}-${end}/${videoSize}`,
+      "Accept-Ranges": "bytes",
+      "Content-Length": contentLength,
+      "Content-Type": "video/mp4",
+    };
+    res.writeHead(206, headers); //Sending partial content 206
+    fs.createReadStream(videoPath, { start, end }).pipe(res); //This creates a readable stream for the video file located at videoPath
+  } catch (error) {
+    // Send a 500 Internal Server Error response
+    res.status(500).send(error.message);
   }
-
-  const videoSize = fs.statSync(videoPath).size;
-  const range = req.headers.range;
-
-  if (!range) {
-    // console.log("No Range header provided; sending entire file.");
-    // const headers = {
-    //   "Content-Length": videoSize,
-    //   "Content-Type": "video/mp4",
-    // };
-    res.writeHead(200, headers);
-    fs.createReadStream(videoPath).pipe(res);
-    return;
-  }
-
-  // console.log("Range header provided:", range);
-  const CHUNK_SIZE = 10 ** 6; // 1MB chunks
-  const start = Number(range.replace(/\D/g, ""));
-  const end = Math.min(start + CHUNK_SIZE, videoSize - 1);
-
-  const contentLength = end - start + 1;
-  const headers = {
-    "Content-Range": `bytes ${start}-${end}/${videoSize}`,
-    "Accept-Ranges": "bytes",
-    "Content-Length": contentLength,
-    "Content-Type": "video/mp4",
-  };
-  // console.log(`Streaming bytes ${start} to ${end} of size ${videoSize}`);
-  res.writeHead(206, headers);
-  fs.createReadStream(videoPath, { start, end }).pipe(res);
 };
 
 const startGame = async (req, res) => {
   try {
-    // Check if a file was uploaded
     if (!req.file) {
       return res.status(400).json({ message: "No video file uploaded!" });
     }
-
-    //call for carateGame
     //* starter is zero if current player is serving and isCurrentInLeft is zero is current in left side .
     // Extract details from the request
     const videoPath = req.file.path; //we got it from multer
     const currentPlayer = req.user.userId; //the current player who did the request
     const opponentId = req.body.opponentId;
-    let starter = req.body.starter; //who start serving if its zero the player in the player conncted starting othewise 1
-    let isCurrentInLeft = req.body.isCurrentInLeft; //who playing in the left sid
+    let starter = req.body.starter; //who start serving if its zero the player in the player connoted starting otherwise 1
+    let isCurrentInLeft = req.body.isCurrentInLeft; //who playing in the left side
     let leftPlayerId, rightPlayerId;
 
     //* if current user is starting and he is in the right side starter need to be 1.  starter need to be 1 if the serves start from right to left
     if (starter === "0" && isCurrentInLeft === "1") {
       starter = 1;
-      //* if current is not starting and he is in right side its mean that the opponnet start from left side.
+      //* if current is not starting and he is in right side its mean that the opponent start from left side.
     } else if (starter === "1" && isCurrentInLeft === "1") {
       starter = 0;
     }
@@ -140,15 +121,11 @@ const startGame = async (req, res) => {
     }
     game = await gameServices.createDefaultGame(leftPlayerId, rightPlayerId);
     gameID = game._id.toString();
-
-    // Resolve the Python script path
     const path = require("path");
-    //* maybe to change the path to
     const scriptName = path.resolve(__dirname, "../../Algorithm/predict_cpu.py");
     console.log("The script name is:", scriptName);
     console.log(videoPath);
-
-    // Function to run Python script and await its result
+    //* function to run the python script.
     const runPythonScript = () => {
       return new Promise((resolve, reject) => {
         const spawn = require("child_process").spawn;
@@ -156,7 +133,7 @@ const startGame = async (req, res) => {
         const pythonProcess = spawn("python", [scriptName, videoPath, leftPlayerId, rightPlayerId, starter, gameID]);
 
         let pythonOutput = "";
-
+        //* take control on std out,error and on close connection.
         pythonProcess.stdout.on("data", (data) => {
           console.log(`Python stdout: ${data.toString()}`);
           pythonOutput += data.toString();
@@ -175,14 +152,12 @@ const startGame = async (req, res) => {
         });
       });
     };
-
-    // Await the result of the Python script
     const pythonOutput = await runPythonScript();
 
     // Send success response
     res.status(200).json({
       message: "Game started successfully!",
-      pythonOutput, // we dont need it remove
+      // pythonOutput, // * we dont need it remove
     });
   } catch (error) {
     console.error("Error starting game:", error);
@@ -195,7 +170,7 @@ module.exports = {
   updateGame,
   getHistory,
   getHistoryAgainstPlayer,
-  createGameAtEnd,
+  updateGameAtEnd,
   video,
   getGame,
   personalStatistics,

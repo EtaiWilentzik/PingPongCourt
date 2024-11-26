@@ -97,9 +97,9 @@
 //this is number 4
 // middleware/authenticateMiddleware.js
 const jwt = require("jsonwebtoken");
-
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
+  //get the token
   const token = authHeader?.split(" ")[1];
 
   if (!token) {
@@ -111,8 +111,8 @@ const authenticateToken = (req, res, next) => {
       return res.status(403).json({ message: "Forbidden: Invalid token." });
     }
 
-    // Attach user information to the request object
-    req.user = user; // Assuming 'user' contains 'userId' and other relevant info
+    // *Attach user information to the request object. we used it in almost every following request.
+    req.user = user;
     next();
   });
 };

@@ -1,5 +1,6 @@
 const multer = require("multer");
 const path = require("path");
+const fs = require("fs");
 
 // Configure multer
 const storage = multer.diskStorage({
@@ -36,5 +37,23 @@ const addAbsolutePath = (req, res, next) => {
   }
   next();
 };
+const createServerFolder = (req, res, next) => {
+  try {
+    // Define the directory for uploads
+    const dir = path.resolve(__dirname, "../uploads");
 
-module.exports = { uploadSingleVideo, addAbsolutePath };
+    // Check if the uploads folder exists, create if it doesn't
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir);
+      console.log("Uploads folder created.");
+    }
+
+    // Proceed to the next middleware
+    next();
+  } catch (error) {
+    console.error("Error creating uploads folder:", error);
+    res.status(500).json({ message: "Internal server error while creating folder" });
+  }
+};
+
+module.exports = { uploadSingleVideo, addAbsolutePath, createServerFolder };
