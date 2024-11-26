@@ -31,34 +31,21 @@ export function GamesList({ list, isRest = false }) {
             const isTie = game.playerLeft.score === game.playerRight.score;
 
             return (
-              <tr
-                key={game.gameId}
-                className="games-list-row"
-                onClick={() => handleGameClick(game.gameId)}
-              >
-                <td className="games-list-cell">
-                  {new Date(game.datePlayed).toLocaleString()}
-                </td>
-                <td
-                  className={`games-list-cell ${!isTie && isLeftWinner ? "winner-cell" : ""}`}
-                >
+              <tr key={game.gameId} className="games-list-row" onClick={() => handleGameClick(game.gameId)}>
+                <td className="games-list-cell">{new Date(game.datePlayed).toLocaleString()}</td>
+                <td className={`games-list-cell ${!isTie && isLeftWinner ? "winner-cell" : ""}`}>
                   {game.playerLeft.name}
                 </td>
                 <td className="games-list-cell">{game.playerLeft.score}</td>
                 <td className="games-list-cell">{game.playerRight.score}</td>
-                <td
-                  className={`games-list-cell ${!isTie && !isLeftWinner ? "winner-cell" : ""}`}
-                >
+                <td className={`games-list-cell ${!isTie && !isLeftWinner ? "winner-cell" : ""}`}>
                   {game.playerRight.name}
                 </td>
               </tr>
             );
           })}
           {isRest && (
-            <tr
-              className="games-list-row all-games-row"
-              onClick={handleAllGamesClick}
-            >
+            <tr className="games-list-row all-games-row" onClick={handleAllGamesClick}>
               <td className="games-list-cell" colSpan="5">
                 To all games
               </td>

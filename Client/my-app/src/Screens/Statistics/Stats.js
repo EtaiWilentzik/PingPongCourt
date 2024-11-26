@@ -1,3 +1,5 @@
+// Stats.js
+
 import React, { useContext, useEffect, useState } from "react";
 import { PieChart } from "../../Components/PieChart";
 import { BarChart } from "../../Components/BarChart";
@@ -16,15 +18,12 @@ export function Stats({ gameId }) {
   const fetchPersonalData = async () => {
     setIsLoading(true); // Start loading state
     try {
-      const response = await fetch(
-        `http://localhost:3000/games/personalStatistics`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
+      const response = await fetch(`http://localhost:3000/games/personalStatistics`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
-      );
+      });
 
       if (response.status === 204) {
         setData(null);
@@ -81,16 +80,11 @@ export function Stats({ gameId }) {
   };
 
   const pieChartOptions = {
-    responsive: false,
-    maintainAspectRatio: true,
+    responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
-        labels: {
-          font: {
-            size: 18,
-          },
-          color: "#FFFFFF",
-        },
+        display: false, // Disable the built-in legend
       },
       tooltip: {
         titleFont: {
@@ -102,6 +96,14 @@ export function Stats({ gameId }) {
         callbacks: {
           labelTextColor: () => "#FFFFFF",
         },
+      },
+    },
+    layout: {
+      padding: {
+        top: 20,
+        bottom: 20,
+        left: 20,
+        right: 20,
       },
     },
   };
@@ -116,14 +118,7 @@ export function Stats({ gameId }) {
               <td className="stats-column">
                 <div className="pie-charts">
                   <div className="pie-chart-wrapper">
-                    <PieChart
-                      name={undefined}
-                      values={data.lossReasonsSum}
-                      miss={true}
-                      options={pieChartOptions}
-                      width={400}
-                      height={400}
-                    />
+                    <PieChart name={undefined} values={data.lossReasonsSum} miss={true} options={pieChartOptions} />
                   </div>
                   <div className="pie-chart-wrapper">
                     <PieChart
@@ -132,8 +127,6 @@ export function Stats({ gameId }) {
                       miss={false}
                       labels={["Wins", "Losses"]}
                       options={pieChartOptions}
-                      width={400}
-                      height={400}
                     />
                   </div>
                 </div>
@@ -152,14 +145,11 @@ export function Stats({ gameId }) {
                     <span className="tooltip-text">
                       The chart divides the table into 8 sections.
                       <br />
-                      Each bar shows the number of ball hits in this area of the
-                      table,
+                      Each bar shows the number of ball hits in this area of the table,
                       <br />
-                      corresponding to the shots made by the specific player
-                      whose name is mentioned.
+                      corresponding to the shots made by the specific player whose name is mentioned.
                       <br />
-                      The last bar shows your deepest shots, while the first bar
-                      shows the hits closest to you.
+                      The last bar shows your deepest shots, while the first bar shows the hits closest to you.
                       <br />
                     </span>
                   </div>

@@ -51,6 +51,9 @@ body {
   animation: futuristic-glow-2 2.5s ease-in-out infinite alternate;
 }
 
+.input-group{
+  width: auto
+}
 @keyframes futuristic-glow-2 {
   0% {
     box-shadow:

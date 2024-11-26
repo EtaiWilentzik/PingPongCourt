@@ -62,10 +62,8 @@ const AllGames = () => {
         games.filter((game) =>
           Object.values(game.playerLeft)
             .concat(Object.values(game.playerRight))
-            .some((player) =>
-              String(player).toLowerCase().includes(playerName.toLowerCase()),
-            ),
-        ),
+            .some((player) => String(player).toLowerCase().includes(playerName.toLowerCase()))
+        )
       );
     }
   };
@@ -79,13 +77,7 @@ const AllGames = () => {
 
   // Show the loading or error message if applicable
   if (isLoading) {
-    return (
-      <Message
-        content={"Please wait while fetching the data."}
-        headline={"Loading..."}
-        showButton={false}
-      />
-    );
+    return <Message content={"Please wait while fetching the data."} headline={"Loading..."} showButton={false} />;
   }
 
   if (error) {

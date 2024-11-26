@@ -46,13 +46,13 @@
 .games-list-row {
   cursor: pointer;
   background-color: #1e1e2f; /* Default background for rows */
-  transition: background-color 0.3s, transform 0.2s; /* Hover effect */
+  /* transition: background-color 0.3s, transform 0.2s; Hover effect */
 }
 
 /* Hover Effect for Rows */
 .games-list-row:hover {
   background-color: #3e3e4f; /* Slightly lighter background on hover */
-  transform: scale(1.05); /* Subtle zoom effect */
+  /* transform: scale(1.05); Subtle zoom effect */
 }
 
 /* Table Cells */
@@ -94,6 +94,6 @@
   }
 
   .games-list-cell {
-    padding: 8px; /* Adjust padding for smaller screens */
+    padding: 15px; /* Adjust padding for smaller screens */
   }
 }

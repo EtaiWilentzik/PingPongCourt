@@ -359,7 +359,7 @@ const getUserWinLoseScores = async (userId) => {
     if (games.length === 0) {
       return Respond.createResponse(true, 204, null, "No games found for the user");
     }
-    const lastFiveGames = getLastGames(games.slice(0, 5));
+    const lastFiveGames = getLastGames(games, 5);
     let totalWinPoints = 0;
     let totalLosePoints = 0;
     let lossReasonsSum = [0, 0, 0, 0];
@@ -418,8 +418,16 @@ const getUserWinLoseScores = async (userId) => {
   }
 };
 
-const getLastGames = (games) => {
-  return games.map((game) => {
+const getLastGames = (games, length = games.length) => {
+  // Filter games where leftPlayerScore is not null or 0
+  const validGames = games.filter((game) => {
+    const leftPlayerScore = game.players.playerLeft.playerStats.points;
+    return leftPlayerScore !== null && leftPlayerScore !== 0;
+  });
+
+  const selectedGames = validGames.slice(0, length);
+
+  return selectedGames.map((game) => {
     const leftPlayerName = game.players.playerLeft.userId.name;
     const rightPlayerName = game.players.playerRight.userId.name;
     const leftPlayerScore = game.players.playerLeft.playerStats.points;
