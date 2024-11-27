@@ -22,6 +22,7 @@ class GameStats:
         self.url = "http://localhost:3000/games/stats"
         self.game_id = game_id
 
+
     def send_to_server(self, video_name):
         data = self.to_dict()
         data["video_name"] = video_name
@@ -131,6 +132,12 @@ class GameStats:
             self.average_hits_in_game = self.sum_all_hits / sum_points
         self.player_left.points = track_score.left_player
         self.player_right.points = track_score.right_player
+        self.player_right.top_speeds = sorted(self.player_right.top_speeds, reverse=True)[:7]
+        self.player_left.top_speeds = sorted(self.player_left.top_speeds, reverse=True)[:7]
+        print(self.player_left.top_speeds)
+        print(self.player_right.top_speeds)
+        self.player_left.fastest_ball_speed=self.player_left.top_speeds[-1]
+        self.player_right.fastest_ball_speed=self.player_right.top_speeds[-1]
         self.player_left.fastest_ball_speed = round(
             self.player_left.fastest_ball_speed, 3)
         self.player_right.fastest_ball_speed = round(
@@ -164,6 +171,7 @@ class PlayerStats:
         self.points = 0
         self.fastest_ball_speed = 0.0
         self.fastest_ball_frame = 0
+        self.top_speeds = []
 
         # in place [0] is double bounce on your table,[1] is miss i.e doing "out". [2] opponent hits table and you didnt rescan not rspond [3] is bad serve
         self.loss_reasons = [0] * 4

@@ -25,8 +25,8 @@ class Ball:
     def calc_scaling_factor(self):
         print("calculating scaling factor")
 
-    def set_speed(self, frame, game_stats,table):
-        print("the length is",table.length)
+    def set_speed(self, frame, game_stats, table):
+        print("the length is", table.length)
         if len(self.positions) < 2:
             return
         print("the frame is", frame)
@@ -40,15 +40,15 @@ class Ball:
             (self.positions[-2].x, self.positions[-2].y))
         speed *= Constants.FPS  # how many cm/sec
         speed *= 0.036
+        if speed > 150:
+            return
         # means ball is moving from left to right
         if self.positions[-1].x > self.positions[-2].x:
-            if speed > game_stats.player_left.fastest_ball_speed:
-                game_stats.player_left.fastest_ball_speed = speed
-                game_stats.player_left.fastest_ball_frame = frame
+            game_stats.player_left.top_speeds.append(speed)
+            game_stats.player_left.top_speeds = sorted(game_stats.player_left.top_speeds, reverse=True)[:7]
         else:
-            if speed > game_stats.player_right.fastest_ball_speed:
-                game_stats.player_right.fastest_ball_speed = speed
-                game_stats.player_right.fastest_ball_frame = frame
+            game_stats.player_right.top_speeds.append(speed)
+            game_stats.player_right.top_speeds = sorted(game_stats.player_right.top_speeds, reverse=True)[:7]
 
         print("the speed is", speed)
 
