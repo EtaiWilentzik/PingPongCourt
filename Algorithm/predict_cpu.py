@@ -1,27 +1,18 @@
 import os
-from turtle import update
 import torch
 from ultralytics import YOLO
-from Ball import Ball
-from Table import Table
+# from Ball import Ball
+# from Table import Table
 import sys
 from Game import Game
 from Constants import Constants
 from video_handler_cpu import VideoHandler
 from mini_court import MiniCourt
 from gestureFrameCounter import gestureFrameCounter
-""" 
-just for reading in correctly. 
-#* is important comment about the game 
-#todo: is something we need to change
-#? this is something that we need to check about it 
-#! this is something that we dont need at the end or something that need to changed. 
- """
+
 # * in the screen - (0, 0) is top left corner!
-#! remove everything that has the variable demo counter
+# * process the first 2 seconds to get the shape on the table and the net.
 
-
-# * etai changed it to work from another function for better readability also i added the if elif elif for better performance.
 
 def process_initial_frames():
     results = model.predict(video_handler.get_frame())[0]
@@ -39,7 +30,7 @@ def process_initial_frames():
 
 
 def process_game_frames():
-    # if there is more than one ball we set the coordinates more than one and its interrupt the calculation inside double bounce for example.
+    # * if there is more than one ball, we set the coordinates more than one and its interrupt the calculation inside double bounce for example.
     best_ball_x_center, best_ball_y_center, best_score_ball = 0, 0, 0
     right_side, left_side = False, False
     for left_x, top_y, right_x, bottom_y, score, class_id in results.boxes.data.tolist():
@@ -54,22 +45,21 @@ def process_game_frames():
                     best_ball_y_center = y_center
                     best_ball_x_center = x_center
             elif class_id == Constants.Hand_ID_NEW_TRAIN:
-                # Process hand detections
-                # if there were many hands if we saw one hand in left side it will be true.
+                # * if there were many hands, if we saw one hand in left side it will be true.
                 left_side = game.test_left_hand(
                     (left_x, top_y), (right_x, bottom_y)) or left_side
                 right_side = game.test_right_hand(
                     (left_x, top_y), (right_x, bottom_y)) or right_side
-        video_handler.paint_all(left_x, top_y, right_x,
-                                bottom_y, results.names[int(class_id)], score)
+
+    # if we didn't recognize ball, we dont want to add any new coordinate of the ball
     if (best_score_ball != 0):
         game.ball.set_coordinates(best_ball_x_center, best_ball_y_center)
+    #!to ask adi why we check for hands for every frame and not only when we are inside check hands
     check_hands.update(left_side, right_side)
 
 
 if __name__ == "__main__":
     if len(sys.argv) != 6:
-        print("Usage: python script.py <video_name>")
         sys.exit(1)
 
     # Get the video name directly from the command-line argument
@@ -79,37 +69,28 @@ if __name__ == "__main__":
     # * starter need to be zero or 1 0 is left player and 1 is right player.
     starter = int(sys.argv[4])
     game_id = sys.argv[5]
-
-    print(video_path)
-    print(left_player_id)
-    print(right_player_id)
-    print(starter)
-    print(game_id)
-
-    print("start running the code")
     # Pass the video name to VideoHandler
     video_handler = VideoHandler(video_path)
     mini_court = MiniCourt(VideoHandler.frame)
     model_path = os.path.abspath(
         './train9/weights/last.pt')  # Use an absolute path this run from Server!
-    print(f"the abs path is {model_path} ")
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     print(f'Using device: {device}')
     if torch.cuda.is_available():
         torch.cuda.set_device(0)
-
     model = YOLO(model_path)
     model.to(device=device)
     check_hands = gestureFrameCounter()
     game = Game(check_hands, (left_player_id,
                 right_player_id), starter, game_id)
-
+    # identify for the first 2 seconds only table and net.
     for i in range(2 * Constants.FPS):
         process_initial_frames()
 
     model_path = os.path.abspath(
         './train13/weights/last.pt')  # Use an absolute path
     model = YOLO(model_path)
+    # determine the table and the net locations.
     game.set_game_constants()
 
     while video_handler.get_ret() and game.is_alive():
@@ -124,12 +105,11 @@ if __name__ == "__main__":
         video_handler.write_video()
         Constants.counterUntilFrame += 1
         video_handler.read_next_frame()
-
     game.game_stats.end_of_game_statistics(
         game.track_score, game.ball, video_handler.video_path_out)
-    print("the table size is", Constants.TABLE_SIZE)
+
     video_handler.release()
-    print("finished")
+    print("finished running the Algorithm")
 try:
     os.remove(video_handler.video_path)
     print("File successfully removed.")

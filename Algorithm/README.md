@@ -1,4 +1,0 @@
-# PingPong
-
-etai, daniel, adi
-'

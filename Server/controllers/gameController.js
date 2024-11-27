@@ -113,7 +113,7 @@ const startGame = async (req, res) => {
       starter = 0;
     }
     //* if current player is in the left side
-    if (!isCurrentInLeft) {
+    if (isCurrentInLeft === "0") {
       leftPlayerId = currentPlayer;
       rightPlayerId = opponentId;
     } else {
