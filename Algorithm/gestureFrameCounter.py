@@ -1,7 +1,5 @@
-
 from Constants import Constants
-
-# * decided whetter  the hand touches the table for 30 frames.
+# *decided whether the hand touches the table for 30 frames.
 
 
 class gestureFrameCounter:

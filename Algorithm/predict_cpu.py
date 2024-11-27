@@ -1,9 +1,8 @@
 import os
-from turtle import update
 import torch
 from ultralytics import YOLO
-from Ball import Ball
-from Table import Table
+# from Ball import Ball
+# from Table import Table
 import sys
 from Game import Game
 from Constants import Constants

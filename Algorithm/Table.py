@@ -52,14 +52,12 @@ class Table:
 
     def set_coordinates_table(self):
         for i in range(len(self.list)):
-            # int divide is //
             self.list[i] = int(self.list[i] / self.counter)
         self.set_top_left((self.list[0], self.list[1]))
         self.set_bottom_right((self.list[2], self.list[3]))
 
     def set_length(self):
         self.length = self.get_bottom_right()[0] - self.get_top_left()[0]
-        print(self.length)
 
     def set_touch_zones(self):
         # adding margin  to both sides
@@ -84,7 +82,6 @@ class Table:
         self.set_bottom_net((self.netlist[2], self.netlist[3]))
         # add constant of x coordinate of net
         Constants.NET_X = self.netlist[0]
-        print(f"net is {Constants.NET_X}")
 
     def set_two_sides(self):
         # declare the left side of the table
@@ -104,16 +101,10 @@ class Table:
         self.netlist[2] += bottom_net[0]
         self.netlist[3] += bottom_net[1]
         self.counter_net += 1
-        # if self.counter_net == 2 * Constants.FPS:
 
-    # def set_table_dimensions(self):
-    #     self.set_coordinates_table()
-    #     self.set_coordinates_net()
-    #     self.set_two_sides()
     def set_intervals(self, segments=8):
         left_x = self.get_top_left()[0]
         right_x = self.get_bottom_right()[0]
         step = (right_x - left_x) / segments
         self.quarters_intervals = [
             (left_x + i * step, left_x + (i + 1) * step) for i in range(segments)]
-        # print("set_intervals", self.quarters_intervals)

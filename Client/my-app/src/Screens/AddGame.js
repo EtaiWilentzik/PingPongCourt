@@ -76,9 +76,7 @@ const AddGame = () => {
 
   const handleSend = async () => {
     if (!selectedUser || !file || !token) {
-      alert(
-        "Please select a user, upload a file, and ensure you are logged in.",
-      );
+      alert("Please select a user, upload a file, and ensure you are logged in.");
       return;
     }
 
@@ -107,7 +105,7 @@ const AddGame = () => {
       }
     } catch (error) {
       console.error("Error sending payload:", error);
-      alert("Network or server error.");
+      // alert("Network or server error.");
     } finally {
       setIsProcessing(false); // End processing state
     }
@@ -115,13 +113,7 @@ const AddGame = () => {
 
   // Display Message component when loading, no users, or error
   if (isLoading) {
-    return (
-      <Message
-        content="Please wait while fetching the data."
-        showButton={false}
-        headline={"Loading..."}
-      />
-    );
+    return <Message content="Please wait while fetching the data." showButton={false} headline={"Loading..."} />;
   }
 
   if (error) {
@@ -154,11 +146,7 @@ const AddGame = () => {
             </thead>
             <tbody>
               {users.map((user) => (
-                <tr
-                  key={user.userId}
-                  className="games-list-row"
-                  onClick={() => handleUserClick(user)}
-                >
+                <tr key={user.userId} className="games-list-row" onClick={() => handleUserClick(user)}>
                   <td className="games-list-cell">{user.userName}</td>
                 </tr>
               ))}
@@ -195,12 +183,7 @@ const AddGame = () => {
           </div>
           <div className="file-upload">
             <label htmlFor="file-upload">Upload Video (MP4):</label>
-            <input
-              type="file"
-              id="file-upload"
-              accept="video/mp4"
-              onChange={handleFileChange}
-            />
+            <input type="file" id="file-upload" accept="video/mp4" onChange={handleFileChange} />
           </div>
           <button className="send-button" onClick={handleSend}>
             Send

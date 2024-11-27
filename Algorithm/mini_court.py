@@ -121,5 +121,4 @@ class MiniCourt:
             # of ball in new table according to relative position in real table
 
             cv2.circle(frame, (x_mini_court,
-                       self.table_top_y - 5), 5, Color.RED, cv2.FILLED)  # draw the
-            # ball
+                       self.table_top_y - 5), 5, Color.RED, cv2.FILLED)  # draw the# ball

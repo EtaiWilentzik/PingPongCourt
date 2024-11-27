@@ -44,9 +44,6 @@ class VideoHandler:
     def get_ret(self):
         return self.ret
 
-    def get_top_right_corner(self):
-        return (self.W - 1, 0)
-
     def paint_two_sides_and_zones(self, game):
         cv2.rectangle(VideoHandler.frame, (int(game.table.left_table[0]), int(game.table.left_table[1])),
                       (int(game.table.left_table[2]), int(game.table.left_table[3])), Color.BROWN, 4)
@@ -89,7 +86,6 @@ class VideoHandler:
         self.out.write(VideoHandler.frame)
 
     def read_next_frame(self):
-        # print(f"Elapsed time: {elapsed_time_ms} milliseconds")
         self.ret, VideoHandler.frame = self.cap.read()
 
     def get_frame(self):
@@ -109,24 +105,6 @@ class VideoHandler:
                 cv2.line(VideoHandler.frame, (pos.x, pos.y), (tmp_positions[i - 1].x, tmp_positions[i - 1].y),
                          Color.BLACK,
                          2)
-        print(" i am hereeeeeee")
-
-    # draw live result of the game
-
-    def draw_result(self):
-        top_right = self.get_top_right_corner()
-        # Coordinates for the rectangle
-        top_left_x = top_right[0] / 2 - 250
-        top_left_y = top_right[1]
-        bottom_right_x = top_right[0]
-        bottom_right_y = top_left_y + 250
-
-        # Draw the rectangle
-        cv2.rectangle(VideoHandler.frame, (int(top_left_x), int(top_left_y)),
-                      (int(bottom_right_x), int(bottom_right_y)),  Color.BLACK, -1)  # -1 is for fill the rectangle
-
-        cv2.putText(VideoHandler.frame, f"Left {Constants.L_RESULT} - Right {Constants.R_RESULT}", (int(
-            top_left_x) + 30, int(top_left_y) + 30), cv2.FONT_HERSHEY_SIMPLEX, 1.0, Color.AQUA, 5, cv2.LINE_AA, )
 
     def release(self):
         self.cap.release()

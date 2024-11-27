@@ -1,4 +1,4 @@
-import cv2
+
 from GameStats import GameStats
 from gestureFrameCounter import gestureFrameCounter
 from game_status import GameStatus
