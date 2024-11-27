@@ -327,7 +327,7 @@ const getLastGames = (games, userId, length = games.length) => {
     const rightPlayerScore = game.players.playerRight.playerStats.points;
     //sending the side of the connected user.
     let side = null;
-    if (game.players.playerLeft.userId._id.toString() === userId) {
+    if (game.players.playerLeft.userId._id.toString() === userId.toString()) {
       side = "left";
     } else {
       side = "right";
