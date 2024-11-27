@@ -253,7 +253,7 @@ const getUserWinLoseScores = async (userId) => {
     if (games.length === 0) {
       return Respond.createResponse(true, 204, null, "No games found for the user");
     }
-    const lastFiveGames = getLastGames(games, 5);
+    const lastFiveGames = getLastGames(games, userId, 5);
     let totalWinPoints = 0;
     let totalLosePoints = 0;
     let lossReasonsSum = [0, 0, 0, 0];
@@ -311,7 +311,7 @@ const getUserWinLoseScores = async (userId) => {
   }
 };
 
-const getLastGames = (games, length = games.length) => {
+const getLastGames = (games, userId, length = games.length) => {
   // Filter games where leftPlayerScore is not null or 0
   const validGames = games.filter((game) => {
     const leftPlayerScore = game.players.playerLeft.playerStats.points;
@@ -325,8 +325,15 @@ const getLastGames = (games, length = games.length) => {
     const rightPlayerName = game.players.playerRight.userId.name;
     const leftPlayerScore = game.players.playerLeft.playerStats.points;
     const rightPlayerScore = game.players.playerRight.playerStats.points;
-
+    //sending the side of the connected user.
+    let side = null;
+    if (game.players.playerLeft.userId._id.toString() === userId) {
+      side = "left";
+    } else {
+      side = "right";
+    }
     return {
+      side: side,
       gameId: game._id.toString(),
       playerLeft: { name: leftPlayerName, score: leftPlayerScore },
       playerRight: { name: rightPlayerName, score: rightPlayerScore },
@@ -345,7 +352,7 @@ const allGames = async (userId) => {
       .populate("players.playerRight.userId", "name") // Populate right player's name
       .sort({ datePlayed: -1 });
 
-    data = getLastGames(games);
+    data = getLastGames(games, userId);
     return Respond.createResponse(true, 200, data, "return all games");
   } catch (error) {
     return Respond.createResponse(false, 500, null, "An error occurred while fetching user scores");

@@ -101,8 +101,8 @@ const startGame = async (req, res) => {
     const videoPath = req.file.path; //we got it from multer
     const currentPlayer = req.user.userId; //the current player who did the request
     const opponentId = req.body.opponentId;
-    let starter = req.body.starter; //who start serving if its zero the player in the player connoted starting otherwise 1
-    let isCurrentInLeft = req.body.isCurrentInLeft; //who playing in the left side
+    let starter = req.body.starter; //who start serving if its zero the player the connected starting otherwise 1
+    let isCurrentInLeft = req.body.isCurrentInLeft; //who playing in the left side zero is current 1 is opponnet
     let leftPlayerId, rightPlayerId;
 
     //* if current user is starting and he is in the right side starter need to be 1.  starter need to be 1 if the serves start from right to left
@@ -112,7 +112,8 @@ const startGame = async (req, res) => {
     } else if (starter === "1" && isCurrentInLeft === "1") {
       starter = 0;
     }
-    if (isCurrentInLeft) {
+    //* if current player is in the left side
+    if (!isCurrentInLeft) {
       leftPlayerId = currentPlayer;
       rightPlayerId = opponentId;
     } else {

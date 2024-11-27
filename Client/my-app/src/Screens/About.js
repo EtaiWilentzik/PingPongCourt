@@ -44,7 +44,7 @@ const About = () => {
   return (
     <div className="about-container">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="about-content">
-        <h1 className="about-title">Ping Pong Judge</h1>
+        <h1 className="about-title">Ping Pong Court</h1>
 
         <div className="image-container">
           <img src="/picture4.jpg" alt="Ping Pong Judge" className="about-photo" />
@@ -52,7 +52,7 @@ const About = () => {
 
         <div className="intro-text">
           <p>
-            Welcome to <span className="highlight-pink">Ping Pong Judge</span>, powered by{" "}
+            Welcome to <span className="highlight-pink">Ping Pong Court</span>, powered by{" "}
             <span className="highlight-pink">YOLOv8's AI</span> for instant table tennis analysis.
           </p>
           <p>
