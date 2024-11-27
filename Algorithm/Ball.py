@@ -11,49 +11,46 @@ class Ball:
         self.hit_positions = []
         self.left_counter = 0
         self.right_counter = 0
+        # we used it to see if the ball jump in the same direction for 2 seconds
         self.opposite_direction_count = 0
-        # maybe we will use it for statistics or max speed of interval something like that
-        self.speeds = []
         self.last_seen_frame = 0
 
-    # add new coordinates of ball in new frame
+    # added new coordinates of the ball, according to the frame we are processing.
     def set_coordinates(self, x, y):
+        # for making the video more beautiful showing only last 30 locations of the ball.
         if len(self.positions) >= 30:
             self.positions.pop(0)
         self.positions.append(Position(x, y))
 
-    def calc_scaling_factor(self):
-        print("calculating scaling factor")
-
     def set_speed(self, frame, game_stats, table):
-        print("the length is", table.length)
+
         if len(self.positions) < 2:
             return
         print("the frame is", frame)
         if frame != (self.last_seen_frame + 1):
             self.last_seen_frame = frame
             return
-        print("the frame is", frame, "the last frame is", self.last_seen_frame)
         self.last_seen_frame = frame
-        speed = (274 / table.length) * calculate_linear_distance(
+        speed = (Dimensions.OFFICIAL_TABLE_TENNIS_LENGTH / table.length) * calculate_linear_distance(
             (self.positions[-1].x, self.positions[-1].y),
             (self.positions[-2].x, self.positions[-2].y))
         speed *= Constants.FPS  # how many cm/sec
-        speed *= 0.036
-        if speed > 150:
+        speed *= Dimensions.cm_per_seconds_to_km_per_hour
+        if speed > Dimensions.max_allowed_speed:
             return
         # means ball is moving from left to right
         if self.positions[-1].x > self.positions[-2].x:
             game_stats.player_left.top_speeds.append(speed)
-            game_stats.player_left.top_speeds = sorted(game_stats.player_left.top_speeds, reverse=True)[:7]
+            # take the seven highest speeds.
+            game_stats.player_left.top_speeds = sorted(
+                game_stats.player_left.top_speeds, reverse=True)[:7]
         else:
-            game_stats.player_right.top_speeds.append(speed)
-            game_stats.player_right.top_speeds = sorted(game_stats.player_right.top_speeds, reverse=True)[:7]
 
-        print("the speed is", speed)
+            game_stats.player_right.top_speeds.append(speed)
+            game_stats.player_right.top_speeds = sorted(
+                game_stats.player_right.top_speeds, reverse=True)[:7]
 
     # this function determine in which side of the table the ball is
-
     def set_side_of_table(self):
         if len(self.positions) > 0:
             # check side of ball
@@ -73,42 +70,29 @@ class Ball:
 
     def get_y(self):
         return self.positions[-1].y
+    # check if was a change in the direction of the  in one of the sides.
 
     def bounce_horizontal(self, current_last_side_hitter, ranges):
-        # we want to obtaion the oposite dircation that why we want to count "mistake "
+        # we want to obtain the opposite direction that why we want to count "mistake "
         Allowed_time = 2
         if len(self.positions) < 2:
             return False
         if current_last_side_hitter == Constants.LEFT_PLAYER:
+            # if  we suspect that the right player hit the ball last
             if self.positions[-2].x > self.positions[-1].x > ranges[4][0]:
                 self.opposite_direction_count += 1
             else:
                 self.opposite_direction_count = 0
         elif current_last_side_hitter == Constants.RIGHT_PLAYER:
+            # it we suspect the left player hit the ball
             if self.positions[-2].x < self.positions[-1].x < ranges[4][0]:
                 self.opposite_direction_count += 1
             else:
                 self.opposite_direction_count = 0
         if self.opposite_direction_count == Allowed_time:
-            print(
-                f"______________________ in bounce horizontal and true {Constants.counterUntilFrame}")
+
             return True
         return False
-
-        # if len(self.positions) > 2:
-
-        #     # check direction of last 2 frames
-        #     d_last = self.positions[-1].x - self.positions[-2].x
-        #     if d_last < 0:  # if direction is left
-        #         if self.direction == Constants.RIGHT:  # if direction was right
-        #             # mark as change of directions
-        #             self.positions[-2].set_horizontal()
-        #         self.direction = Constants.LEFT  # set the direction to left
-        #     elif d_last > 0:  # if direction is right
-        #         if self.direction == Constants.LEFT:  # if direction was left
-        #             # mark as change of directions
-        #             self.positions[-2].set_horizontal()
-        #         # self.direction = Constants.RIGHT  # set the direction to right
 
     def add_hit(self, point):
 
@@ -118,28 +102,6 @@ class Ball:
 
     def get_hit_positions(self):
         return self.hit_positions
-
-    # def bounce_vertical(self, table):
-    #     if len(self.positions) < 3:
-    #         return
-
-    #     # second last position is minimum (y value) of it's neighbors. we need it because if the ball still in the area in the next frame we dont want to count it as two bounces
-    #     min_position = self.positions[-1].y < self.positions[-2].y and self.positions[-3].y < self.positions[-2].y
-
-    #     #  checks if the x coordinates is in the table area
-    #     x_in_table = table.get_bottom_right()[Constants.X_COORDINATE] > self.positions[-2][0] > table.get_top_left()[
-    #         Constants.X_COORDINATE]
-
-    #     #  checks that the second last position is on the table (y coordinates only)
-    #     y_on_table = (table.get_top_left()[Constants.Y_COORDINATE] - Constants.EPSILON) < self.positions[-2].y < \
-    #         table.get_bottom_right()[Constants.Y_COORDINATE]
-
-    #     if min_position and y_on_table and x_in_table:  # if the ball hits the table
-    #         # set the position to indicate vertical change
-    #         self.positions[-2].set_vertical()
-
-
-# position of ball at each frame
 
 
 class Position:

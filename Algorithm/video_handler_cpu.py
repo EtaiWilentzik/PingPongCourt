@@ -111,26 +111,8 @@ class VideoHandler:
                          2)
         print(" i am hereeeeeee")
 
-    def paint_all(self, x1, y1, x2, y2, result, confidence):
-        # Shows confidence with 2 decimal places
-        label = f"{result} ({confidence:.2f})"
-        if result != "Hand_Racket" and result != "Net" and result != "Table":
-            # if result == "Hand_Ball":
-            #     cv2.rectangle(self.frame, (int(x1), int(y1)),
-            #                   (int(x2), int(y2)), Color.ORANGE, 4)
-            # else:
-            #     cv2.rectangle(self.frame, (int(x1), int(y1)),
-            #                   (int(x2), int(y2)), Color.GREEN, 4)
-            if result == "Hand":
-                cv2.rectangle(self.frame, (int(x1), int(y1)),
-                              (int(x2), int(y2)), Color.GREEN, 4)
-                cv2.circle(self.frame, (int((x1 + x2) / 2),
-                           int((y1 + y2) / 2)), 5, Color.LIME, 4)
-
-            # cv2.putText(self.frame, label, (int(x1), int(y1 - 10)),
-            #             cv2.FONT_HERSHEY_SIMPLEX, 1.3, Color.GREEN, 3, cv2.LINE_AA, )
-
     # draw live result of the game
+
     def draw_result(self):
         top_right = self.get_top_right_corner()
         # Coordinates for the rectangle

@@ -1,4 +1,4 @@
-from sympy import false
+
 from Constants import Constants
 
 # * decided whetter  the hand touches the table for 30 frames.

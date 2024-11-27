@@ -51,6 +51,9 @@ class Dimensions:
     TABLE_WIDTH = 152.5
     TABLE_HEIGHT = 76
     TABLE_HALF_LENGTH = 137  # ALL TABLE LENGTH IS 137*2
+    OFFICIAL_TABLE_TENNIS_LENGTH = 274
+    cm_per_seconds_to_km_per_hour = 0.036
+    max_allowed_speed = 150
 
 
 # colors defined in BGR format: this is how open cv work with colors
