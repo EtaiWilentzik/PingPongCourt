@@ -1,7 +1,5 @@
 from Constants import *
 import requests
-import csv
-import os
 
 
 class GameStats:
@@ -32,21 +30,6 @@ class GameStats:
         else:
             print(
                 f"Failed to send data: {response.status_code}, {response.text}")
-
-    def save_to_csv(self, data_dict, filename="output.csv"):
-        # Open a CSV file for writing
-        csv_dir = os.path.join('.', 'csv_reports')
-        os.makedirs(csv_dir, exist_ok=True)  # Ensure the directory exists
-        # Construct the full path for the CSV file
-        filepath = os.path.join(csv_dir, filename)
-        with open(filepath, mode='w', newline='') as csv_file:
-            writer = csv.DictWriter(csv_file, fieldnames=data_dict.keys())
-
-            # Write the header
-            writer.writeheader()
-
-            # Write the data
-            writer.writerow(data_dict)
 
     def to_dict(self):
         return {

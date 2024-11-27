@@ -2,35 +2,17 @@
 
 class Constants:
     counterUntilFrame = 0  # count up until table is fixed
-    SERVE_LEFT = 0
-    HIT_LEFT_TABLE_AFTER_SERVE = 1
-    SERVE_RIGHT = 2
-    HIT_RIGHT_TABLE_AFTER_SERVE = 3
-    NET_FROM_LEFT = 4
-    NET_FROM_RIGHT = 5
-    HIT_RIGHT_TABLE = 6
-    HIT_LEFT_TABLE = 7
-    BLOCKED_FROM_RIGHT = 8
-    BLOCKED_FROM_LEFT = 9
-    OUT_FROM_LEFT = 10
-    OUT_FROM_RIGHT = 11
     LEFT = 0
     RIGHT = 1
     X_COORDINATE = 0
     Y_COORDINATE = 1
     EPSILON = 40
     LAST = -1
-    IS_BOUNCE_VERTICAL = 2
-    IS_BOUNCE_HORIZONTAL = 3
     FPS = 30
-
-    Ball_ID = 0
     Ball_ID_NEW_TRAIN = 0
     Hand_ID_NEW_TRAIN = 1
     NET_ID = 1
     TABLE_ID = 2
-    Hand_ID = 3
-
     L_RESULT = 5
     R_RESULT = 0
     THRESHOLD = 0.15  # threshold of accuracy of classification

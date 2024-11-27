@@ -156,7 +156,6 @@ class Game:
             self.game_stats.set_after_double_bounce(db[1])
             return self.track_score.update_score(db[1])
 
-        # boss = None
         if self.game_stats.curr_mini_game_hits == 1:
             boss = self.bounce_on_serve_side()
             if boss[0]:
@@ -189,8 +188,6 @@ class Game:
         hands_in_right_side = (
             self.table.right_zone[0] <= x_center <= self.table.right_zone[2]
         ) and (self.table.right_zone[1] <= y_center <= self.table.right_zone[3])
-        if (hands_in_right_side):
-            print("_inside test frame")
         return hands_in_right_side
 
     def test_left_hand(self, left_point, right_point):
@@ -202,8 +199,6 @@ class Game:
         hands_in_left_side = (
             self.table.left_zone[0] <= x_center <= self.table.left_zone[2]
         ) and (self.table.left_zone[1] <= y_center <= self.table.left_zone[3])
-        if hands_in_left_side:
-            print("_inside test frame left")
         return hands_in_left_side
 
     def wait_for_hand(self, frame, counter):
@@ -213,23 +208,16 @@ class Game:
             # * we are starting a new point and instead of reset every field of ball we just create new ball .
             self.ball = Ball()
             self.last_judge_point = None
-
             self.last_side_hitter = self.track_score.get_server()
 
     def check_last_ball_seen(self):
-        # if there is more 2 seconds from the last we saw the ball and its a fault so we need to update the score.
+        # if there is more 2.5  seconds from the last we saw the ball and its a fault so we need to update the score.
         if (Constants.counterUntilFrame - self.last_frame_ball_seen_bounce > 2.5 * Constants.FPS):
             if len(self.ball.get_hit_positions()) == 0:
                 return (False,)
             x_coordinate = self.ball.get_hit_positions()[-1][0]
             if (self.table.left_table[0] <= x_coordinate <= self.table.left_table[2]):
-
-                print(
-                    f"inside the check_last_ball_seen1 {Constants.counterUntilFrame} ")
                 return True, Constants.RIGHT_PLAYER
-            print(
-                f"inside the check_last_ball_seen2 {Constants.counterUntilFrame} ")
-
             # its in the right side so left is the winner
             return (True, Constants.LEFT_PLAYER)
         # nothing happened
