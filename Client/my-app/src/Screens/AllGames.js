@@ -96,7 +96,7 @@ const AllGames = () => {
       <h1>Games List</h1>
       <div>
         <label className="filter-label" htmlFor="playerFilter">
-          Filter by Player:{" "}
+          Filter by player:{" "}
         </label>
 
         <input
