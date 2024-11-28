@@ -39,6 +39,17 @@ https://github.com/user-attachments/assets/bef26d4d-fcb8-4965-9857-4376a6f3f4bd
 
 
 
+<h2>Features</h2>
+<ul>
+  <li><strong>YOLOv8 Model:</strong> A YOLOv8 model trained specifically for table tennis is used to detect and track object relevant to the game.</li>
+  <li><strong>Multi-Object Detection:</strong> The model is trained to detect not only the ball but also other relevant objects such as hands, table, net, etc.</li>
+  <li><strong>CUDA Acceleration:</strong> The use of CUDA technology ensures fast processing, allowing for seamless real-time performance.</li>
+  <li><strong>Game Event Detection:</strong> The system detects key events such as bounces on the table, double bounces, and when the ball hits the floor.</li>
+  <li><strong>Player Scoring:</strong> Automatically updates and displays the score based on the detected events.</li>
+
+
+
+
 
 
 
