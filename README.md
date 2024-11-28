@@ -1,4 +1,4 @@
-# Real-Time Ping Pong Judging App
+# Ping Pong Court
 
 This project is a web application designed to act as a real-time referee for ping pong games. It uses computer vision and object detection to track gameplay and accurately judge points.
 
