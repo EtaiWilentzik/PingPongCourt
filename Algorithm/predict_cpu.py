@@ -54,7 +54,6 @@ def process_game_frames():
     # if we didn't recognize ball, we dont want to add any new coordinate of the ball
     if (best_score_ball != 0):
         game.ball.set_coordinates(best_ball_x_center, best_ball_y_center)
-    #!to ask adi why we check for hands for every frame and not only when we are inside check hands
     check_hands.update(left_side, right_side)
 
 
