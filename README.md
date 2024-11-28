@@ -13,7 +13,7 @@ The app provides a comprehensive analysis of each game, offering the following i
 - **Ball Speed**: Calculates and displays the ball's real-time speed, helping players gauge the pace of their rallies.
 - **Longest Rally**: Tracks the duration of each rally and highlights the longest one at the end of the game.
 - **Ball Tracking**: Displays the ball’s trajectory throughout the game, marking each bounce on the table to provide a visual overview of the ball's path.
-- ![image](https://github.com/user-attachments/assets/b24dd202-8e85-4811-b34d-fa18749aec3e)
+ ![image](https://github.com/user-attachments/assets/b24dd202-8e85-4811-b34d-fa18749aec3e)
 
 
 
