@@ -2,7 +2,7 @@
 
 This project is a web application designed to act as a referee for ping pong games. It uses computer vision and object detection to track gameplay and accurately judge points.
 
-The app can handle both live video from a webcam and stored videos from previous games. It processes the footage and provides detailed game insights, such as ball speed, longest rally, scoring events, and more. This allows players to review their gameplay with valuable statistics and analysis.
+The app can handle  video and process It processes the footage and provides detailed game insights, such as ball speed, longest rally, scoring events, and more. This allows players to review their gameplay with valuable statistics and analysis.
 
 
 
