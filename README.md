@@ -1,60 +1,208 @@
 # Ping Pong Court
 
-This project is a web application designed to act as a referee for ping pong games. It uses computer vision and object detection to track gameplay and accurately judge points.
+## Table of Contents
+- [Ping Pong Court](#ping-pong-court)
+  - [Table of Contents](#table-of-contents)
+  - [General Information](#general-information)
+  - [Features](#features)
+    - [Core Functionalities](#core-functionalities)
+    - [Enhanced Features](#enhanced-features)
+  - [Setup](#setup)
+    - [Prerequisites](#prerequisites)
+    - [Installation Steps](#installation-steps)
+  - [Usage](#usage)
+    - [Uploading and Processing Videos](#uploading-and-processing-videos)
+    - [Reviewing Game Statistics](#reviewing-game-statistics)
+  - [Example Videos](#example-videos)
+    - [Original Video](#original-video)
+    - [Processed Video](#processed-video)
+  - [Screenshots](#screenshots)
+    - [Home Screen](#home-screen)
+    - [Game Analysis](#game-analysis)
+    - [Detailed Stats](#detailed-stats)
+  - [Built With](#built-with)
+    - [Frontend](#frontend)
+    - [Backend](#backend)
+    - [Database](#database)
+  - [Author](#author)
+  - [License](#license)
+    - [Video Attribution](#video-attribution)
+  - [Support 🤝](#support-)
 
-The app can handle videos, process the footage and provides detailed game insights, such as ball speed, longest rally, scoring events, and more. This allows players to review their gameplay with valuable statistics and analysis.
+## General Information
+**Ping Pong Court** is an innovative web application designed to serve as an automated referee for ping pong games, complete with detailed statistical reports. Utilizing advanced computer vision and object detection technologies, the app analyzes gameplay from video footage, accurately judging points and providing comprehensive game insights. Whether you're a casual player looking to improve or a competitive athlete seeking detailed analysis, Ping Pong Court offers valuable statistics and visualizations to enhance your game.
+
+## Features
+
+### Core Functionalities
+- **YOLOv8 Model**: Utilizes a YOLOv8 model trained specifically for table tennis to detect and track relevant objects, including the ball, hands, table, and net.
+- **Multi-Object Detection**: Simultaneously tracks multiple objects to provide a comprehensive overview of the game.
+- **Game Event Detection**: Automatically detects key events such as bounces, double bounces, and floor hits.
+- **Player Scoring**: Updates and displays scores based on detected events.
+
+### Enhanced Features
+- **Detailed Game Stats**: Track faults, rallies, aces, and scores from your gameplay videos. Our advanced AI technology provides insights into your performance, helping you understand your strengths and weaknesses.
+- **Comprehensive Reports**: Receive detailed breakdowns of your games with our in-depth analysis system. Each match report includes performance metrics and strategic insights.
+- **Interactive Visualizations**: Experience your game data through dynamic charts and graphs that highlight key statistics. View detailed breakdowns of ball depth, speed, and player-specific patterns, making it easier than ever to analyze and improve your matches.
+- **Shot Accuracy Insights**: Get precise feedback on your shot placement with our advanced tracking system. Our AI creates detailed heat maps showing where your balls hit the table, helping you identify patterns and refine your accuracy for better game control.
+- **Video Playback with AI**: Review your games with our intelligent replay system featuring AI-generated overlays. Watch as our system automatically highlights key moments, tracks ball trajectories, and provides analysis of your technique and strategy.
+
+## Setup
+
+### Prerequisites
+- **Node.js & npm**: Ensure you have Node.js and npm installed on your machine.
+- **Python**: Required for backend processing.
+- **MongoDB Compass**: For database management.
+- **CUDA-Compatible GPU**: To leverage CUDA acceleration for efficient processing, if available.
+- 
+### Installation Steps
+
+1. **Clone the Repository**:
+
+    ```bash
+    git clone https://github.com/EtaiWilentzik/PingPongCourt.git
+    ```
+
+2. **Navigate to the Project Directory**:
+
+    ```bash
+    cd PingPongCourt
+    ```
+
+3. **Install Frontend Dependencies**:
+
+    ```bash
+    cd Client/my-app
+    npm install
+    npm start
+    ```
+
+4. **Setup the Python Backend (Algorithm)**:
+
+    ```bash
+    cd ../Algorithm
+    ```
+    - **Install Backend Dependencies**:
+
+        ```powershell
+        pip install -r requirements.txt
+        ```
+5. **Setup the Server Backend**:
+
+    After setting up the Python backend, navigate to the `Server` directory to set up the server-side backend.
+
+    ```bash
+    cd ../Server
+    ```
+
+    - **Install Server Dependencies**:
+
+        ```bash
+        npm install
+        ```
+
+    - **Start the Server Backend**:
+
+        ```bash
+        npm start
+        ```
+
+6. **Configure the Database**:
+
+    - Open **MongoDB Compass** and connect to `localhost` using the default settings or your specific configuration.
+
+7. **Access the Application**:
+
+    - **Frontend**: [http://localhost:3001](http://localhost:3001)
+    - **Server Backend**: [http://localhost:3000](http://localhost:3000)
+    - **Python Backend**: Depends on your Python server's configuration (e.g., [http://localhost:5000](http://localhost:5000))
+
+---
+
+## Usage
+
+### Uploading and Processing Videos
+
+1. **Upload a Video**: Navigate to the upload section and select a ping pong game video.
+2. **Process the Video**: The app will process the footage, detecting objects and events from the video.
+3. **View Insights**:
+    - **Detailed Game Metrics**: Access comprehensive game insights such as ball speed, longest rally, and scoring events overlaid on the video.
+    - **Table Depth Analysis**: Utilize the **Table Depth Analysis** feature, which divides the table into **8 distinct sections**. This segmentation allows you to:
+        - **Visualize Ball Impact Zones**: Identify where most of the ball hits occur on the table.
+        - **Analyze Gameplay Patterns**: Understand player strategies and shot placements based on the depth distribution.
+        - **Enhance Training Sessions**: Use the depth data to focus on specific areas of the table during practice.
+        - **Compare Performance**: Evaluate consistency and accuracy in ball placement across different game sessions.
 
 
-
-## Game Analysis and Statistics
-
-The app provides a comprehensive analysis of each game, offering the following insights and **more** :
-
-- **Ball Speed**: Calculates and displays the ball's real-time speed, helping players gauge the pace of their rallies.
-- **Longest Rally**: Tracks the duration of each rally and highlights the longest one at the end of the game.
-- **Ball Tracking**: Displays the ball’s trajectory throughout the game, marking each bounce on the table to provide a visual overview of the ball's path.
- ![image](https://github.com/user-attachments/assets/b24dd202-8e85-4811-b34d-fa18749aec3e)
-
-
-
-These statistics are overlaid on the video, making it easy to follow gameplay details as they happen.
+### Reviewing Game Statistics
+- **Ball Speed**: Monitor the speed of the ball throughout the game.
+- **Longest Rally**: Identify and review the longest rally achieved during the match.
+- **Ball Tracking**: Visualize the ball’s trajectory with each bounce marked on the table.
+- **Shot Accuracy**: Analyze heat maps and shot placement to improve your accuracy.
 
 ## Example Videos
 
-To demonstrate the app's capabilities, you can upload short example videos showing the difference between the original and processed footage. Each example video can include:
+### Original Video
+Raw footage of a ping pong game without any overlays or analysis.
 
-1. **Original Video**: Raw footage of a ping pong game, without any overlays or analysis.
+<video width="640" height="480" controls>
+  <source src="./README/v2_short.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 
-https://github.com/user-attachments/assets/73473dc1-af92-49a0-8bc6-6409c1b8cc34
-   
+### Processed Video
+Enhanced footage with game details and statistical overlays.
 
-2. **Processed Video**: The same footage after processing, enhanced with game details
+<video width="640" height="480" controls>
+  <source src="./README//v2_short.out.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+## Screenshots
+
+### Home Screen
+![Home Screen](https://github.com/user-attachments/assets/home_screen.png)
+
+### Game Analysis
+![Game Analysis](https://github.com/user-attachments/assets/game_analysis.png)
+
+### Detailed Stats
+![Detailed Stats](https://github.com/user-attachments/assets/detailed_stats.png)
+
+## Built With
+
+### Frontend
+- **React**: For building the user interface.
+- **Framer Motion**: For animations and transitions.
+- **CSS**: Styling the application.
+
+### Backend
+- **Python**: Core backend processing.
+- **Express**: Web framework for handling API requests.
+- **YOLOv8**: Object detection model for analyzing gameplay.
+- **OpenCV**: Computer vision library for video processing.
+- **Node.js**: For handling the server.
+
+### Database
+- **MongoDB**: For storing game data and user information.
+
+## Author
+**Your Name**  
+* [GitHub Profile](https://github.com/yourusername)
+* [LinkedIn](https://www.linkedin.com/in/yourprofile)
+
+## License
+
+This project is licensed under the [MIT License](LICENSE). See the [LICENSE](LICENSE) file for more details.
+
+### Video Attribution
+
+The homepage video is sourced from the talented **Jepta Visuals**, who has graciously granted permission for its use in this project. For more information or inquiries, you can reach out to him at [jeptavisuals@gmail.com](mailto:jeptavisuals@gmail.com).
 
 
 
+## Support 🤝
+Contributions, issues, and feature requests are welcome!  
+Feel free to check the [issues page](https://github.com/yourusername/PingPongCourt/issues) if you want to contribute.
 
-
-
-https://github.com/user-attachments/assets/bef26d4d-fcb8-4965-9857-4376a6f3f4bd
-
-
-
-<h2>Features</h2>
-<ul>
-  <li><strong>YOLOv8 Model:</strong> A YOLOv8 model trained specifically for table tennis is used to detect and track object relevant to the game.</li>
-  <li><strong>Multi-Object Detection:</strong> The model is trained to detect not only the ball but also other relevant objects such as hands, table, net, etc.</li>
-  <li><strong>CUDA Acceleration:</strong> The use of CUDA technology ensures fast processing, allowing for seamless real-time performance.</li>
-  <li><strong>Game Event Detection:</strong> The system detects key events such as bounces on the table, double bounces, and when the ball hits the floor.</li>
-  <li><strong>Player Scoring:</strong> Automatically updates and displays the score based on the detected events.</li>
-
-
-
-
-
-
-
-
-
-
-
-
+Give a ⭐️ if you like this project!
