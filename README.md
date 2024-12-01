@@ -18,8 +18,12 @@
     - [Processed Video](#processed-video)
   - [Screenshots](#screenshots)
     - [Home Screen](#home-screen)
+    - [About](#about)
+    - [Register](#register)
+    - [Log in](#log-in)
+    - [game List](#game-list)
     - [Game Analysis](#game-analysis)
-    - [Detailed Stats](#detailed-stats)
+    - [Total Statistic](#total-statistic)
   - [Built With](#built-with)
     - [Frontend](#frontend)
     - [Backend](#backend)
@@ -142,24 +146,36 @@
 
 ## Example Videos
 
+
 ### Original Video
-[![Watch the video](./README/a.jpg)](./README/v2_short.mp4)
+[![Watch the Original Video on YouTube](./README/a.jpg)](https://youtu.be/C6tf-zfGRhA)
 
 ### Processed Video
-[![Watch the video](./README/a.jpg)](./README/v2_short.out.mp4)
+[![Watch the Processed Video](./README/a.jpg)](https://youtu.be/_Kt6gBol-RI)
+
+
 
 
 
 ## Screenshots
 
 ### Home Screen
-![Home Screen](https://github.com/user-attachments/assets/home_screen.png)
+![Home Screen](/README/home.png)
+### About
+![Home Screen](/README/about.png)
+### Register
+![Home Screen](/README/register.png)
+### Log in
+![Home Screen](/README/login.png)
+### game List
+![Home Screen](/README/gamelist.png)
+
 
 ### Game Analysis
-![Game Analysis](https://github.com/user-attachments/assets/game_analysis.png)
+![Game Analysis](/README/exampleGame.png)
 
-### Detailed Stats
-![Detailed Stats](https://github.com/user-attachments/assets/detailed_stats.png)
+### Total Statistic
+![Detailed Stats](/README/personalStats.png)
 
 ## Built With
 
@@ -170,18 +186,20 @@
 
 ### Backend
 - **Python**: Core backend processing.
-- **Express**: Web framework for handling API requests.
 - **YOLOv8**: Object detection model for analyzing gameplay.
 - **OpenCV**: Computer vision library for video processing.
 - **Node.js**: For handling the server.
+- **Express**: Web framework for handling API requests.
 
 ### Database
 - **MongoDB**: For storing game data and user information.
 
 ## Author
-**Your Name**  
-* [GitHub Profile](https://github.com/yourusername)
-* [LinkedIn](https://www.linkedin.com/in/yourprofile)
+**Etai Wilentzik**  
+* [GitHub Profile](https://github.com/EtaiWilentzik)
+* [LinkedIn](https://www.linkedin.com/in/etai-wilentzik/)
+
+
 
 ## License
 
@@ -195,6 +213,5 @@ The homepage video is sourced from the talented **Jepta Visuals**, who has graci
 
 ## Support 🤝
 Contributions, issues, and feature requests are welcome!  
-Feel free to check the [issues page](https://github.com/yourusername/PingPongCourt/issues) if you want to contribute.
 
 Give a ⭐️ if you like this project!
