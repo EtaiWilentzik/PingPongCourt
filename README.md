@@ -143,20 +143,11 @@
 ## Example Videos
 
 ### Original Video
-Raw footage of a ping pong game without any overlays or analysis.
-
-<video width="640" height="480" controls>
-  <source src="./README/v2_short.mp4" type="video/mp4">
-  Your browser does not support the video tag. Please check the video path or format.
-</video>
+[![Watch the video](./README/a.jpg)](./README/v2_short.mp4)
 
 ### Processed Video
-Enhanced footage with game details and statistical overlays.
+[![Watch the video](./README/a.jpg)](./README/v2_short.out.mp4)
 
-<video width="640" height="480" controls>
-  <source src="./README/v2_short.out.mp4" type="video/mp4">
-  Your browser does not support the video tag. Please check the video path or format.
-</video>
 
 
 ## Screenshots
