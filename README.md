@@ -23,7 +23,7 @@
     - [Log in](#log-in)
     - [game List](#game-list)
     - [Game Analysis](#game-analysis)
-    - [Total Statistic](#total-statistic)
+    - [Total Statistics](#total-statistics)
   - [Built With](#built-with)
     - [Frontend](#frontend)
     - [Backend](#backend)
@@ -147,38 +147,37 @@
 ## Example Videos
 
 
-### Original Video- (press on)
-[![Watch the Original Video on YouTube](./readme/a.jpg)](https://youtu.be/C6tf-zfGRhA)
+### Original Video
+**Press on the image below to watch the original video on YouTube.**
+[![Watch the Original Video on YouTube](./README/a.jpg)](https://youtu.be/C6tf-zfGRhA)
 
-### Processed Video- (press on)
-[![Watch the Processed Video](./readme/a.jpg)](https://youtu.be/_Kt6gBol-RI)
+### Processed Video
+**Press on the image below to watch the original video on YouTube.**
+[![Watch the Processed Video](./README/a.jpg)](https://youtu.be/_Kt6gBol-RI)
+
 
 
 
 
 ## Screenshots
 
-### Home Screen 
-<img src="/readme/home.png" alt="Home Screen">
+### Home Screen
+![Home Screen](/README/home.png)
+### About
+![About Screen](/README/about.png)
+### Register
+![register Screen](/README/register.png)
+### Log in
+![lgoin Screen](/README/login.png)
+### game List
+![game list  Screen](/README/gamelist.png)
 
-### About 
-<img src="/readme/about.png" alt="About">
 
-### Register 
-<img src="/readme/register.png" alt="Register">
+### Game Analysis
+![Game Analysis](/README/exampleGame.png)
 
-### Log in 
-<img src="/readme/login.png"  alt="Log in">
-
-### Game List 
-<img src="/readme/gamelist.png"  alt="Game List">
-
-### Game Analysis 
-<img src="/readme/exampleGame.png" alt="Game Analysis">
-
-### Total Statistic 
-<img src="/readme/personalStats.png" alt="Detailed Stats">
-
+ ### Total Statistics
+![Detailed Stats](/README/personalStats.png)
 
 ## Built With
 
