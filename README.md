@@ -203,10 +203,7 @@
 
 
 
-## License
-
-This project is licensed under the [MIT License](LICENSE). See the [LICENSE](LICENSE) file for more details.
-
+## Copyright
 ### Video Attribution
 
 The homepage video is sourced from the talented **Jepta Visuals**, who has graciously granted permission for its use in this project. For more information or inquiries, you can reach out to him at [jeptavisuals@gmail.com](mailto:jeptavisuals@gmail.com).
