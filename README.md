@@ -156,29 +156,29 @@
 
 
 
-
 ## Screenshots
 
 ### Home Screen 
-<img src="/README/home.png" width="200" alt="Home Screen">
+<img src="/readme/home.png" alt="Home Screen">
 
 ### About 
-<img src="/README/about.png" width="200" alt="About">
+<img src="/readme/about.png" alt="About">
 
 ### Register 
-<img src="/README/register.png" width="200" alt="Register">
+<img src="/readme/register.png" alt="Register">
 
 ### Log in 
-<img src="/README/login.png" width="200" alt="Log in">
+<img src="/readme/login.png"  alt="Log in">
 
 ### Game List 
-<img src="/README/gamelist.png" width="200" alt="Game List">
+<img src="/readme/gamelist.png"  alt="Game List">
 
 ### Game Analysis 
-<img src="/README/exampleGame.png" width="200" alt="Game Analysis">
+<img src="/readme/exampleGame.png" alt="Game Analysis">
 
 ### Total Statistic 
-<img src="/README/personalStats.png" width="200" alt="Detailed Stats">
+<img src="/readme/personalStats.png" alt="Detailed Stats">
+
 
 ## Built With
 
