@@ -1,5 +1,4 @@
 from Constants import Constants
-# *decided whether the hand touches the table for 30 frames.
 
 
 class gestureFrameCounter:
@@ -13,7 +12,7 @@ class gestureFrameCounter:
         self.frame_count += 1
         if right and left:
 
-            #!!!! left and right list "remember" where was the last time that we didn't see hand. for example if we didn't see (left and right) but we see only right we update left
+            # * left and right list "remember" where was the last time that we didn't see hand. for example if we didn't see (left and right) but we see only right we update left
             # if the last time
             self.current = (min(self.right) + Constants.FRAMES_TO_COUNT <= self.frame_count or
                             min(self.left) + Constants.FRAMES_TO_COUNT <= self.frame_count)
