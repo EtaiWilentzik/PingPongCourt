@@ -152,7 +152,7 @@
 [![Watch the Original Video on YouTube](./README/a.jpg)](https://youtu.be/C6tf-zfGRhA)
 
 ### Processed Video
-**Press on the image below to watch the original video on YouTube.**
+**Press on the image below to watch the Processed video on YouTube.**
 [![Watch the Processed Video](./README/a.jpg)](https://youtu.be/_Kt6gBol-RI)
 
 
