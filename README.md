@@ -29,7 +29,7 @@
     - [Backend](#backend)
     - [Database](#database)
   - [Author](#author)
-  - [License](#license)
+  - [Copyright](#copyright)
     - [Video Attribution](#video-attribution)
   - [Support 🤝](#support-)
 
@@ -149,10 +149,10 @@
 
 ### Original Video
 **Press on the image below to watch the original video on YouTube.**
-[![Watch the Original Video on YouTube](./README/a.jpg)](https://youtu.be/C6tf-zfGRhA)
+[![Watch the Original Video on YouTube](./readme/a.jpg)](https://youtu.be/C6tf-zfGRhA)
 
 ### Processed Video
-**Press on the image below to watch the Processed video on YouTube.**
+**Press on the image below to watch the original video on YouTube.**
 [![Watch the Processed Video](./README/a.jpg)](https://youtu.be/_Kt6gBol-RI)
 
 
@@ -162,22 +162,22 @@
 ## Screenshots
 
 ### Home Screen
-![Home Screen](/README/home.png)
+![Home Screen](/readme/home.png)
 ### About
-![About Screen](/README/about.png)
+![About Screen](/readme/about.png)
 ### Register
-![register Screen](/README/register.png)
+![register Screen](/readme/register.png)
 ### Log in
-![lgoin Screen](/README/login.png)
+![lgoin Screen](/readme/login.png)
 ### game List
-![game list  Screen](/README/gamelist.png)
+![game list  Screen](/readme/gamelist.png)
 
 
 ### Game Analysis
-![Game Analysis](/README/exampleGame.png)
+![Game Analysis](/readme/exampleGame.png)
 
  ### Total Statistics
-![Detailed Stats](/README/personalStats.png)
+![Detailed Stats](/readme/personalStats.png)
 
 ## Built With
 
@@ -203,10 +203,7 @@
 
 
 
-## License
-
-This project is licensed under the [MIT License](LICENSE). See the [LICENSE](LICENSE) file for more details.
-
+## Copyright
 ### Video Attribution
 
 The homepage video is sourced from the talented **Jepta Visuals**, who has graciously granted permission for its use in this project. For more information or inquiries, you can reach out to him at [jeptavisuals@gmail.com](mailto:jeptavisuals@gmail.com).
